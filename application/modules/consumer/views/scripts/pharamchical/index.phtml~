@@ -1,0 +1,75 @@
+
+
+<a href="/pharamchicals/create"> Add New </a> <br />
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Maker</th>
+            <th>Site</th>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="pharamchicals-list">
+        
+  
+        <?if(isset($this->pharamchicals) ):?>
+
+            <?foreach($this->pharamchicals as $phrama):?>
+            
+                   
+                <tr class="js-display-edit-icon">
+                    <td><a href = "/pharamchicals/read/id/<?=$phrama->id?>"class="js-view-phrama-info pointer" phrama:id="<?=$phrama->id?>"><?= $phrama->name; ?></a></td>
+                    <td><?= $phrama->maker; ?></td>
+                    <td><?= $phrama->site; ?>
+                    <div phrama:id="<?=$phrama->id?>" class="js-edit-icon pull-right pointer width40px height10px" > </div>
+                    </td>
+                </tr>
+            
+            <?endforeach;?>
+        
+        <? endif;?>
+
+  
+    </tbody>
+    
+</table>
+
+<script>
+$(function(){
+
+
+
+        $(".js-display-edit-icon").each( function(){             
+             helpers.editIcon(this);
+         });
+
+        $("body").delegate('.js-edit-icon', 'click', function(){window.location = '/pharamchicals/edit/id/'+$(this).attr('phrama:id');});
+         
+});
+        
+
+
+
+
+
+
+
+
+
+</script>
+         

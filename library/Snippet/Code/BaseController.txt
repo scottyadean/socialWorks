@@ -1,0 +1,51 @@
+class Default_BaseController extends Zend_Controller_Action {    
+   
+   
+   public $id;
+   public $xhr;
+   public $uri;
+   public $post;
+   public $format;
+   public $callback;
+   
+   public function init() {
+    
+        $this->id = $this->getRequest()->getParam('id', null);
+        $this->xhr = $this->getRequest()->isXmlHttpRequest();
+        $this->uri = $this->getRequest()->getRequestUri();
+        $this->sort = $this->getRequest()->getParam('sort', false);
+        $this->post = $this->getRequest()->isPost();
+        $this->format = $this->getRequest()->getParam('format', false);
+        $this->callback = $this->getRequest()->getParam('callback', null);
+        
+    }
+   
+    public function indexAction() {
+        
+    
+    }
+    
+    
+    public function createAction() {
+    
+    
+    }   
+    
+    public function readAction(){
+    
+    }
+    
+    
+    public function updateAction(){
+    
+    
+    
+    }
+    
+    public function deleteAction() {
+    
+    
+    }
+   
+  
+}  

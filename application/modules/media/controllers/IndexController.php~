@@ -1,0 +1,53 @@
+<?php
+
+
+class Media_IndexController extends Zend_Controller_Action {
+
+
+    public $id;
+    public $type;
+    
+    public function init() {
+    
+        $this->id = $this->getRequest()->getParam('id', null);
+        $this->type = $this->getRequest()->getParam('type', null);
+    
+    
+    }
+    
+
+    public function indexAction() {
+        
+    }
+    
+
+    public function getAction() {
+     
+    
+        
+    }
+    
+    
+    
+    public function createAction(){
+    
+    
+    }
+    
+    
+    public function updateAction() {
+    
+    
+    
+    }
+    
+    
+    
+    public function deleteAction() {
+    
+    
+    
+    }
+    
+    
+ }   

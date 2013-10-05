@@ -1,0 +1,9 @@
+
+<?php $this->headTitle('Sign in'); ?>
+<h1>Sign In</h1>
+<?= $this->form ?>
+
+<br /> <a href="/join"> Sign up</a>
+
+<br /> <a href="/password">I forgot my password</a>
+

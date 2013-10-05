@@ -1,0 +1,17 @@
+<?php
+
+class Media_Model_Consumer extends Zend_Db_Table_Abstract {
+
+    protected $_name = 'images';
+    protected $_primary = 'id';
+    protected $_dependentTables = array('Consumer_Model_ConsumersUsers',
+                                        'Default_Model_User');
+    
+
+    
+    protected $_current;
+    
+    public function init() {
+
+    }
+

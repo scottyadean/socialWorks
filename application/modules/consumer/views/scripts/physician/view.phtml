@@ -1,0 +1,95 @@
+
+
+<? $values = array("name",
+                   "phone",
+                   "email"); ?>
+                   
+                   
+<? $extended = array("address",
+                     "city",
+                     "state",
+                     "zip"); ?>                   
+                   
+
+<?if($this->render != 'tr'):?>   
+    <a href="/physicians" title="Add Physician"><i class="icon-plus"> </i> Add Physician</a> 
+    
+    <?if($this->extend):?>   
+        | <a href="/physician/edit/<?=$this->physician->id?>" title="Edit <?=$this->physician->name?>"><i class="icon-edit"> </i> Edit Physician </a>
+        | <a href="/physician/relation/<?=$this->physician->id?>" title="Delete <?=$this->physician->name?>"><i class="icon-remove"> </i> Delete Physician </a>
+    <?endif;?>
+    <hr />
+<?endif;?>   
+
+<?if($this->render == 'table'):?>
+    <table class="table table-striped ">  
+    <thead>
+        <tr>
+            <?foreach($values as $value):?>
+                <th><?= ucwords($value)?></th>
+            <?endforeach;?> 
+        </tr>
+    </thead>
+    <tbody>
+ <?endif;?>
+ 
+    <tr class="js-display-edit-icon">
+        <?foreach($values as $value):?>    
+            <td>
+                <?if( $value == 'name' && $this->render == 'tr' ):?>
+                    <a class="js-view-physician-info pointer" physician:id="<?=$this->physician->id?>"><?= $this->physician->$value; ?></a>
+                <?else:?>
+                    <?= $this->physician->$value; ?>
+                    <?if( $value == "email" ):?>
+                        <div physician:id="<?=$this->physician->id?>" class="js-edit-icon pull-right pointer width40px height10px" > </div>
+                    <?endif;?>
+                    
+                <?endif;?>
+            </td>
+        <?endforeach;?>
+    </tr>
+    
+<?if($this->render == 'table'):?>       
+    </tbody>
+    </table>
+<?endif;?> 
+   
+   
+<?if( $this->extend ):?>
+    
+    <?if($this->render == 'table'):?>
+        <table class="table ">  
+        <tbody>
+    <?endif;?>
+    
+    <tr>
+        <td>
+        <?foreach($extended as $value):?>
+            <?= $this->physician->$value; ?>
+        <?endforeach;?>
+        </td> 
+    </tr>
+    
+    <tr>
+        <td colspan="<?=count($extended)?>">
+        Notes:<br />
+        <?=$this->physician->notes?>
+        </td>    
+    </tr> 
+     
+    <tr>
+        <td colspan="<?=count($extended)?>">
+        Site:<br />
+        <?=$this->physician->site?>
+        </td>    
+    </tr> 
+     
+        
+    <?if($this->render == 'table'):?>
+        </tbody>
+        </table>
+    <?endif;?>
+    
+<?endif;?>
+   
+

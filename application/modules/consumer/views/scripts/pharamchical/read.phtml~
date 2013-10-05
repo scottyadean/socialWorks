@@ -1,0 +1,77 @@
+<a href="/pharamchicals"> Back To List </a> <br />
+<? if(isset( $this->pharamchical) ):?>
+
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Maker</th>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="pharamchicals-list">
+
+
+
+
+    <tr>
+        <td><?=$this->pharamchical['name']?> <a href="/pharamchicals/update/id/<?=$this->pharamchical['id']?>"><i class="icon-edit"></i></a></td>
+        <td><a id="site-link" href="<?=$this->pharamchical['site']?>" target="_blank"><?=$this->pharamchical['maker']?></a></td>
+    </tr>
+
+
+</tbody>
+</table>
+
+
+Notes:
+<div class="well">
+    <?=$this->pharamchical['notes']?>
+</div>
+
+Side Effects:
+<div class="well">
+    <?=$this->pharamchical['side_effects']?>
+</div>
+
+
+<?if( $this->pharamchical['site'] != "" ):?>
+<a id="js-pharma-more-info" class=" pointer"><i class="icon-arrow-down"> </i> More Info</a>
+<div id="js-pharma-more-info-iframe" style="display:none;" class="well">
+<iframe id="js-iframe" width="100%" height="400" frameborder="0" src=""></iframe>
+</div>
+<?endif;?>
+
+
+<?endif;?>
+
+<script>
+$(function(){
+
+
+$("#js-pharma-more-info").click(function() {
+    
+    $("#js-pharma-more-info-iframe").removeClass('hidden');  
+ 
+   $("#js-pharma-more-info-iframe").toggle("slow","linear",function(){
+    
+    
+        if( $("#js-iframe").attr('src') == '' ){
+    
+            $("#js-iframe").attr('src',$("#site-link").attr('href'));
+            
+        
+        }
+          
+    });
+
+
+});
+
+
+
+});
+
+</script>

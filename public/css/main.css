@@ -1,0 +1,88 @@
+
+
+/* ==========================================================================
+   custom styles
+   ========================================================================== */
+
+
+
+
+a {
+   outline: 0;
+}
+
+a:hover, a:active, a:focus {
+  outline: 0;
+}
+
+object, embed { 
+  outline: 0;
+}
+
+
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+
+
+/* colors */
+.lite{ 
+
+    color:#f6f6f6;
+}
+
+
+#flash-messages {
+
+    list-style-type: none;
+    padding:0px;
+    margin:0px;
+    
+
+}
+
+#flash-messages li{ 
+
+    list-style-type: none;
+
+}
+
+
+
+button.btn {
+    height: 16.3pt;
+    overflow: hidden;
+    padding-top: 0;
+    vertical-align: middle !important;
+}
+
+
+.pointer{
+
+    cursor:pointer;
+}
+
+
+
+.width20px {
+    width:20px;
+}
+
+.width40px{
+    
+     width: 40px;
+}
+
+.height10px {
+    height:10px;
+}
+
+
+
+
+
+
+
+

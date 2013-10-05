@@ -1,0 +1,69 @@
+<?php
+class Client_Model_ClientsUsers extends Zend_Db_Table_Abstract 
+{
+    protected $_name = 'clients_users';
+    protected $_primary = 'client_id';
+    protected $_referenceMap = array(
+                              'ClientUser' => array(
+                              'columns' => array('client_id'),
+                              'refTableClass'=>'Client_Model_Client',
+                              'refColumns' => array('id')
+                             ),
+        
+                              'UserClient' => array(
+                              'columns'=>array('user_id'),
+                              'refTableClass'=>'Default_Model_User',
+                              'refColumns' => array('id')
+                             ));
+                             
+                             
+     
+    
+    public function assign($client_id, $user_id) {
+            
+       $count = $this->count( $client_id, $user_id );
+       
+       if( $count == 0 ){
+        $data = array('client_id'=>$client_id, 'user_id'=>$user_id);
+        return $this->insert($data);
+       }
+
+       return false;
+
+    }
+    
+    
+    
+    public function remove($client_id, $user_id) {
+            
+       $count = $this->count( $client_id, $user_id );
+      
+       if( $count > 0 ){
+      
+           return $this->delete(array('client_id = ?' => $client_id, 'user_id = ?' =>$user_id));
+       }
+       
+        
+           
+        $table->delete($where);
+       
+       return false;
+
+    }
+   
+    
+   public function count($client_id, $user_id) {
+   
+       $select = $this->select();
+       $select->from($this->_name, array("num"=>"COUNT(client_id)", "count_id"=>"client_id"));
+       $select->where("client_id = ?", $client_id)->where( 'user_id = ?', $user_id );
+       $result = $this->fetchRow($select);
+     
+        //return the int count.
+        return (int)$result["num"];
+   
+   
+   }
+                              
+      
+}

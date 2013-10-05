@@ -1,0 +1,38 @@
+
+<?
+$this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
+$this->headLink()->appendStylesheet('/css/datepicker.css');
+?>
+
+<?= $this->form ?> 
+
+
+
+<script id="date-template" type="text/plain">
+    <div data-date-format="dd-mm-yyyy" data-date="<%= start %>" id="birth-date-picker" class="input-append date">
+    <%= field %>
+    <span class="add-on"><i class="icon-calendar"></i></span>
+    </div>
+</script>
+
+
+<script>
+    
+    $(function(){
+
+        var birthdate = $("#birth_date-element");
+
+        var birthField = $("#birth_date");
+            birthField.attr('readonly','readonly' );
+
+        var bfield    = birthdate.html();
+                        birthdate.html("");
+                                        
+        var template = _.template($('#date-template').html());
+             
+        $("#birth_date-element").append(template({start:'1970-05-06',field:bfield}));
+        $("#birth-date-picker").datepicker({format:'yyyy-mm-dd'}).on('changeDate', function(ev){});
+        
+    });
+    
+</script>

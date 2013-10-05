@@ -1,0 +1,11 @@
+<?if(isset($this->records)):?>
+
+        <?foreach($this->records as $med):?>
+            <?= $med->id ?>
+        <?endforeach;?>
+
+<? else: ?>
+
+   no records found
+
+<?endif;?>

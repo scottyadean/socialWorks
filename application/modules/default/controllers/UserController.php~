@@ -1,0 +1,22 @@
+<?php
+
+class Default_UserController extends Zend_Controller_Action {
+
+    
+    public function init() {
+     
+
+    }
+
+    public function indexAction() {
+       
+       $id = $this->getRequest()->getParam('id', null);
+       $usr = new Default_Model_User;
+       $this->view->user = $usr->findById($id);
+    }
+
+
+
+    
+}
+

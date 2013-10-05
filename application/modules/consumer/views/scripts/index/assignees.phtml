@@ -1,0 +1,52 @@
+
+
+<div id="js-consumer-user-info"> </div>
+<div id="js-consumer-user-links">
+
+<? foreach( $this->users as $u ):?>
+
+    <?if( in_array( $u['id'], $this->assignedIds ) ): 
+        $status = "Assigned";
+        $style  = "btn-success";
+        $vis    = array( 'assign'=>'hidden', 'remove'=>'' );
+    else: 
+        $status = "Unassigned";
+        $style  = "btn-warning";
+        $vis    = array( 'assign'=>'', 'remove'=>'hidden' );
+    endif;?>
+    
+    
+        
+    <div id="user_<?=$u['id']?>" user:name="<?=$u['fname']?> <?=$u['lname']?>" class="btn-group" title="<?=$status?>">
+    
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> js-append-info-to pointer" 
+        user:id="<?=$u['id']?>"
+        append:id="<?=$u['id']?>"
+        append:url="/user/"                         
+        append:div="js-consumer-user-info" ><i class="icon-user icon-white"></i> <?=$u['fname']?> <?=$u['lname']?></a>
+   
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> dropdown-toggle" 
+       data-toggle="dropdown" 
+       href="#"><span class="caret"></span></a>
+     
+    <ul class="dropdown-menu">
+        <li class="<?=$vis['remove']?> js-user-remove-link" 
+            consumer:id="<?=$this->id?>" 
+            consumer:user="<?=$u['id']?>"><a class="pointer js-assign-to-consumer" 
+            consumer:action="remove"><i class="icon-trash"></i> Remove</a></li>
+
+        <li class="<?=$vis['assign']?> js-user-assign-link" 
+            consumer:id="<?=$this->id?>" 
+            consumer:user="<?=$u['id']?>"><a class="pointer js-assign-to-consumer" 
+            consumer:action="assign"><i class="icon-thumbs-up"></i> Assign</a></li>    
+    </ul>
+    
+    </div>
+        
+    
+<?endforeach;?>
+
+</div>
+
+
+

@@ -1,0 +1,31 @@
+
+<table class="table">
+    
+    <thead>
+        <tr>
+            <th>Assigned To Consumers</th>
+            <th>Assigned To Medical Appointments</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        
+        <tr>
+            <td><?= count( $this->consumers ) ?> </td>
+            <td><?= count( $this->appointments ) ?></td>
+        </tr>
+        
+    </tbody>
+        
+</table>
+
+<? if( count( $this->consumers ) == 0 && count( $this->appointments ) == 0):?>
+
+    Are you sure you want to <br />
+    <a href="/physician/delete/<?=$this->id?>" class="btn btn-warning">Delete this physician</a>
+<?else:?>
+
+    This Physician is assigned to other vital records in the systems database and there for can not be deleted.
+    <br />
+    <a href="javascript:history.back();" class="btn btn-success">Back</a>
+<?endif;?>

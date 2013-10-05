@@ -1,0 +1,95 @@
+<?php
+
+class Client_Model_Client extends Zend_Db_Table_Abstract {
+
+    protected $_name = 'clients';
+    protected $_primary = 'id';
+    protected $_dependentTables = array('Client_Model_ClientsUsers',
+                                        'Default_Model_User');
+    
+
+    
+    protected $_current;
+    
+    public function init() {
+
+    }
+
+
+    public function getTableName() {
+           return $this->_name; 
+    
+    }
+
+
+
+
+    public function getClientUsers(){   
+    
+     return $this->_current->findManyToManyRowset(
+                'Default_Model_User',
+                'Client_Model_ClientsUsers')->toArray();
+    }
+
+
+    public function create($params) {
+        
+
+        /*
+            get current sql date
+        */
+        $date = new Zend_Db_Expr('NOW()');
+
+        $data = $params;
+        $data['create_date'] = $date;
+        
+
+        return $this->insert($data);
+
+     
+    }
+
+
+    public function findAll() {
+    
+       $select = $this->select();
+       
+       return $this->fetchAll($select);
+    }
+    
+    
+
+    public function findById($id) {
+    
+       $this->_current = $this->find($id)->current();
+       
+       return $this->_current;
+    }
+
+
+    
+    public function findByName($fname = '', $lname = false) {
+    
+       $select = $this->select()->where("fname = %?%", $fname);
+       
+       if( isset( $lname )  && $lname != false) {
+           $select->where("lname = %?%", $lname);
+       }
+             
+       return $this->fetchRow($select);
+    }
+
+    public function updateClient($id, $data) {
+        $where = array('id = ?' => (int)$id);
+        return parent::update($data, $where) ? true : false;
+    }
+
+
+    public function countByField($field, $val) {
+       $select = $this->select()->where("{$field} = ?", $val);
+       $select->from($this->_name,'COUNT(id) AS num');
+       return $this->fetchRow($select)->num;
+    }
+
+}
+
