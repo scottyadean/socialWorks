@@ -4,9 +4,6 @@
 class Consumer_IndexController extends Zend_Controller_Action {
 
 
-
-
-
     public function indexAction() {
         $consumers = new Consumer_Model_Consumer;
         $this->view->consumers = $consumers->findAll();
@@ -84,17 +81,11 @@ class Consumer_IndexController extends Zend_Controller_Action {
 
     
    public function assignedAction() {
-    
-    
         $id = Zend_Auth::getInstance()->getIdentity()->id;
-         
-        
         $consumer = new Consumer_Model_ConsumersUsers;  
         $this->view->consumers = $consumer->getByUserId($id);
-        
-       
+        $this->view->checkin = true;
         $this->renderScript('index/index.phtml');
-    
     } 
     
     

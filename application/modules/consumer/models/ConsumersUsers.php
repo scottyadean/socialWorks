@@ -65,24 +65,18 @@ class Consumer_Model_ConsumersUsers extends Zend_Db_Table_Abstract
    
         $result_ids = $this->fetchAll($this->select()->where( 'user_id = ?', $user_id ))->toArray();
      
-        if( count($result_ids) == 0 ) {
-            
+        if( count($result_ids) == 0 ) { 
             return null;
-            
         }
         
         $consumer_ids = array();
+        
         foreach( $result_ids as $val){
-            
-            $consumer_ids[] = $val['consumer_id'];
-            
+            $consumer_ids[] = (int)$val['consumer_id'];
         }
         
    
         $consumerModel = new Consumer_Model_Consumer;
-        
-        
-        
         return  $consumerModel->findByIds($consumer_ids);
    
   }

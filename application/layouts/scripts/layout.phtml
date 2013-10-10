@@ -4,22 +4,20 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
+        <?=$this->headTitle(SITE_NAME) ?>
+       
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         
         <?= $this->headMeta();?>
         
-        
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="/css/main.css">
-        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+                
         <script src="/js/vendor/jquery-1.10.1.min.js"></script>
-        <script src="/js/vendor/underscore.js"></script>
-        <?= $this->headTitle();?>
         
     </head>
     <body>
@@ -46,6 +44,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="/consumers/assigned">Assigned To Me</a></li>
                                     <li><a href="/consumers">View All</a></li>
+                                    <li><a href="/consumer/new">New</a></li>
                                     <li class="divider"></li>
                                     <li class="nav-header">Medical</li>
                                     <li><a href="/physicians">Physicians</a></li>
@@ -53,14 +52,11 @@
                                     <li><a href="#">Conditions</a></li>
                                 </ul>
                             </li>
-                            
-                            
-                            <li><a href="/my/account">My Account</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Goals</a></li>
+                                    <li><a href="#">ICL</a></li>
                                     <li><a href="#">Something else here</a></li>
                                     <li class="divider"></li>
                                     <li class="nav-header">Nav header</li>
@@ -103,16 +99,12 @@
             <div id="mainModalBody" class="modal-body"> </div>
             <div id="mainModalFooter" class="modal-footer"> </div>
         </div>
-
-        <script src="/js/vendor/jquery-1.10.1.min.js"></script>
+        
+        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        
         <script src="/js/vendor/bootstrap.min.js"></script>
+        <script src="/js/vendor/underscore.js"></script>
         <script src="/js/main.js"></script>
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='//www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
         
         <?=$this->headScript();?>
         

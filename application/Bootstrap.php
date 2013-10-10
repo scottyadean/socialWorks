@@ -15,10 +15,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
     protected function _initGlobal() {
         
-        define('SITE_URL',   'http://pgne.local');
-        define('SITE_EMAIL', 'info@pgne.local');
-        define('SITE_NAME',  'Resource Portal');
-        define('LOGO_NAME',  'Resource Portal');
+        define('SITE_URL',   'http://socialworks.dev');
+        define('SITE_EMAIL', 'info@socialworks.dev');
+        define('SITE_NAME',  'social works');
+        define('LOGO_NAME',  'socialworks');
 
     }
 

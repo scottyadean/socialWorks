@@ -1,9 +1,5 @@
 
-
-
-<?
-$this->headScript()->appendFile('/js/views/consumer-view.js');
-?>
+<? $this->headScript()->appendFile('/js/views/consumer-view.js'); ?>
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#consumerinfo" data-toggle="tab">Info</a></li>
@@ -18,7 +14,7 @@ $this->headScript()->appendFile('/js/views/consumer-view.js');
     
 <? if (isset($this->consumer)): ?>
 
-<? $this->headTitle("viewing: ".$this->consumer->fname ." ".$this->consumer->lname); ?>
+<? $this->headTitle($this->consumer->fname ." ".$this->consumer->lname); ?>
 
         <div class="row-fluid">
         

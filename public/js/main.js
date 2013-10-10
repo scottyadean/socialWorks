@@ -209,6 +209,43 @@ var imgUpload = {
         
     }; 
 
+/*
+var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src='//www.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+        
 
+
+
+
+*************************
+
+          //add this to the element you want to add the edit icon to
+          //class="js-display-edit-icon" consumer:id="<?=$consumer->id?>"
+          $(".js-display-edit-icon").each( function(){ 
+            
+            var ele = $(this);
+            //onclick
+            ele.click( 
+                function() { 
+                     window.location = "/consumer/edit/"+ele.attr('consumer:id');
+                });
+            //onmouse over    
+            ele.mouseenter(
+                function () {
+                     ele.find("div:last").append(
+                     $("<p class='pull-right'><i class='icon-edit'> </i> <small>edit</small></p>"));
+                });
+             //on mouse out
+             ele.mouseleave( 
+                function () {
+                     ele.find("p:last").remove();
+                }
+            );
+            
+       });
+               
+ */       
 
 

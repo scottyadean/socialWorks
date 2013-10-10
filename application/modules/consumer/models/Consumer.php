@@ -71,8 +71,10 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
     
     
     public function findByIds(array $ids) {
-        
-       $select = $this->select()->where("id IN (?)", implode(",", $ids));
+       
+       
+       $ids = implode(",", $ids);
+       $select = $this->select()->where("id IN ({$ids})");
        $res = $this->fetchAll($select);
        return $res;
     }

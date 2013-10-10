@@ -47,6 +47,12 @@ routes.default_account.defaults.action = "account";
 ;user ------------------
 
 
+routes.default_account.route = "/crud/*";
+routes.default_account.defaults.module = "crud";
+routes.default_account.defaults.controller = "index";
+routes.default_account.defaults.action = "index";
+
+
 
 ;consumer ------------------
 routes.consumer_list.route = "/consumers/*";

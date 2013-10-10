@@ -7,7 +7,8 @@ class Zend_View_Helper_GetAuthLink extends Zend_View_Helper_Abstract
 
         if ($auth->hasIdentity()) {
             $username = $auth->getIdentity()->fname;
-            return "<span class='lite'>Welcome ".ucwords($username)."</span> <a href='/logout' class='btn btn-primary btn-small'>Logout</a>";
+            return "<a href='/my/account' class='lite btn btn-small btn-primary'>".ucwords($username)."</a> 
+                    <a href='/logout' class='btn btn-small'>Logout</a>";
 
         } 
 

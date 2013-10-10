@@ -1,1 +1,21 @@
-hello world
+
+Tools:
+<br />
+<ul>
+<li><a class="js-tool-click" data:url="/tools/milesab" >A to B Milage </a></li>
+</ul>
+
+
+<script>
+    $(function(){
+    $(".js-tool-click").click(function(){
+        
+        var el = $(this);
+        var ul = el.attr('data:url');
+           window.open(ul, "popupWindow", "width=600,height=600,scrollbars=yes");
+ 
+        });
+    
+    });
+    
+</script>
