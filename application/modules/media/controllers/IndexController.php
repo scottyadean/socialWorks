@@ -38,7 +38,6 @@ class Media_IndexController extends Zend_Controller_Action {
         $res = $img->findbyIdAndType( $this->id, $this->type );
         
         if($res == null){
-            
             $res = $img->findbyIdAndType( 0, $this->type );
         }
         

@@ -248,4 +248,95 @@ var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
                
  */       
 
+/* simple chat widget
+   requires the dom elements chat-send, chat-key-enter, chat-msg
+*/
+var Chat = {
+        el:null,
+        offset:0,
+ 
+        init:function(id) {
+            
+            Chat.el = $("#chat-result");            
+            Chat.offset = parseInt(id);
+            Chat.scroller();
+                
+            $(".chat-send").click(function() {
+                Chat.input();      
+            });
+            
+            $(".chat-key-enter").keyup(function(event){
+                if(event.keyCode=='13') {
+                   Chat.input();
+                }
+            });
+
+            setTimeout("Chat.append()", 5000);
+        },
+
+        input:function() {
+            
+            var val = $('#chat-msg').val().trim();
+            
+            if (val != '') {
+                Chat.offset++;
+                $.ajax({
+                    type: "POST",
+                    url: "/tools/async/chat-input",
+                    data: {msg:val},
+                    success: Chat.inputOk,
+                    dataType: 'json'
+                });
+            }
+        },
+        
+        inputOk:function(rsp) {
+            if (rsp.success == 1) {
+                Chat.template(rsp.data.pointer, rsp.data.data);
+                $("#chat-msg").val("").focus();    
+            }
+        },
+        
+        append:function(){
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: "/tools/async/chat",
+                    data: {offset:Chat.offset},
+                    success: Chat.appendOk,
+                    dataType: 'json'
+                });
+                        
+            } catch(e) {
+                setTimeout("Chat.append()", 5000);
+            }
+            
+        },
+        
+        appendOk:function(msg) {
+                
+                var mg = msg.messages;
+                var id = Chat.offset;
+                
+                for ( var i in mg ) {
+                  Chat.template(mg[i].pointer, mg[i].data);
+                  id = mg[i].id;
+                }
+                
+                Chat.offset = id;    
+                setTimeout("Chat.append()", 5000);
+        },
+
+
+        template:function(name, message) {
+          Chat.el.append(name + " "+ message+ "<br/>");
+          Chat.scroller();  
+        },        
+        
+        scroller:function() {
+            Chat.el.animate({ scrollTop: document.getElementById('chat-result').scrollHeight}, 1000);   
+        }
+    };
+
+
 

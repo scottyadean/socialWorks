@@ -14,6 +14,9 @@ class Default_AuthController extends Zend_Controller_Action
        $this->reloc = $this->request->getParam( "reloc", "/" );
     }
 
+    /*
+    * 
+    **/
     public function indexAction() {
         
         if( $this->xhr ) {
@@ -21,18 +24,16 @@ class Default_AuthController extends Zend_Controller_Action
             $this->reloc = '/';
         }    
         
-        
         $form = new Application_Form_Login;
         $form->build($this->reloc);
-        
         
         if( $this->request->isPost($this->reloc)  ) {
             
             if($form->isValid($this->request->getPost()) &&Main_Auth::process($form->getValues())) {
                         
-                    $this->reloc = strstr($this->reloc, 'login') ? '/' : $this->reloc;    
-                    $this->_helper->redirector->gotoUrl(urldecode($this->reloc));
-                
+                    //$this->reloc = strstr($this->reloc, 'login') ? '/' : $this->reloc;    
+                    $this->_helper->redirector->gotoUrl('/');
+                    //$this->_forward("/");
             }else{
             
                 $this->_helper->flashMessenger->addMessage(array('alert alert-error'=>"Incorrect Username or Password") ); 

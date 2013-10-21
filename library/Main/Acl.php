@@ -8,7 +8,7 @@ class Main_Acl extends Zend_Acl {
     public $resources = array('default'=> array('index','error', 'auth', 'user'),
                               'consumer'=> array('index',  'medical', 'physician', 'pharamchical'),
                               'media'=> array('index'),
-                              'utils' => array('index', 'async'),
+                              'tools' => array('index', 'async'),
                               'crud'=>array('index')
                              );
 
@@ -22,8 +22,8 @@ class Main_Acl extends Zend_Acl {
                           'consumer-physician',
                           'consumer-pharamchical',
                           'media-index',
-                          'utils-index',
-                          'utils-async');
+                          'tools-index',
+                          'tools-async');
                           
     public $admins = array('crud-index', 
                           );

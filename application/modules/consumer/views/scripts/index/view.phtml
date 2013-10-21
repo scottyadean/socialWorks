@@ -78,59 +78,26 @@
 
 <div class="tab-pane" id="medical">
     
+<div class="row-fluid">
+    <div class="span4">
+        <ul class="rounded-corners tools">
+            <li class="tools-header">Actons:</li>
+            <li><a href="/consumer/medical/appointment/<?=$this->consumer->id?>">Add Appointment</a></li>
+            <li><a class="pointer js-assign-physician" consumer:id="<?=$this->consumer->id?>"> Assign Physician</a></li>
+            <li><a href="/pharamchicals/create">Add Medication</a></li>
+            <li><a class="pointer js-assign-pharamchical" consumer:id="<?=$this->consumer->id?>"> Assign Medication</a></li>
+        </ul>
+    </div>        
     
-            <div class="row-fluid">
-     
-            <div class="span4">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th><a href="/consumer/medical/appointment/<?=$this->consumer->id?>">Add Appointment</a></th>
-                        <th><a class="pointer js-assign-physician" consumer:id="<?=$this->consumer->id?>"> Assign Physician</a></th>
-                    </tr>
-                 </thead>    
-                <tbody id="consumer-physician-list" >                    
-                    <?if( isset($this->physicians) ):?>
-                        <?foreach( $this->physicians as $dr ):?>
-                            <tr class="consumer-physician-<?=$dr['id']?>">
-                                <td> <?= $dr['name'] ?> </td>
-                                <td> <?= $dr['phone'] ?> </td>
-                            </tr>
-                        <?endforeach;?>
-                    <?endif;?>
-                </tbody>
-            </table>
-            
-            
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th><a href="/pharamchicals/create">Add Medication</a></th>
-                        <th><a class="pointer js-assign-pharamchical" consumer:id="<?=$this->consumer->id?>"> Assign Medication</a></th>
-                    </tr>
-                 </thead>    
-                <tbody id="consumer-pharamchical-list" >                    
-                    <?if( isset($this->pharamchicals) ):?>
-                        <?foreach( $this->pharamchicals as $med ):?>
-                            <tr class="consumer-pharamchical-<?=$med['id']?>">
-                                <td> <?= $med['name'] ?> </td>
-                                <td> <?= $med['mg'] ?> </td>
-                            </tr>
-                        <?endforeach;?>
-                    <?endif;?>
-                </tbody>
-            </table>
-                        
-            
-            </div>
-            
-            <div class="span8">
-            
-            <div id="js-med-appointments"> </div>
-            
-            </div>    
-    
-    
+    <div class="span8">
+        
+        <?= $this->partial('/partials/consumer-medical.phtml',
+                    array( "physicians"=>$this->physicians,
+                           "pharamchicals"=>$this->pharamchicals  ));?>
+        
+        <div id="js-med-appointments"> </div>
+    </div>    
+
 </div>
 
 </div>

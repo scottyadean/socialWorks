@@ -4,18 +4,21 @@ class Default_IndexController extends Zend_Controller_Action
 {
 
     public $request;
+    
+    protected $_auth;
+    protected $_user;
 
     public function init() {
-        /* Initialize action controller here */
+        
        $this->request = $this->getRequest();
-
+       $this->_auth = Zend_Auth::getInstance();
+       $this->_user =  $this->_auth->getIdentity();
     }
 
     public function indexAction() {
-        // action body
-        //$this->_helper->layout->setLayout('plain');
- 
-
+        $consumer = new Consumer_Model_ConsumersUsers;  
+        $this->view->consumers = $consumer->getByUserId($this->_user->id);
+        $this->view->messages = Default_Model_Temp::selectAllByAccountId($this->_user->account_id);
         
     }
 
