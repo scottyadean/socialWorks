@@ -250,6 +250,22 @@ button.btn {
    margin-top: -10px;
 }
 
+.max-height-450px {
+   max-height:450px;   
+}
+   
+.overflow-auto {
+   overflow: auto;
+}
+
+
+.highlight-child {
+   
+}
+
+.highlight-child:hover {
+   background-color: #FFFFB7!important;
+}
 
 .highlight{
    

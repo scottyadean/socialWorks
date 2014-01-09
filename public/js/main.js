@@ -80,7 +80,7 @@ var Crud =  {
 
     Confirm:function(options) {
 	
-	if (!options) { options = {}; }
+	if (options == undefined || !options) { options = {}; }
  
 	var show = function(el, text) {
 	    if (text) { el.html(text); el.show(); } else { el.hide(); }
@@ -136,6 +136,7 @@ var Crud =  {
 	if (Crud.attr !== false) {
 	  attr = data[Crud.attr];    
 	}
+	
 	for (key in attr) {
 	    Crud.el.append(template(attr[key]));
 	}
@@ -143,7 +144,6 @@ var Crud =  {
 	if (typeof Crud.callback == 'function') {
 	    Crud.callback(data);
 	}
-	
 	
       },
     

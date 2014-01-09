@@ -89,7 +89,6 @@ class Main_Forms_Builder extends Zend_Form {
             'ignore'     => $e['ignore']
         ));
 
-
         if( isset($e['disableDecorator']) ){
             
             if(is_array($e['disableDecorator'])){ 
@@ -113,7 +112,14 @@ class Main_Forms_Builder extends Zend_Form {
         }
         
         
-
+        if( $e['required'] == true ) {
+            if(isset($e['attributes']['class'])) {
+                $e['attributes']['class'] = $e['attributes']['class'].' __required';     
+            }else{
+                $e['attributes']['class'] = '__required'; 
+            }
+        }
+        
         foreach( $e['attributes'] as $attr=>$val ) {
             $element->setAttrib($attr, $val);
         }
@@ -141,6 +147,7 @@ class Main_Forms_Builder extends Zend_Form {
     
    
     public function addElementValues($col, $meta) {
+        
         $this->setValue('name', $col,  $col);
         $this->setValue('type', $col, $this->metaToType($meta['DATA_TYPE']));
         $this->setValue('label', $col,  $this-> prettyText($col));
@@ -166,7 +173,6 @@ class Main_Forms_Builder extends Zend_Form {
         if( isset( $this->field['filters'] ) ) {
             
             $this->elements[$col]['filters'] =  $this->field['filters'];
-            
             return;
         }
        

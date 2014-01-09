@@ -54,7 +54,6 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
     }
     
     public function getConsumerInsurance(){
-        
         return $this->_current->findDependentRowset(
                'Consumer_Model_ConsumersInsurance')->toArray();
     }
