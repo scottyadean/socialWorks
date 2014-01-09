@@ -12,7 +12,13 @@ class Base_Functions_Strings
     } 
     
     
-    public static function truncate($text, $limit=50, $appendix='...') {
+    public static function truncate($str, $limit = 50, $appendix = '...') {
+	
+	return mb_strimwidth($str, 0, $limit, $appendix);	
+    }
+    
+
+    public static function truncateWords($text, $limit=50, $appendix='...') {
 
         if (str_word_count($text, 0) > $limit) {
             $pos = array_keys(str_word_count($text, 2));

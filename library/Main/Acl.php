@@ -1,14 +1,20 @@
 <?php
-
 class Main_Acl extends Zend_Acl {
-
 
     public static $roles = array( 'guest', 'user', 'admin');
     
     public $resources = array('default'=> array('index','error', 'auth', 'user'),
-                              'consumer'=> array('index',  'medical', 'physician', 'pharamchical'),
+                              'consumer'=> array('index',
+                                                 'medical',
+                                                 'physician',
+                                                 'pharamchical',
+                                                 'coordinator',
+                                                 'agency',
+                                                 'exam',
+                                                 'note'),
                               'media'=> array('index'),
                               'tools' => array('index', 'async'),
+                              'reports' => array('index', 'isp'),
                               'crud'=>array('index')
                              );
 
@@ -17,12 +23,15 @@ class Main_Acl extends Zend_Acl {
 
     public $users = array('default-index', 
                           'default-user',                                
+                          'consumer-note',
+                          'consumer-exam',
                           'consumer-index',
                           'consumer-medical',
                           'consumer-physician',
                           'consumer-pharamchical',
                           'media-index',
                           'tools-index',
+                          'reports-index',
                           'tools-async');
                           
     public $admins = array('crud-index', 

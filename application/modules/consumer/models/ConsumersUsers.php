@@ -15,9 +15,19 @@ class Consumer_Model_ConsumersUsers extends Zend_Db_Table_Abstract
                               'refColumns' => array('id')
                              ));
                              
-                             
-   
-    
+    public function findByConsumerIdAndUserId($consumer_id, $user_id) {
+            
+        $select = $this->select()->where("consumer_id = ?", $consumer_id)->where( 'user_id = ?', $user_id );
+        $result = $this->fetchRow($select);
+        
+        if( empty($result)) { 
+            return null;
+        }
+        
+        $consumerModel = new Consumer_Model_Consumer;
+        return  $consumerModel->findById($result->consumer_id);
+
+    }
      
     
     public function assign($consumer_id, $user_id) {

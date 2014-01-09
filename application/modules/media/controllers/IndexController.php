@@ -30,10 +30,7 @@ class Media_IndexController extends Zend_Controller_Action {
      
      
         $this->_helper->layout->disableLayout();
-        
-     
         $img = new Media_Model_Image;
-     
         $this->_helper->viewRenderer->setNoRender(true);
         $res = $img->findbyIdAndType( $this->id, $this->type );
         
@@ -43,6 +40,7 @@ class Media_IndexController extends Zend_Controller_Action {
         
         header("Content-type: image/jpg");
         print base64_decode( $res['img'] );
+        exit;
         
   
     }

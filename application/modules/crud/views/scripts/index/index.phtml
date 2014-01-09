@@ -1,1 +1,26 @@
-<a class="btn btn-primary" href="/curd/create/">create a document</a>
+
+
+<h2>Build Dir.</h2>
+
+<p>
+    <b>Directory path:</b> <?=$this->dir?>
+</p>
+
+<p>
+    <b>Directory found </b>
+    <i class="<?=$this->dirFound ? "ok icon-ok" : "fail icon-exclamation-sign";?> ico rounded-corners icon-white"></i>
+
+    <b>Directory writable </b>
+    <i class="<?= $this->dirWrite ? "ok icon-ok" : "fail  icon-exclamation-sign"; ?> ico rounded-corners icon-white"></i>
+</p>
+
+
+<hr />
+
+
+<form action="/crud/create/" method="post">
+    
+<input type="text" value="" name="model" id="model" />   
+<input type="submit" class="btn btn-primary" value="create" />
+
+</form>

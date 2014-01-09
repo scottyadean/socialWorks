@@ -72,7 +72,7 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
         $form = new Application_Form_Pharamchical;
         $form->build($this->uri, $this->id);
         $pharamchicalData = $this->_model->readPharamchical($this->id)->toArray();
-        $form->populate($pharamchicalData );
+        $form->populate($pharamchicalData);
         
         if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
     

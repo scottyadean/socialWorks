@@ -1,16 +1,15 @@
 var lightBox = {
-
-
     path:null,
     div:null,
+    callback:null,
     
     show:function(div, label, options, method) {
         
         if (options.remote != undefined && this.path != options.remote) {
-       
             var params = options.params != undefined ? options.params : {};
-
-            this.path = options.remote;
+	    
+            this.callback = options.callback != undefined ? options.callback : null;
+	    this.path = options.remote;
             this.div = div;     
 
             $("#"+div+"Label").html(label);
@@ -18,24 +17,151 @@ var lightBox = {
                         
             var reqm = (method != undefined) ? method : 'get'; 
             var send = (reqm.toLowerCase() == 'post') ? asyncAction.sendPost : asyncAction.sendGet;
-            send(this.path, params,  lightBox.load, 'html');
-                        
-        }else{
             
+	    send(this.path, params, lightBox.load, 'html');
+        }else{   
            $('#'+div).modal('show');
         }
-       
     },
     
     load:function(data) {
-        
-        $('#'+lightBox.div+"Body").html(data);
+	$('#'+lightBox.div+"Body").html(data);
         $('#'+lightBox.div).modal('show');
-        
+	
+	if (lightBox.callback !== null) {
+	    
+	    lightBox.callback.call(data);
+	}
+	
     }
-
-
 };
+
+
+var Crud =  {
+      
+      scope:null,
+      template:"",
+      callback:false,
+      
+      Create:function(path, data, callback, format) {	
+	var params = Crud.params(data);
+	$.post(path,
+	       params,
+	       callback,format).error(Crud.error);
+      },
+      
+      Read:function(path, params, scope, el, template, callback, format ) {
+	Crud.attr = scope;
+	Crud.template = template;
+	Crud.el = $("#"+el);
+	Crud.callback = callback;
+	Crud.el.html("");
+	$.post(path, params, Crud.populate, format).error(Crud.error);
+      },
+      
+      Update:function(path, data, callback, format){
+	
+	var params = Crud.params(data);
+	
+	$.post(path,
+	       params,
+	       callback,format).error(Crud.error);
+     
+      },
+      
+      
+      Delete:function(path, params, callback, format) {
+	
+	$.post(path,
+	       params,
+	       callback,format).error(Crud.error);
+     
+      },
+
+    Confirm:function(options) {
+	
+	if (!options) { options = {}; }
+ 
+	var show = function(el, text) {
+	    if (text) { el.html(text); el.show(); } else { el.hide(); }
+	}
+ 
+	var url = options.url ? options.url : '';
+	var data = options.params ? options.params : '';
+	var ok = options.ok ? options.ok : 'Ok';
+	var cancel = options.cancel ? options.cancel : 'Cancel';
+	var title = options.title
+	var text = options.text;
+	var dialog = $('#confirm-dialog');
+	var header = dialog.find('.modal-header');
+	var footer = dialog.find('.modal-footer');
+ 
+	show(dialog.find('.modal-body'), text);
+	show(dialog.find('.modal-header h3'), title);
+	footer.find('.btn-danger').unbind('click').html(ok);
+	footer.find('.btn-cancel').unbind('click').html(cancel);
+	dialog.modal('show');
+ 
+	var $deferred = $.Deferred();
+	var is_done = false;
+	
+	footer.find('.btn-danger').on('click', function(e) {
+	    is_done = true;
+	    dialog.modal('hide');
+	    if (url) {	
+		$.ajax({
+		    url: url,
+		    data: data,
+		    type: 'POST',
+		    }).done(function(result) {
+		    $deferred.resolve(result);
+		    }).fail(function() {
+		    $deferred.reject();	
+		});
+	    } else {
+		$deferred.resolve();
+	    }
+    });
+
+    dialog.on('hide', function() {
+	if (!is_done) { $deferred.reject(); }
+    })
+     
+    return $deferred.promise();
+    },      
+      
+      populate:function( data ) {
+	var template = _.template(Crud.template);
+	var attr = data;
+	if (Crud.attr !== false) {
+	  attr = data[Crud.attr];    
+	}
+	for (key in attr) {
+	    Crud.el.append(template(attr[key]));
+	}
+	
+	if (typeof Crud.callback == 'function') {
+	    Crud.callback(data);
+	}
+	
+	
+      },
+    
+      params:function(data){
+	if (typeof form == 'object') {
+	    return data;
+	}else{
+	  return $("#"+data).serialize();
+	}
+      },
+    
+      error:function(e) {
+	
+	console.log(e);
+      }
+    
+    
+}
 
 var content = {
     
@@ -100,14 +226,9 @@ var asyncAction = {
         }
         
   }
-    
-    
-    
+
     
 };
-
-
-
 
 var imgUpload = {
      
@@ -146,13 +267,10 @@ var imgUpload = {
      
   var assignTo = {
      
-     
      update:function(prefix, data, html ){
-         
-         
+             
          var par = "#"+prefix+"_"+data.focus;
          var div = $(par);
-         
          var btnOn    = 'js-'+prefix+'-remove-link';
          var btnOff   = 'js-'+prefix+'-assign-link';
          var styleOn  = 'btn-success';
@@ -173,7 +291,6 @@ var imgUpload = {
              $(".consumer-"+prefix+"-"+data.focus).remove();
          
          }
-         
          
          $(par+" ."+btnOn).removeClass('hidden');
          $(par+" ."+btnOff).addClass('hidden');
@@ -338,5 +455,120 @@ var Chat = {
         }
     };
 
+        
+    var synonyms = {
+	
+	init:function() {
 
+	    //event for the close btn inside the pop-over
+	    $("body").delegate(".js-synonyms-popover-destroy", "click", function(){
+		
+		var el = $(this);
+		var id = el.attr('data-target');
+		$("#"+id).popover('destroy');
+			
+	    });
 
+	    
+	    $( "body" ).delegate( ".js-synonyms", "click", function() {
+		
+		var el = $(this);
+		var id = el.attr('data-target');
+		var tr = $("#"+id);
+		var vl = tr.val().trim();
+		var ti = 'Synonyms <i data-target="'+id+'" class="js-synonyms-popover-destroy pull-right icon-remove pointer"></i>';
+		try{ tr.popover('destroy'); }catch(e){}
+		
+		if (vl != '') {
+		
+		    tr.popover({html:true,
+			       placement:'top',
+			       title:ti,
+			       trigger:'manual',
+			       content:synonyms.checkForSynonyms(vl),
+			       });
+		    tr.popover('show');
+		}
+	    });
+	    
+	},
+	
+	
+	checkForSynonyms:function(vl) {
+	    
+	    var s = this.knownSynonyms();
+	    for(var key in s) {
+	
+		if( vl.indexOf(key.toString()) != -1 ) {
+		    var regexp = new RegExp(key.toString(), "gi"); 
+		    vl = vl.replace(regexp, '<abbr class="highlight" title="'+s[key]['synonyms'].join(", ")+'">'+key.toString()+'</abbr>' );
+		}	
+	    }       
+	    return vl;	    
+	},
+	
+	
+	knownSynonyms:function() {
+	    
+	   return {
+		assist: {
+		    synonyms:['facilitate',
+			      'aid',
+			      'ease',
+			      'expedite',
+			      'spur',
+			      'promote',
+			      'boost',
+			      'benefit',
+			      'foster',
+			      'encourage',
+			      'stimulate',
+			      'precipitate',
+			      'accelerate',
+			      'advance',
+			      'further',
+			      'forward']
+		    },
+		
+		
+		support: {
+		    synonyms:
+			  ['teach',
+			  'train',
+			  'couch',
+			  'instruct',
+			  'encourage',
+			  'demonstrate',
+			 'substantiate',
+			 'back up',
+			 'corroborate',
+			 'confirm',
+			 'attest to',
+			 'verify',
+			 'prove',
+			 'validate',
+			 'authenticate',
+			 'endorse',
+			 'ratify']
+			  }
+	    
+	    };  
+	    
+	    
+	}
+	
+    };
+    
+    
+    
+    /*
+    * Functions called on all pages
+    */
+     $( function(){  
+        synonyms.init();
+     });
+   
+    
+    
+    
+        

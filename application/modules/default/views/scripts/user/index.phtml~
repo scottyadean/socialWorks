@@ -1,3 +1,0 @@
-<?= $this->user->fname; ?> <?= $this->user->lname; ?> <br />
-<?= $this->user->email; ?>
-

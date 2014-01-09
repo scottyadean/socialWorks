@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -20,8 +19,6 @@
  * @version    $Id: Session.php 24196 2011-07-05 15:58:11Z matthew $
  * @since      Preview Release 0.2
  */
-
-
 /**
  * @see Zend_Session_Abstract
  */
@@ -473,11 +470,10 @@ class Zend_Session extends Zend_Session_Abstract
             
             } catch(Zend_Session_Exception $e) {
             
-                $startedCleanly = session_start();
+                $startedCleanly = @session_start();
             
             }            
             
-           // $startedCleanly = session_start();
 
             if (self::$_throwStartupExceptions) {
                 restore_error_handler();

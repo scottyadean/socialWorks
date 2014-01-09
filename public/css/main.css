@@ -14,6 +14,14 @@ body {
     padding-bottom: 40px;
 }
 
+
+
+.container-push{
+   display: block;
+   height:  50px;
+   
+   }
+
 .navbar-push{
     margin-top: 60px;
 }
@@ -41,6 +49,16 @@ button.btn {
     vertical-align: middle !important;
 }
 
+.no-bullet {
+   list-style: none;
+}
+
+.textarea-standard-size {
+   
+   height: 81px;
+   width: 500px;
+   
+}
 
 .pointer{
     cursor:pointer;
@@ -59,10 +77,29 @@ button.btn {
 }
 
 .rounded-corners {
-     -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
+   -moz-border-radius: 5px;
+   -webkit-border-radius: 5px;
+   -khtml-border-radius: 5px;
+   border-radius: 5px;
+}
+
+
+.ico{
+   width:14px;
+   height: 14px;
+   display: inline-block;
+}
+
+.thumb {
+   
+   width:50px;
+}
+.ok {
+   background-color:green;
+}
+
+.fail {   
+   background-color:red;
 }
 
 
@@ -143,5 +180,87 @@ button.btn {
     
 }
 
+/* calendar */
+.event-on-calendar {
+   border: 1px inset #50C3CA;
+   font-weight: bold;
+   color: #0044CC;
+}
 
 
+/* padding */
+.pos-rel {
+   position: absolute;
+}
+
+.pos-abs {
+   position: absolute;
+}
+
+.pos-top{
+   top:0px;
+}
+
+.pos-bottom {
+   bottom:0px;
+}
+
+.pos-right {
+   right: 0px;
+   
+}
+
+.no-pad{
+   
+   padding: 0px;
+}
+
+.pad-5px{
+   
+   padding: 5px;
+}
+
+.pad-10px{
+   
+   padding: 10px;
+}
+
+
+/* margin */
+.no-margin {
+   
+   margin: 0px;
+}
+
+.margin-right-10{
+   
+   margin-right: 10px;
+}
+
+.margin-right-20{
+   
+   margin-right: 20px;
+}
+
+.margin-bottom-10 {
+   margin-bottom: 10px;
+}
+
+.neg-margin-top-10{
+   margin-top: -10px;
+}
+
+
+.highlight{
+   
+   background-color: #FFFF00!important;
+   border-bottom: 1px dotted #999;
+}
+
+
+.hidden{
+   display: none;
+}
+
+.modal { overflow: visible; }
+.modal-body { overflow-y: auto; max-height:450px; }

@@ -26,15 +26,12 @@ class Application_Form_Pharamchical extends Main_Forms_Builder {
 
        return  array( "maker" => array('label'=>'Drug Manufacturer', 'required'=> false), 
                       "name"=>array('label'=>'Drug Name', 'required'=> true),
-                      
-                      
                       "mg"=>array('label'=>'mg/mL', 'required'=> false ),
                       "frequency"=> array('label'=>'Frequency', 'required'=> false ), 
                       "unit"=> array('label'=>'Time', 'required'=> false ), 
                       "site"=>array('label'=>'Web Site', 'required'=> true ),
                       "notes"  => array('label'=>'Notes', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
                       "side_effects" => array('label'=>'Side Effects', 'attributes'=>array('rows'=>'4', 'cols'=>'8'))
-                      
                       );
     }
 

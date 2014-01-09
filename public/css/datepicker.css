@@ -6,6 +6,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
+
+.dropdown-menu {
+  z-index:3000;
+}
+
 .datepicker {
   top: 0;
   left: 0;

@@ -18,11 +18,11 @@
         <link rel="stylesheet" href="/css/main.css">
         
         <?= $this->headLink();?>
-                
+        
         <script src="/js/vendor/jquery-1.10.1.min.js"></script>
         
     </head>
-    <body>
+    <body ng-app>
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -55,10 +55,10 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+                                <a href="/reports" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Goals</a></li>
-                                    <li><a href="#">ICL</a></li>
+                                    <li><a href="/isp">ISP Quarterly</a></li>
                                     <li><a href="#">Something else here</a></li>
                                     <li class="divider"></li>
                                     <li class="nav-header">Nav header</li>
@@ -75,7 +75,8 @@
             </div>
         </div>
 
-            
+        
+        <div class="container-push"> </div>    
         
         <div class="container navbar-push">
 
@@ -104,11 +105,33 @@
             <div id="mainModalFooter" class="modal-footer"> </div>
         </div>
         
-        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         
+        <div class="modal hide fade" id="confirm-dialog">
+            
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h3>Confirm</h3>
+            </div>
+            
+            <div class="modal-body" style="min-height:50px;"> </div>
+            
+            <div class="modal-footer">
+                <a href="#" class="btn btn-danger">Ok</a>
+                <a href="#" class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+            </div>
+            
+        </div>
+        
+        
+              
+        <script src="/js/main.js"></script>
+        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <script src="/js/vendor/bootstrap.min.js"></script>
         <script src="/js/vendor/underscore.js"></script>
-        <script src="/js/main.js"></script>
+        
+        <!---script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script--> 
+        <!--script src="/js/vendor/angular-1.2.6.js"></script--->
+        <!--script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script-->
         
         <?=$this->headScript();?>
         

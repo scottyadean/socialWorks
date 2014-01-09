@@ -3,11 +3,8 @@
 class Application_Form_Login extends Zend_Form
 {
 
-    public function build($reloc = '/')
-    {
-        
-        
-        
+    public function build($reloc = '/') {
+
        $this->setName("login");
        $this->setMethod('post');
        $this->setAction('/login');

@@ -1,5 +1,4 @@
 <?php
-
 class Default_Model_Pharamchical extends Zend_Db_Table_Abstract {
 
     protected $_name = 'pharamchicals';

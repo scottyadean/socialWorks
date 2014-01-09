@@ -8,10 +8,9 @@ class Default_AuthController extends Zend_Controller_Action
     public $xhr;
     
     public function init(){
-    
        $this->request = $this->getRequest();
        $this->xhr = $this->request->isXmlHttpRequest();
-       $this->reloc = $this->request->getParam( "reloc", "/" );
+       $this->reloc = $_SERVER['REQUEST_URI'];
     }
 
     /*
@@ -21,23 +20,26 @@ class Default_AuthController extends Zend_Controller_Action
         
         if( $this->xhr ) {
             $this->_helper->layout->disableLayout();
-            $this->reloc = '/';
-        }    
+        }
         
         $form = new Application_Form_Login;
         $form->build($this->reloc);
         
         if( $this->request->isPost($this->reloc)  ) {
-            
-            if($form->isValid($this->request->getPost()) &&Main_Auth::process($form->getValues())) {
-                        
-                    //$this->reloc = strstr($this->reloc, 'login') ? '/' : $this->reloc;    
-                    $this->_helper->redirector->gotoUrl('/');
-                    //$this->_forward("/");
+                    
+            if($form->isValid($this->request->getPost()) && Main_Auth::process($form->getValues())) {
+                    
+                    $this->reloc = $this->request->getParam('reloc', '/');
+                    $reloc = strstr("login", $this->reloc) ? '/' : $this->reloc;
+                    
+                    $this->_helper->redirector->gotoUrl($reloc);
+                    
             }else{
             
                 $this->_helper->flashMessenger->addMessage(array('alert alert-error'=>"Incorrect Username or Password") ); 
                 $this->_helper->redirector->gotoUrl('/login');
+                $form->populate($form->getValues());
+        
             }
         
         }

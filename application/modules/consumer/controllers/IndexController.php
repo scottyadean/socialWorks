@@ -3,6 +3,13 @@
 
 class Consumer_IndexController extends Zend_Controller_Action {
 
+   public $user_id;  
+
+   public function init() {
+    
+       $this->user_id = Zend_Auth::getInstance()->getIdentity()->id;
+   }
+
 
     public function indexAction() {
         $consumers = new Consumer_Model_Consumer;
@@ -10,9 +17,9 @@ class Consumer_IndexController extends Zend_Controller_Action {
     }
     
     public function viewAction() {
-    
+
         $id = $this->getRequest()->getParam('id', null);
-    
+
         if( !is_null($id) ){
         
             $consumer = new Consumer_Model_Consumer;
@@ -20,12 +27,13 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $consumerUsers = $consumer->getConsumerUsers();
             $consumerPhysicians = $consumer->getConsumerPhysicians();
             $consumerPharamchicals = $consumer->getConsumerPharamchicals();
-            
-            
+            $consumerCoordinators = $consumer->getConsumerCoordinators();
             $this->view->consumer = $consumerInfo;
             $this->view->users = $consumerUsers;
+            $this->view->coordinators = $consumerCoordinators;
             $this->view->physicians = $consumerPhysicians;
             $this->view->pharamchicals  = $consumerPharamchicals;
+            $this->view->user_id = $this->user_id;
             
         }
     

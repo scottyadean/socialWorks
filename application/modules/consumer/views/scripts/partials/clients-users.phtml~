@@ -1,7 +1,0 @@
-<ul id="client-user-list">
-<?foreach( $this->users as $u ):?>
-    <li class="client-user-<?=$u['id']?>">
-        <?=$u['username']?>
-    </li>
-<?endforeach?> 
-</ul>

@@ -6,7 +6,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         
         define('SITE_URL',   'http://socialworks.dev');
         define('SITE_EMAIL', 'info@socialworks.dev');
-        define('SITE_NAME',  'social works');
+        define('SITE_NAME',  'Capital Social Services ');
         define('LOGO_NAME',  'socialworks');
 
     }

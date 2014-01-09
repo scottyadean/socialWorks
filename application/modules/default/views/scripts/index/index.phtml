@@ -1,24 +1,21 @@
-
-<?
+<?php
 //$this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
 $this->headLink()->appendStylesheet('/css/views/default/index.css');
 ?>
 
-
-
 <div class="row">
     
 <div class="span3">    
+
     <ul class="rounded-corners tools">
         <li class="tools-header">Tools:</li>
         <li><a class="js-tool-click pointer" data:url="/tools/milesab" >A to B Milage</a></li>
     </ul>
 
-
-<hr />
+    <hr />
 
     <ul class="rounded-corners tools">
-    <li class="tools-header">People:</li>
+    <li class="tools-header">My People:</li>
     <?foreach( $this->consumers as $consumer ):?>
         <li> <img src="/img/src/<?=$consumer->id?>/c" width="50px" />
             <a class="pointer" href="/consumer/view/<?=$consumer->id?>" ><?=$consumer->fname?> <?=$consumer->lname?></a>
@@ -32,9 +29,10 @@ $this->headLink()->appendStylesheet('/css/views/default/index.css');
 <div class="span8">    
 
     
-    <?= $this->partial( '/partials/widgets.phtml', 'tools', array( ) ); ?>
+    <?= $this->partial( '/partials/widgets.phtml', 'tools', array( ) );
+    ?>
  
-    <?= $this->partial( '/partials/chat.phtml', 'tools',  array( "messages"=>$this->messages )  ); ?>
+    <?= $this->partial( '/partials/chat.phtml', 'tools',   array( "messages"=>$this->messages )  ); ?>
 
     
  </div>   
