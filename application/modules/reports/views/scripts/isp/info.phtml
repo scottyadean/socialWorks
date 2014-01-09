@@ -1,0 +1,97 @@
+
+<form action="/isp/medical" method="post" id="isp-gen-info" >
+
+<?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
+                                                         'next'=>true,
+                                                         'back'=>'/isp/index',
+                                                         'id' => $this->consumer->id,
+                                                         'formName'=>$this->formName,
+                                                         'steps'=>$this->steps,
+                                                         'activeStep'=>$this->activeStep)); ?>                               
+<div class="row">
+    <div class="span12">
+        <div class="well">
+            <table class="table table-striped">
+                <tbody>
+                   <tr>
+                    <td>ILS Agency:</td>
+                    <td><?=SITE_NAME?>
+                        <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
+                        <input type="hidden" name="agency" value="<?=SITE_NAME?>" />
+                    </td>
+                   </tr> 
+
+                   <tr>
+                    <td>Person Completing Report:</td>
+                    <td>
+                    <?=$this->user->fname?> <?=$this->user->lname?>
+                    <input type="hidden" name="user_name" value="<?=$this->user->fname?> <?=$this->user->lname?>" />
+                    </td>
+                   </tr> 
+
+                   <tr>
+                    <td>Service Coordinator:</td>
+                    <td>
+                        <?
+                        if(isset($this->coordinator) && is_array($this->coordinator)):
+                        foreach($this->coordinator as $coordinator):?>                                  
+                        <div class='btn'><?=$coordinator['fname']?> <?=$coordinator['lname']?> 
+                        <input type="hidden" name="coordinator" value="<?=$coordinator['fname']?> <?=$coordinator['lname']?>" />
+                        </div>
+                        <?endforeach; endif;?>
+                    </td>
+                   </tr>
+                   
+                   <tr>
+                    <td>Consumer Name:</td>
+                    <td>
+                    <?=$this->consumer['fname']?> <?=$this->consumer['lname']?>
+                    <input type="hidden" name="consumer_name" value="<?=$this->consumer->fname?> <?=$this->consumer->lname?>" />
+                    </td>
+                   </tr>
+                   
+                   <tr>
+                    <td>UCI #:</td>
+                    <td>
+                    <?=$this->consumer->uci?>
+                    <input type="hidden" name="consumer_uci" value="<?=$this->consumer->uci?>" />
+                    </td>
+                   </tr>
+                                      
+                   <tr>
+                        <td>Date of Birth</td>
+                        <td> <?
+                        $date = new DateTime($this->consumer->birth_date);
+                        echo $date->format('m/d/Y');
+                        ?>
+                        <input type="hidden" name="consumer_dob" value="<?=$date->format('m/d/Y')?>" />
+                        </td>
+                   </tr>
+                   
+                </tbody>
+            </table>
+            
+        
+            <div class="row-fluid">
+                <div class="span6">            
+                    <label for="consumer_status">Current Status of Consumer:</label>
+                    <textarea class="textarea-standard-size" name="consumer_status" id='consumer_status'><?=$this->consumer_status?></textarea><br /> 
+                    <a class="pointer js-look-up-status"><i class="icon-book"> </i> look up status from previous report</a> 
+                    <a class="pointer js-synonyms" data-target="consumer_status"><i class="icon-list"></i> synonyms</a>
+                </div>
+                
+                <div class="span5">
+                    <label for="consumer_needs">Needs of the consumer and Reason for ISP:</label>
+                    <textarea class="textarea-standard-size" name="consumer_needs" id='consumer_needs'><?=$this->consumer_needs?></textarea><br /> 
+                    <a class="pointer js-look-up-status"><i class="icon-book"> </i> look up needs from previous report</a> 
+                    <a class="pointer js-synonyms" data-target="consumer_needs"><i class="icon-list"></i> synonyms</a>
+                </div>                
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<input type="submit" class="btn btn-success pull-right neg-margin-top-10" value="Next &gt;&gt;">
+
+</form>

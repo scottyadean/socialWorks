@@ -1,0 +1,26 @@
+<a href="/{model}/create"> Add New {model}</a> <br />
+
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <tr>id</tr>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="{model}-list">
+        <?if(isset($this->{model}) ):?>
+
+            <?foreach($this->{model} as ${abr}):?>
+
+                <tr>
+                    <td><a href="/{model}/read/id/<?=${abr}->id?>"><?=${abr}->id; ?></a></td>
+                </tr>
+
+            <?endforeach;?>
+
+        <? endif;?>
+
+    </tbody>    
+</table>

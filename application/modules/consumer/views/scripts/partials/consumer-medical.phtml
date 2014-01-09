@@ -1,0 +1,71 @@
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+    <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+    Physicians
+    </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+    <div class="accordion-inner">
+    
+    <table class="table table-striped">
+    <tbody id="consumer-physician-list" >
+
+        <tr class="consumer-physician-add">
+            <td colspan="2">
+                <a href="/physicians" class="btn btn-small btn-primary pull-right">Add Physician</a>
+            </td>
+        </tr>
+
+    <?if( isset($this->physicians) ):?>
+        <?foreach( $this->physicians as $dr ):?>
+            <tr class="consumer-physician-<?=$dr['id']?>">
+                <td> <?= $dr['name'] ?> </td>
+                <td> <?= $dr['phone'] ?> </td>
+            </tr>
+        <?endforeach;?>
+    <?endif;?>
+    </tbody>
+    </table>         
+
+
+    </div>
+    </div>
+    </div>
+    <div class="accordion-group">
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+    Medication 
+    </a>
+    
+    </div>
+
+    <div id="collapseTwo" class="accordion-body collapse">
+    <div class="accordion-inner">
+    
+    <table class="table table-striped">
+              
+        <tbody id="consumer-pharamchical-list" >                    
+
+        <tr class="consumer-pharamchical-add">
+            <td colspan="2">
+                <a href="/pharamchicals/create" class="btn btn-small btn-primary pull-right">Add Medication</a>
+            </td>
+        </tr>
+
+            <?if( isset($this->pharamchicals) ):?>
+                <?foreach( $this->pharamchicals as $med ):?>
+                    <tr class="consumer-pharamchical-<?=$med['id']?>">
+                        <td> <?= $med['name'] ?> </td>
+                        <td> <?= $med['mg'] ?> </td>
+                    </tr>
+                <?endforeach;?>
+            <?endif;?>
+        </tbody>
+    </table>
+    
+    </div>
+    </div>
+    </div>
+</div>

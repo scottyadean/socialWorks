@@ -1,0 +1,26 @@
+<a href="/test/create"> Add New test</a> <br />
+
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <tr>id</tr>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="test-list">
+        <?if(isset($this->test) ):?>
+
+            <?foreach($this->test as $t):?>
+
+                <tr>
+                    <td><a href="/test/read/id/<?=$t->id?>"><?=$t->id; ?></a></td>
+                </tr>
+
+            <?endforeach;?>
+
+        <? endif;?>
+
+    </tbody>    
+</table>

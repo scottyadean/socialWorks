@@ -1,0 +1,9 @@
+
+<?
+$reports = array( array('link'=>'/isp', 'name'=>'ISP Quarterly'));
+?>
+<ul>
+    <?foreach($reports as $k=>$r):?>
+    <li><a href="<?=$r['link']?>"> <?=$r['name']?> </a></li>
+    <?endforeach;?>
+</ul>

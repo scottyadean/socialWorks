@@ -1,0 +1,33 @@
+<? $this->headScript()->appendFile('/js/views/coordinator/index.js');?>
+
+<h2>Coordinators</h2>
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/coordinator/new/', 'label'=>'Add New')) ?>
+<hr />
+
+<? if(isset( $this->coordinators )): ?>
+
+    <?= $this->TableHead( array("Name",
+                                "Phone",
+                                "Email"), "table table-striped" ) ?>
+  
+    <?foreach($this->coordinators as $c):?>
+        <?= $this->TableRow(array( "<a href='/coordinator/edit/id/".$c["id"]."'>".$c["fname"]." ".$c["lname"]."</a>",
+                                   $c["phone"],
+                                   $c["email"],
+                                   "<a id='coord-".$c["id"]."'
+                                   class='pointer del-coordinator' data-id='".$c["id"]."' title='delete'><i class='icon-remove'></i></a>")); ?>
+    <?endforeach;?>
+    
+    <?= $this->TableFoot() ?>
+<?endif;?>
+
+<hr />
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/coordinator/new/', 'label'=>'Add New')) ?>
+
+

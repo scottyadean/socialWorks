@@ -1,0 +1,44 @@
+<div id="js-consumer-coordinators-info"> </div>
+
+<div id="js-consumer-coordinators-btns">
+<? foreach( $this->coordinators as $c ):?>
+
+    <?if( in_array( $c['id'], $this->assignedIds ) ): 
+        $status = "Assigned";
+        $style  = "btn-success";
+        $vis    = array( 'assign'=>'hidden', 'remove'=>'' );
+    else: 
+        $status = "Unassigned";
+        $style  = "btn-warning";
+        $vis    = array( 'assign'=>'', 'remove'=>'hidden' );
+    endif;?>
+    
+    <div id="coordinator_<?=$c['id']?>" coordinator:name="<?=$c['fname']?> <?=$c['lname']?>"  coordinator:phone="<?=$c['mg']?>"  class="btn-group" title="<?=$status?>">
+    
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> js-append-info-to pointer" 
+        coordinator:id="<?=$c['id']?>"
+        append:id="<?=$c['id']?>",
+        append:url="/coordinator/read/id/"                         
+        append:div="js-consumer-coordinators-info"><i class="icon-user icon-white"></i> <?=$c['fname']?> <?=$c['lname']?></a>
+   
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> dropdown-toggle" 
+       data-toggle="dropdown" 
+       href="#"><span class="caret"></span></a>
+     
+    <ul class="dropdown-menu">
+        <li class="<?=$vis['remove']?> js-coordinator-remove-link" 
+            consumer:id="<?=$this->id?>" 
+            consumer:coordinator="<?=$c['id']?>"><a class="pointer js-assign-to-consumer" 
+            consumer:action="remove"><i class="icon-trash"></i> Remove</a></li>
+
+        <li class="<?=$vis['assign']?> js-coordinator-assign-link" 
+            consumer:id="<?=$this->id?>" 
+            consumer:coordinator="<?=$c['id']?>"><a class="pointer js-assign-to-consumer" 
+            consumer:action="assign"><i class="icon-thumbs-up"></i> Assign</a></li>    
+    </ul>
+    
+    </div>
+        
+    
+<?endforeach;?>
+</div>

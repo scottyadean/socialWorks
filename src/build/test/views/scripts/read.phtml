@@ -1,0 +1,23 @@
+<a class="btn btn-primary btn-large" href="/test"> Back To List </a> <br />
+<? if(isset( $this->$test) ):?>
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <th>Id</th>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="test-data">
+    <tr>
+        <td>
+            <a href="/test/update/id/<?=$this->$test['id']?>" title="Edit"><i class="icon-edit"></i></a>
+        </td>
+    </tr>
+    
+    </tbody>
+</table>
+<? endif;?>
+
+<? var_dump( $this->$test );?>

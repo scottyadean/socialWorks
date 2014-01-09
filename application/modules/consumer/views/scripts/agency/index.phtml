@@ -1,0 +1,32 @@
+<? $this->headScript()->appendFile('/js/views/agency/index.js');?>
+
+<h2>Coordinators</h2>
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/agency/new/', 'label'=>'Add New')) ?>
+<hr />
+
+<? if(isset( $this->agencies )): ?>
+
+    <?= $this->TableHead( array("Name",
+                                "Phone",
+                                "Email"), "table table-striped" ) ?>
+  
+    <?foreach($this->agencies as $a):?>
+        <?= $this->TableRow(array( "<a href='/agency/edit/id/".$a["id"]."'>".$a["name"]."</a>",
+                                   $a["phone"],
+                                   $a["email"],
+                                   "<a id='agency-".$a["id"]."' class='pointer del-agency' data-id='".$a["id"]."' title='delete'><i class='icon-remove'></i></a>")); ?>
+    <?endforeach;?>
+    
+    <?= $this->TableFoot() ?>
+<?endif;?>
+
+<hr />
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/agency/new/', 'label'=>'Add New')) ?>
+
+

@@ -1,0 +1,10 @@
+<?if(isset($this->coordinator)):?>
+
+    
+    <strong>Agency:</strong> <?=$this->agency->name?><br />
+    <i class="icon-user"></i> <?=$this->coordinator->fname?> <?=$this->coordinator->lname?><br />
+    <i class="icon-envelope"></i> <?=$this->coordinator->email?><br />
+    <i class="icon-signal"></i> <?=$this->coordinator->phone?>
+    <hr />
+
+<?endif;?>

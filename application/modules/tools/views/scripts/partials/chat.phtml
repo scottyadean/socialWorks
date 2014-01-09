@@ -1,0 +1,30 @@
+<div class="chat-wrapper rounded-corners">
+    
+<?$id = 0 ?>   
+    
+    <div id="chat-result" class="chat-result rounded-corners">
+    <?foreach ($this->messages as $line):?>
+        <?=$line['pointer']?> <?=$line['data']?> <br />
+        <?  $id = $line['id']; ?>            
+    <?endforeach;?>
+  </div>
+  
+<div class="chat-key-enter">
+    <input type="text" name="chat-msg" id="chat-msg" class="chat-msg"/>
+    <input type="button" class="chat-send btn btn-primary" value="Send"  />
+</div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+
+    $(function(){             
+
+        try {
+            Chat.init(<?=$id?>);
+        } catch(e) {
+            //alert(e);
+        }        
+    });
+    
+</script>   

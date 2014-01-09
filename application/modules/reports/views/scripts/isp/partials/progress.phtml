@@ -1,0 +1,43 @@
+
+
+<div class="navbar">
+    <div class="navbar-inner">
+        
+        <span class="brand">
+            <?=$this->formName?>        
+        </span>
+        
+        <ul class="nav">   
+            <?foreach( $this->steps as $key=>$step ):?>
+                <li class="<?=($this->activeStep == $key) ? 'active' : ''?>">
+                    <a href="/isp/<?=strtolower( $step == 'Start' ? 'index' : $step )?>/id/<?=$this->id?>"><?=$step?></a>
+                </li>
+            <?endforeach;?>
+        </ul>       
+    </div>
+</div>
+
+
+<div class="row-fluid margin-bottom-10">
+
+    <div class="span2">
+        <?if(isset($this->back)):?>
+            <a href="<?=$this->back?>/id/<?=$this->id?>" class="btn neg-margin-top-10">&lt;&lt; Back</a>
+        <?endif;?>
+    </div>
+
+    <div class="span8">
+        <div class="progress" style="margin:-4px 0px 10px 0px;height: 16px;">
+            <div class="bar" style="width: <?=$this->percentComplete?>%;"></div>
+        </div>
+    </div>
+
+    <div class="span2 ">
+        <?if(isset($this->next)):?>
+            <input type="submit" class="btn btn-success pull-right neg-margin-top-10" value="Next &gt;&gt;">
+        <?endif;?>
+    </div>
+
+</div>
+
+
