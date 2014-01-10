@@ -17,7 +17,7 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract
     protected $_primary = 'id';    
     protected $_referenceMap = array(
                         'Consumer' => array(
-                            'column' => 'consumer_id',
+                            'columns' => array('consumer_id'),
                             'refColumn' => 'id',
                             'refTableClass' => 'Consumer_Model_Consumer'));
                    

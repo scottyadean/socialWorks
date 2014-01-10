@@ -33,6 +33,12 @@ var lightBox = {
 	    lightBox.callback.call(data);
 	}
 	
+    },
+    
+    close:function(div) {
+        
+        $('#'+div).modal('hide');
+        
     }
 };
 
@@ -205,14 +211,15 @@ var asyncAction = {
  
  
  
-  appendToDom:function(ele, path, params, method, format ) {
+  appendToDom:function(ele, path, params, method, format) {
     
      var reqf = format !== undefined ? format.toLowerCase() : 'html'; 
      var reqm = method !== undefined ? method.toLowerCase() : 'get';
      var send = reqm == 'post' ? this.sendPost : this.sendGet;
+
      this.ele = ele;
-     send( path, params, this.appendToDomComplete, format );
-    
+     send( path, params, this.appendToDomComplete, format ); 
+     return true;
     
   },
   
@@ -222,7 +229,7 @@ var asyncAction = {
         $("#"+asyncAction.ele.id).append(html);
         
         if (typeof asyncAction.ele.callback == 'function') {
-            asyncAction.ele.callback( asyncAction.ele.id );
+            asyncAction.ele.callback( asyncAction.ele.id, html );
         }
         
   }

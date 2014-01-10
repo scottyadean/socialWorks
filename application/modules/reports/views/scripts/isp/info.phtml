@@ -1,4 +1,6 @@
-
+<?
+$this->headScript()->appendFile('/js/views/reports/isp/info.js');
+?>
 <form action="/isp/medical" method="post" id="isp-gen-info" >
 
 <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
@@ -34,8 +36,8 @@
                     <td>
                         <?
                         if(isset($this->coordinator) && is_array($this->coordinator)):
-                        foreach($this->coordinator as $coordinator):?>                                  
-                        <div class='btn'><?=$coordinator['fname']?> <?=$coordinator['lname']?> 
+                        foreach($this->coordinator as $coordinator):?>
+                        <div class="btn coordinator-info-btn" data-id="<?=$coordinator['id']?>"><?=$coordinator['fname']?> <?=$coordinator['lname']?> 
                         <input type="hidden" name="coordinator" value="<?=$coordinator['fname']?> <?=$coordinator['lname']?>" />
                         </div>
                         <?endforeach; endif;?>
