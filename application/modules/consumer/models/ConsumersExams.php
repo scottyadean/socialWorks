@@ -43,9 +43,18 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract
         return $this->delete(array('id = ?' => (int)$id));
     }
    
-    public function findByConsumerId($consumer_id) {
+    public function findByConsumerId($consumer_id, $where=array()) {
         
           $select = $this->select()->where( 'consumer_id = ?', (int)$consumer_id );
+          
+          if(is_array($where)) {
+            
+            foreach($where as $k=>$w) {
+                $select->where( "{$k}", $w );
+            }
+            
+          }
+          
           return $this->fetchAll($select);
     }
 
@@ -62,13 +71,18 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract
     }
     
     
-    public function findByConsumerIdAndMapPhysician($consumer_id) {
+    public function findByConsumerIdAndMapPhysician($consumer_id, $month=false, $year=false) {
         
         $consumer = new Consumer_Model_Consumer;
         $consumerInfo = $consumer->findById($consumer_id);
         $consumerUsers = $consumer->getConsumerUsers();    
         $physicians = $consumer->getConsumerPhysicians();
-        $exams = $this->findByConsumerId($consumer_id);     
+        
+        $m = $month ? $month : date('m');
+        $y = $year ? $year : date('Y');
+        
+        $exams = $this->findByConsumerId($consumer_id,
+                                         array('date LIKE ?'=> date("{$y}-{$m}")."%" ));
          
          foreach( $physicians as $key=>$p ) {
             $ex = array();

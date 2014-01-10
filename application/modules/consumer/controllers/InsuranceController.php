@@ -56,14 +56,32 @@ class Consumer_InsuranceController  extends Zend_Controller_Action {
     
     $insurance = new Consumer_Model_ConsumersInsurance;
     $form  = new Application_Form_ConsumerInsurance; 
+    $form->customSubmitBtn = $this->xhr; 
     $form->build( $this->uri, $this->consumer_id);
     
     if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
            if( $lastid = $insurance->createInsurance($form->getValues())){
+               
+               if($this->xhr) {
+               
+                     $this->_asJson(array('id'=>$lastid,
+                                          'success'=>true,
+                                          'values'=>(array)$form->getValues(),
+                                          'action'=>'new',
+                                          'msg'=>'New insurance info added.'));
+               
+                  return;
+               }
+               
                $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New insurance info added.") );  
                $this->_redirect('/consumer/insurance/index/cid/'.$this->consumer_id);
+               
            }
        }
+
+        if($this->xhr) {
+            $this->_helper->layout->disableLayout();
+        }
      
      $this->view->form  = $form;
    }
@@ -75,6 +93,7 @@ class Consumer_InsuranceController  extends Zend_Controller_Action {
     $insuranceData = $insurance->readInsurance($this->id)->toArray();
     $this->consumer_id = $insuranceData['consumer_id'];
     $form  = new Application_Form_ConsumerInsurance;
+    $form->customSubmitBtn = $this->xhr; 
     $form->build( $this->uri,
                  $this->consumer_id,
                  (int)$this->id);
@@ -83,13 +102,29 @@ class Consumer_InsuranceController  extends Zend_Controller_Action {
      if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
     
         $insurance->updateInsurance($form->getValues());
+        
+        
+         if($this->xhr) {
+               
+            $this->_asJson(array('id'=>$this->id,
+                                 'success'=>true,
+                                 'values'=>(array)$form->getValues(),
+                                 'action'=>'update',
+                                 'msg'=>'Insurance info updated.'));
+            
+            return;
+         }
+              
+        
         $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Insurance info updated.") );  
         $this->_redirect('/consumer/insurance/index/cid/'.$this->consumer_id);
 
              
              
          }
-         
+       if($this->xhr) {
+            $this->_helper->layout->disableLayout();
+        }   
       $this->view->form  = $form;
    }
 

@@ -2,7 +2,6 @@
 $this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
 $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
 $this->headLink()->appendStylesheet('/css/datepicker.css');
-
 ?>
 <form action="/isp/goals" method="post" id="isp-gen-medical" >
 <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
@@ -13,57 +12,27 @@ $this->headLink()->appendStylesheet('/css/datepicker.css');
                                                          'steps'=>$this->steps,
                                                          'activeStep'=>$this->activeStep)); ?>
 <div class="row">
-    <div class="span12">
-       <div class="well">
-       <h3>Medical Information for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </h3>
-       
-	   <table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Insurance Type</th>
-				<th>Medical #</th>
-				<th>Medicare #</th>
-				<th>Information</th>
-			</tr>
-		</thead>
-	   <tbody>
-		
-		<?foreach($this->insurance as $k=>$i):?>
-			<tr>
-			<td><?=$i['type']?></td>
-			<td><?=$i['medical_number']?></td>
-			<td><?=$i['medicare_number']?></td>
-			<td><?=$i['insurance_info']?></td>
-			</tr>
-		<?endforeach;?>
-	   </tbody>
-	   </table>
-	   <hr />
-	   
-	   
-	   <strong>Select Exam information for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong>
+<div class="span12">
+<div class="well">
+
+	   <h4>Select Exam information for <?=$this->consumer->fname?> <?=$this->consumer->lname?></h4>
        <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
-	   <a class=" pointer crud-new-update-med btn btn-primary pull-right"
-		  data-cid="<?=$this->consumer->id?>" data-id=''> Add Info <i class="icon-plus"></i> </a>
-	   <hr />
-	   
 	   <div class="max-height-450px overflow-auto">
-	   
-<? if(isset( $this->physicians )): ?>
-    <?= $this->TableHead( array("Physician Name",
+			<? if(isset( $this->physicians )): ?>
+			<?= $this->TableHead( array("Physician Name",
                                 "Address",
                                 "Phone",
                                 "Exam Type",
                                 "Date of Last Exam",
                                 "Result of Exam",
-                                "Select",
+                                "<a class='js-select-all' data-status='n'>Select <i class=''></i></a>",
                                 "Edit",
                                 "Delete" ), "table table-bordered js-med-index" ) ?>
-    <?foreach($this->physicians as $p):?>
-    <?foreach($p['exams'] as $e):
-	 $strDate = strtotime( $e->date );
-	?>
-        <?= $this->TableRow(array( $this->Truncate($p["name"], 30),
+			<? ksort($this->physicians) ?>
+			<?foreach($this->physicians as $p):?>
+			<?foreach($p['exams'] as $e):?>
+			<?$strDate = strtotime( $e->date ) ?>
+			<?= $this->TableRow(array( $this->Truncate($p["name"], 30),
                                    $this->Truncate($p["address"], 30),
                                    $p["phone"],
                                    $e->type,
@@ -76,38 +45,90 @@ $this->headLink()->appendStylesheet('/css/datepicker.css');
                                    ), "class='exam-row-{$e->id} highlight-child'"); ?>
     <?endforeach;?>
     <?endforeach;?> 
-    <?= $this->TableFoot() ?>
-<?endif;?>
+    <?= $this->TableFoot("<tr><td colspan='9'><a class='crud-new-update-med pull-right'
+						     data-cid='{$this->consumer->id}'
+							 data-id=''>Add Exam <i class='icon-plus'></i></a></tr></td>") ?>
+	<?endif;?>
+	</div>
 
-</div>
+	<hr />	
 
-	   <a class=" pointer crud-new-update-med btn btn-primary pull-right"
-		  data-cid="<?=$this->consumer->id?>" data-id=''> Add Exam Info <i class="icon-plus"></i> </a>
-
-     </div>
-    </div>
-    
-</div>
-
-</form>
-<script type="text/javascript">
-    $(function () {
-        $(".show-tooltip").tooltip();
-    });
-</script>
-
-
-<script type="text/plain" id="js-crud-edit-med">	
+	<h4>Please double check insurance information.</h4>
 	
+	<?= $this->TableHead( array("Insurance Type",
+								"Medical #",
+								"Medicare #",
+								"Information",
+								"Edit",
+							   "Delete" ), "table table-bordered js-insurance-index" ) ?>
+	   <?if(isset($this->insurance)):?>
+	   <?foreach($this->insurance as $k=>$i):?>
+       
+	    <?= $this->TableRow(array( $i['type'],
+                                   $i['medical_number'],
+                                   $i['medicare_number'],
+								   $i['insurance_info'],
+                                   "<center><a class='pointer crud-new-update-insurance' data-id='{$i['id']}'><i class='icon-edit'></i></a></center>",
+								   "<center><a class='crud-del-insurance icon icon-remove' data-id='{$i['id']}'></a></center>"
+								   ), "class='insurance-row-{$i['id']} highlight-child'"); ?>
+	   
+	   <?endforeach;?>
+       <?endif;?>
+	   
+	   <?= $this->TableFoot("<tr><td colspan='6'><a class='crud-new-update-insurance pull-right'
+							    data-id=''
+								data-cid='{$this->consumer->id}'>Add Insurance
+								<i class='icon icon-plus'></i></a></td></tr>" ) ?>
+
+								
+
+	<hr />	
+
+								
+</div>
+</div> 
+</div>
+</form>
+
+<script type="text/plain" id="js-crud-edit-med">
+	
+	<%if(action == 'new') {%>
+	 <tr class='exam-row-<%= values.id %> highlight-child'>
+	<% } %>	
 	<td><%= physician.name.substring(0, 30)%></td>
 	<td><%= physician.address.substring(0, 30)%></td>
 	<td><%= physician.phone %></td>
 	<td><%= values.type %></td>
 	<td><%= values.date %></td>
 	<td><div title="<%=values.result%>"><%=values.result.substring(0, 30)  %></div></td>
-        <td><center><input type='checkbox' name='exams[]' value='<%= values.id %>' /></center></td>
+    <td><center><input type='checkbox' name='exams[]' value='<%= values.id %>' <%= checked %> /></center></td>
 	<td><center><a class='pointer crud-new-update-med' data-id='<%= values.id %>' data-cid='<%= consumer_id %>'><i class='icon-edit'></i></a></center></td>
 	<td><center><a title="delete" data-cid="<%= consumer_id %>" data-id="<%= values.id %>"
 		   class="pointer crud-del-med" id="med-<%= values.id %>"><i class="icon-remove"></i></a></center></td>
-	
+
+	<%if(action == 'new') {%>
+	 </tr>
+	<% } %>
+
+</script>
+
+<script type="text/plain" id="js-crud-edit-insurance">
+	<% if( action == 'new' ){%>
+	<tr class="insurance-row-<%= id %> highlight-child">
+	<%}%>
+	<td><%= values.type %></td>
+	<td><%= values.medical_number %></td>
+	<td><%= values.medicare_number %></td>
+	<td><%= values.insurance_info %></td>
+	<td>
+		<center>
+			<a class='pointer crud-new-update-insurance' data-id='<%= id %>'>
+				<i class='icon-edit'></i>
+			</a>
+		</center>
+	</td>
+	<td><center><a class="crud-del-insurance icon icon-remove" data-id='<%= id %>'></a></center></td>
+	<% if( action == 'new' ){ %>
+	</tr>
+	<% } %>
 </script>

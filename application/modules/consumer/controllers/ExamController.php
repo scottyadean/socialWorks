@@ -66,7 +66,7 @@ class Consumer_ExamController  extends Zend_Controller_Action {
                   $this->_asJson(array( 'success'=>true,
                                         'msg'=>'New Exam added.',
                                         'id'=>$lastid,
-                                        'action'=>'create',
+                                        'action'=>'new',
                                         'consumer_id'=>$this->consumer_id,
                                         'physician_id'=>$this->physician_id,
                                         'values'=>$form->getValues(),
