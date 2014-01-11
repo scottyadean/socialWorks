@@ -1,7 +1,7 @@
 <?php
-class Consumer_Model_ConsumersPharamchicals extends Zend_Db_Table_Abstract 
+class Consumer_Model_ConsumersPharmaceuticals extends Zend_Db_Table_Abstract 
 {
-    protected $_name = 'consumers_pharamchicals';
+    protected $_name = 'consumers_pharmaceuticals';
     protected $_primary = 'consumer_id';
     protected $_referenceMap = array(
                               'ConsumerUser' => array(
@@ -10,21 +10,21 @@ class Consumer_Model_ConsumersPharamchicals extends Zend_Db_Table_Abstract
                               'refColumns' => array('id')
                              ),
         
-                              'PharamchicalConsumer' => array(
-                              'columns'=>array('pharamchical_id'),
-                              'refTableClass'=>'Default_Model_Pharamchical',
+                              'PharmaceuticalConsumer' => array(
+                              'columns'=>array('pharmaceutical_id'),
+                              'refTableClass'=>'Default_Model_Pharmaceutical',
                               'refColumns' => array('id')
                              ));
                              
                              
      
     
-    public function assign($consumer_id, $pharamchical_id) {
+    public function assign($consumer_id, $pharmaceutical_id) {
             
-       $count = $this->count( $consumer_id, $pharamchical_id );
+       $count = $this->count( $consumer_id, $pharmaceutical_id );
        
        if( $count == 0 ){
-        $data = array('consumer_id'=>$consumer_id, 'pharamchical_id'=>$pharamchical_id);
+        $data = array('consumer_id'=>$consumer_id, 'pharmaceutical_id'=>$pharmaceutical_id);
         return $this->insert($data);
        }
 
@@ -33,13 +33,13 @@ class Consumer_Model_ConsumersPharamchicals extends Zend_Db_Table_Abstract
     }
     
     
-    public function remove($consumer_id, $pharamchical_id) {
+    public function remove($consumer_id, $pharmaceutical_id) {
             
-       $count = $this->count( $consumer_id, $pharamchical_id );
+       $count = $this->count( $consumer_id, $pharmaceutical_id );
       
        if( $count > 0 ){
       
-           return $this->delete(array('consumer_id = ?' => $consumer_id, 'pharamchical_id = ?' =>$pharamchical_id));
+           return $this->delete(array('consumer_id = ?' => $consumer_id, 'pharmaceutical_id = ?' =>$pharmaceutical_id));
        }
 
        return false;
@@ -47,21 +47,21 @@ class Consumer_Model_ConsumersPharamchicals extends Zend_Db_Table_Abstract
     }
    
    
-     public function findById($pharamchical_id) {
+     public function findById($pharmaceutical_id) {
      
            $select = $this->select();
-           $select->where( 'pharamchical_id = ?', $pharamchical_id );
+           $select->where( 'pharmaceutical_id = ?', $pharmaceutical_id );
     
            return $this->fetchAll($select);
     
     }
    
     
-   public function count($consumer_id, $pharamchical_id) {
+   public function count($consumer_id, $pharmaceutical_id) {
    
        $select = $this->select();
        $select->from($this->_name, array("num"=>"COUNT(consumer_id)", "count_id"=>"consumer_id"));
-       $select->where("consumer_id = ?", $consumer_id)->where( 'pharamchical_id = ?', $pharamchical_id );
+       $select->where("consumer_id = ?", $consumer_id)->where( 'pharmaceutical_id = ?', $pharmaceutical_id );
        $result = $this->fetchRow($select);
      
        //return the int count.

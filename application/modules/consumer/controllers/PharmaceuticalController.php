@@ -1,6 +1,6 @@
 <?php
 
-class Consumer_PharamchicalController extends Zend_Controller_Action {    
+class Consumer_PharmaceuticalController extends Zend_Controller_Action {    
    
    
    public $id;
@@ -15,8 +15,7 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
    
    public function init() {
     
-    
-        $this->_model = new Default_Model_Pharamchical;
+        $this->_model = new Default_Model_Pharmaceutical;
         $this->id = $this->getRequest()->getParam('id', null);
         $this->xhr = $this->getRequest()->isXmlHttpRequest();
         $this->uri = $this->getRequest()->getRequestUri();
@@ -29,20 +28,20 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
    
     public function indexAction() {
         
-          $this->view->pharamchicals = $this->_model->indexPharamchical();
+          $this->view->pharmaceuticals = $this->_model->indexPharmaceutical();
     }
     
     
     public function createAction() {
     
-        $form = new Application_Form_Pharamchical;
+        $form = new Application_Form_Pharmaceutical;
         $form->build($this->uri);
         
         if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
     
-            if( $lastid = $this->_model->createPharamchical($form->getValues())){
+            if( $lastid = $this->_model->createPharmaceutical($form->getValues())){
                 
-                $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New Pharamchical added.") );  
+                $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New Pharmaceutical added.") );  
                 $this->_helper->redirector->gotoUrl($this->uri);
                    
             }
@@ -60,7 +59,7 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
         
         }  
    
-        $this->view->pharamchical = $this->_model->readPharamchical($this->id)->toArray();
+        $this->view->pharmaceutical = $this->_model->readPharmaceutical($this->id)->toArray();
     
        
     
@@ -69,16 +68,16 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
     
     public function updateAction(){
     
-        $form = new Application_Form_Pharamchical;
+        $form = new Application_Form_Pharmaceutical;
         $form->build($this->uri, $this->id);
-        $pharamchicalData = $this->_model->readPharamchical($this->id)->toArray();
-        $form->populate($pharamchicalData);
+        $pharmaceuticalData = $this->_model->readPharmaceutical($this->id)->toArray();
+        $form->populate($pharmaceuticalData);
         
         if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
     
-            if( $lastid = $this->_model->updatePharamchical($this->id, $form->getValues())){
+            if( $lastid = $this->_model->updatePharmaceutical($this->id, $form->getValues())){
                 
-                $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Pharamchical info updated.") );  
+                $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Pharmaceutical info updated.") );  
                 $this->_helper->redirector->gotoUrl($this->uri);
                    
             }
@@ -105,37 +104,30 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
       $this->_helper->viewRenderer->setNoRender(true);
       $data = json_encode( Main_Forms_DrugManufacturers::names(strtoupper($this->sort)) );
       $this->getResponse()->setHeader('Content-Type', 'application/json')->appendBody($data);
-        
-     
-      
-        
+
     }
     
-    
-    
-    
-    
-    
+ 
     
     public function assignAction() {
         
         $this->_helper->layout->disableLayout();
         $id = $this->getRequest()->getParam('id', null);
-        $pid = $this->getRequest()->getParam('pharamchical', null);
+        $pid = $this->getRequest()->getParam('pharmaceutical', null);
         $do  = $this->getRequest()->getParam('do', null);
          
         if( $this->getRequest()->isPost() && !is_null($pid) && !is_null($do) ){
             
             $this->_helper->viewRenderer->setNoRender(true);
             
-            $consumePharamchicals = new Consumer_Model_ConsumersPharamchicals;
+            $consumePharmaceuticals = new Consumer_Model_ConsumersPharmaceuticals;
 
             if( $do == 'remove' ) {
-                $res = $consumePharamchicals->remove($id, $pid );
+                $res = $consumePharmaceuticals->remove($id, $pid );
             }
 
             if( $do == 'assign' ) {
-                $res = $consumePharamchicals->assign($id, $pid );
+                $res = $consumePharmaceuticals->assign($id, $pid );
             }
 
             print json_encode( array('success'=>(bool)$res, 'do'=>$do, 'focus'=>$pid, 'consumer'=>$id) );
@@ -149,18 +141,17 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
             $this->view->id = $id;
             $c = new Consumer_Model_Consumer;
             $consumerInfo = $c->findById($id);
-            $this->view->assigned =  $c->getConsumerPharamchicals();
+            $this->view->assigned =  $c->getConsumerPharmaceuticals();
             
-            $pharamchicals = new Default_Model_Pharamchical;
-            $this->view->pharamchicals = $pharamchicals->indexPharamchical()->toArray();
+            $pharmaceuticals = new Default_Model_Pharmaceutical;
+            $this->view->pharmaceuticals = $pharmaceuticals->indexPharmaceutical()->toArray();
             
             
             $this->view->assignedIds = array();
-            foreach( $this->view->assigned as $assigned ){
+            
+            foreach( $this->view->assigned as $assigned ) {
                 $this->view->assignedIds[] = $assigned['id'];
             }
-            
-           
             
         }
         
@@ -168,7 +159,12 @@ class Consumer_PharamchicalController extends Zend_Controller_Action {
     }
     
     
-    
+   protected function _asJson(array $data) {
+        
+        $this->_helper->viewRenderer->setNoRender(true);        
+        $this->getResponse()->setHeader('Content-type', 'application/json')
+                            ->setBody(json_encode($data));
+    }
     
     
     

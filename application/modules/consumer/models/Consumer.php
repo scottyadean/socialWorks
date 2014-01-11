@@ -39,11 +39,11 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
                    'Consumer_Model_ConsumersPhysicians')->toArray();
     }
     
-   public function  getConsumerPharamchicals(){   
+   public function  getConsumerPharmaceuticals(){   
     
         return $this->_current->findManyToManyRowset(
-                   'Default_Model_Pharamchical',
-                   'Consumer_Model_ConsumersPharamchicals')->toArray();
+                   'Default_Model_Pharmaceutical',
+                   'Consumer_Model_ConsumersPharmaceuticals')->toArray();
     }
     
     

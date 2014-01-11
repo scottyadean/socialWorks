@@ -1,7 +1,7 @@
 <?php
 class Zend_View_Helper_TableHead extends Zend_View_Helper_Abstract
 {
-    function TableHead(array $ths, $class="", $id=""){
+    function TableHead(array $ths, $class="", $id="", $tbody=""){
         
         if( $id != "" ) {
             
@@ -14,14 +14,12 @@ class Zend_View_Helper_TableHead extends Zend_View_Helper_Abstract
         $html .= "\n<tr>";
         
         foreach($ths as $th){
-            
             $html .= "\n<th>".ucwords($th)."</th>";
-        
         }
         
         $html .= "\n</tr>";
         $html .= "\n</thead>";
-        $html .= "\n<tbody>";
+        $html .= "\n<tbody {$tbody}>";
         return $html;
     }
 }

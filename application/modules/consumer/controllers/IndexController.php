@@ -26,13 +26,13 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $consumerInfo = $consumer->findById($id);
             $consumerUsers = $consumer->getConsumerUsers();
             $consumerPhysicians = $consumer->getConsumerPhysicians();
-            $consumerPharamchicals = $consumer->getConsumerPharamchicals();
+            $consumerPharmaceuticals = $consumer->getConsumerPharmaceuticals();
             $consumerCoordinators = $consumer->getConsumerCoordinators();
             $this->view->consumer = $consumerInfo;
             $this->view->users = $consumerUsers;
             $this->view->coordinators = $consumerCoordinators;
             $this->view->physicians = $consumerPhysicians;
-            $this->view->pharamchicals  = $consumerPharamchicals;
+            $this->view->pharmaceuticals  = $consumerPharmaceuticals;
             $this->view->user_id = $this->user_id;
             
         }

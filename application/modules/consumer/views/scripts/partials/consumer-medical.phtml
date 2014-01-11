@@ -46,17 +46,17 @@
     
     <table class="table table-striped">
               
-        <tbody id="consumer-pharamchical-list" >                    
+        <tbody id="consumer-pharmaceutical-list" >                    
 
-        <tr class="consumer-pharamchical-add">
+        <tr class="consumer-pharmaceutical-add">
             <td colspan="2">
-                <a href="/pharamchicals/create" class="btn btn-small btn-primary pull-right">Add Medication</a>
+                <a href="/pharmaceuticals/create" class="btn btn-small btn-primary pull-right">Add Medication</a>
             </td>
         </tr>
 
-            <?if( isset($this->pharamchicals) ):?>
-                <?foreach( $this->pharamchicals as $med ):?>
-                    <tr class="consumer-pharamchical-<?=$med['id']?>">
+            <?if( isset($this->pharmaceuticals) ):?>
+                <?foreach( $this->pharmaceuticals as $med ):?>
+                    <tr class="consumer-pharmaceutical-<?=$med['id']?>">
                         <td> <?= $med['name'] ?> </td>
                         <td> <?= $med['mg'] ?> </td>
                     </tr>

@@ -29,10 +29,13 @@ class Consumer_InsuranceController  extends Zend_Controller_Action {
         $insuranceModel = new Consumer_Model_ConsumersInsurance;
         $this->view->insurance = $insuranceModel->getByConsumerId($this->consumer_id);
         
-        if($this->xhr) {    
-            $this->_asJson($this->view->insurance);
-        }
-    }
+        
+        if( $this->xhr ) {
+            $this->_helper->layout->disableLayout();
+            $this->view->layout = false;
+         }
+    }    
+        
 
   /**
     * List a all Coordinators

@@ -272,19 +272,19 @@ INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `note`, `created`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `consumers_pharamchicals`
+-- Table structure for table `consumers_pharmaceuticals`
 --
 
-CREATE TABLE IF NOT EXISTS `consumers_pharamchicals` (
+CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
   `consumer_id` int(11) DEFAULT '0',
-  `pharamchical_id` varchar(45) DEFAULT NULL
+  `pharmaceutical_id` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `consumers_pharamchicals`
+-- Dumping data for table `consumers_pharmaceuticals`
 --
 
-INSERT INTO `consumers_pharamchicals` (`consumer_id`, `pharamchical_id`) VALUES
+INSERT INTO `consumers_pharmaceuticals` (`consumer_id`, `pharmaceutical_id`) VALUES
 (2, '2'),
 (1, '3');
 
@@ -442,10 +442,10 @@ CREATE TABLE IF NOT EXISTS `people` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pharamchicals`
+-- Table structure for table `pharmaceuticals`
 --
 
-CREATE TABLE IF NOT EXISTS `pharamchicals` (
+CREATE TABLE IF NOT EXISTS `pharmaceuticals` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `maker` varchar(70) DEFAULT NULL,
   `name` varchar(70) DEFAULT NULL,
@@ -459,10 +459,10 @@ CREATE TABLE IF NOT EXISTS `pharamchicals` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `pharamchicals`
+-- Dumping data for table `pharmaceuticals`
 --
 
-INSERT INTO `pharamchicals` (`id`, `maker`, `name`, `mg`, `frequency`, `unit`, `site`, `notes`, `side_effects`) VALUES
+INSERT INTO `pharmaceuticals` (`id`, `maker`, `name`, `mg`, `frequency`, `unit`, `site`, `notes`, `side_effects`) VALUES
 (1, 'Teva Pharmaceuticals', 'Vouched4', NULL, NULL, NULL, 'http://www.drugs.com/manufacturer/teva-pharmaceuticals-140.html', 'test', 'test'),
 (2, 'Bausch &amp; Lomb Inc.', 'beer', '', '', '', 'http://www.drugs.com/manufacturer/bausch-lomb-inc-27.html', 'test', 'test'),
 (3, 'Roxane Laboratories,Inc.', 'zoloft', '', '3 times', 'weekly', 'http://www.drugs.com/manufacturer/roxane-laboratories-inc-122.html', 'test', 'test');

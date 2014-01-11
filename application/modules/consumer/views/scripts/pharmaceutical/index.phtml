@@ -1,0 +1,30 @@
+<?$this->headScript()->appendFile('/js/views/consumer/pharmaceuticals/index.js');?>
+
+<h2>Pharmaceuticals &#x2624;</h2>
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/pharmaceuticals/create', 'label'=>'Add New')) ?>
+<hr />
+
+<?= $this->TableHead( array("Name",
+                        "Maker",
+                        "Site"), "table table-striped ", "pharmaceuticals-list", "" ) ?>
+<?if(isset($this->pharmaceuticals) ):?>
+    <?foreach($this->pharmaceuticals as $p):?>
+    
+        <? $site = ($p->site !=='') ? "<a href='{$p->site}' target='_blank'>View Site <i class='icon icon-share'></i></a>" : "";?>
+        <?= $this->TableRow(array( "<a href='/pharmaceuticals/read/id/{$p->id}' class='js-view-phrama-info pointer' phrama:id='{$p->id}'>{$p->name}</a>",
+                                   $p->maker,
+                                   $site."<div phrama:id='{$p->id}' class='js-edit-icon pull-right pointer width40px height10px' > </div>",
+                                  ), "id='phrama-{$p->id}' class='js-display-edit-icon'"); ?>
+    <?endforeach;?>
+<? endif;?>
+<?= $this->TableFoot() ?>
+
+
+<hr />
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/pharmaceuticals/create', 'label'=>'Add New')) ?>
+

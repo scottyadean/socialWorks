@@ -1,0 +1,57 @@
+
+<?$this->headScript()->appendFile('/js/views/consumer/pharmaceuticals/read.js');?>
+
+<h2>Pharmaceutical Info</h2>
+
+
+<a href="/pharmaceuticals">  </a> <br />
+
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/pharmaceuticals/', 'label'=>'Back To List')) ?>
+<hr />
+
+<? if(isset( $this->pharmaceutical) ):?>
+
+<table class="table table-striped">  
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Maker</th>
+        </tr>
+        
+    </thead>
+ 
+    <tbody id="pharmaceuticals-list">
+
+    <tr>
+        <td>
+            <a href="/pharmaceuticals/update/id/<?=$this->pharmaceutical['id']?>" title="Edit"><?=$this->pharmaceutical['name']?>  <i class="icon-edit"></i></a>
+        </td>
+        <td>
+            <a id="site-link" href="<?=$this->pharmaceutical['site']?>" target="_blank"><?=$this->pharmaceutical['maker']?> <i class='icon icon-share'></i></a>
+       </td>
+    </tr>
+
+</tbody>
+</table>
+
+Side Effects:
+<div class="well">
+    <?=$this->pharmaceutical['side_effects']?>
+</div>
+
+
+<?if( $this->pharmaceutical['site'] != "" ):?>
+<a id="js-pharma-more-info" class=" pointer"><i class="icon-arrow-down"> </i> Web Site Info</a>
+<div id="js-pharma-more-info-iframe" style="display:none;" class="well">
+<iframe id="js-iframe" width="100%" height="400" frameborder="0" src=""></iframe>
+</div>
+<?endif;?>
+
+
+<?endif;?>
+
+
