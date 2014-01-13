@@ -76,6 +76,16 @@ class Reports_IspController extends Zend_Controller_Action {
         $examsModel = new Consumer_Model_ConsumersExams;
         $this->view->physicians = $examsModel->findByConsumerIdAndMapPhysician($this->id);     
         
+        $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
+        $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->id);
+        
+        $allergiesModel = new Consumer_Model_ConsumersAllergies;
+        $this->view->allergies = $allergiesModel->getByConsumerId($this->id);
+        
+        $hospitalized = new Consumer_Model_ConsumersHospitalized;
+        $this->view->hospitalized = $hospitalized->getByConsumerId($this->id);
+        
+         
         $this->view->activeStep = 2;
         $this->view->percentComplete = $this->progressStep * 3;
         
@@ -119,13 +129,29 @@ class Reports_IspController extends Zend_Controller_Action {
     * get any medical info needed for the client
     */
     public function finalizeAction() {
-        
+        /*
         if( $this->getRequest()->isPost() ) {
            $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
         
         $this->view->activeStep = 5;
         $this->view->percentComplete = $this->progressStep * 6;
+        
+        */
+         $this->_helper->viewRenderer->setNoRender(true);
+         $this->_helper->layout->disableLayout();
+        
+      header("Content-type: application/vnd.ms-word");
+       header("Content-Disposition: attachment;Filename=document_name.doc");
+
+echo "<html>";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=Windows-1252\">";
+echo "<body>";
+echo "<b>My first document</b>";
+echo "</body>";
+echo "</html>";
+        
+        
     }
     
     

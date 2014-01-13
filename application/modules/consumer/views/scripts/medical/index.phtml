@@ -1,11 +1,39 @@
-<?if(isset($this->records)):?>
-
-        <?foreach($this->records as $med):?>
-            <?= $med->id ?>
-        <?endforeach;?>
-
-<? else: ?>
-
-   no records found
-
+<? if( $this->layout ):?>
+    <?$this->headScript()->appendFile('/js/views/consumer/medical/index.js')?>
 <?endif;?>
+
+<h2>Medicals Appointments</h2>
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/appointment/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
+<hr />
+
+<? if(isset( $this->appointments )): ?>
+    <?= $this->TableHead( array(
+                             "Hospital",
+                             "Date",
+                             "Time",
+                             "Next visit",
+                             "Description",
+                             "Delete"), "table table-striped" ) ?>
+  
+    <?foreach($this->appointments as $a):?>
+        <?= $this->TableRow(array( "<a href='/appointment/edit/id/".$a->id."'>".$this->escape($a->hospital)."</a>",
+                                   $this->escape($a->date),
+                                   $this->escape($a->time). " " .$this->escape($a->ampm),
+                                   $this->escape($a->next),
+                                   $this->escape($a->description),    
+                                   "<a id='appointment-".$a->id."'
+                                   class='pointer del-appointment' data-id='".$a->id."' title='delete'><i class='icon-remove'></i></a>")); ?>
+    <?endforeach;?>
+    
+    <?= $this->TableFoot() ?>
+<?endif;?>
+
+<hr />
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/appointment/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
+

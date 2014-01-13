@@ -3,7 +3,8 @@ class Application_Form_Pharmaceutical extends Main_Forms_Builder {
 
 
    public $formType = 'Add';
-   public $row_id; 
+   public $row_id;
+   public $customSubmitBtn = false;
 
     public function build( $action = "/pharmaceutical/new",  $id = null, $method = "post" ) {
        
@@ -27,6 +28,7 @@ class Application_Form_Pharmaceutical extends Main_Forms_Builder {
        return  array( "maker" => array('label'=>'Drug Manufacturer', 'required'=> false), 
                       "name"=>array('label'=>'Drug Name', 'required'=> true),
                       "site"=>array('label'=>'Web Site', 'required'=> true ),
+                      "blood_level_monitoring"=> array('label'=>'Requires periodic blood level monitoring', 'value'=>1, 'type'=>'checkbox'),
                       "side_effects" => array('label'=>'Side Effects', 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size'))
                       );
     }

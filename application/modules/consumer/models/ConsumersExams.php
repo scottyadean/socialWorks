@@ -8,7 +8,7 @@ Columns:
 * type	varchar(50)
 * date	datetime
 * result	text
-*
+
 */
 
 class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract 

@@ -142,7 +142,7 @@ class Consumer_PharmaceuticalController extends Zend_Controller_Action {
             $c = new Consumer_Model_Consumer;
             $consumerInfo = $c->findById($id);
             $this->view->assigned =  $c->getConsumerPharmaceuticals();
-            
+           
             $pharmaceuticals = new Default_Model_Pharmaceutical;
             $this->view->pharmaceuticals = $pharmaceuticals->indexPharmaceutical()->toArray();
             

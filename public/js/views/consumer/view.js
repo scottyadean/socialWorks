@@ -214,11 +214,11 @@ $(function() {
         });
         
         
-       $(".js-assign-pharamchical").click(function(){
+       $(".js-assign-pharmaceutical").click(function(){
             
             var ele = $(this);
             var id = ele.attr('consumer:id');
-            lightBox.show('mainModal', 'Assign Physician', {'remote':'/pharamchicals/assign/id/'+id});
+            lightBox.show('mainModal', 'Assign Physician', {'remote':'/pharmaceuticals/assign/id/'+id});
 
         });
         
@@ -304,21 +304,21 @@ $(function() {
         
         
          //assign medications. /
-          $("body").delegate("#js-consumer-pharamchicals-btns a.js-assign-to-consumer", "click", function(event){         
+          $("body").delegate("#js-consumer-pharmaceuticals-btns a.js-assign-to-consumer", "click", function(event){         
             
  
             var ele = $(this);
             var par = ele.parent();
             var act = ele.attr('consumer:action');
             var cid = par.attr('consumer:id');
-            var pid = par.attr('consumer:pharamchical');
+            var pid = par.attr('consumer:pharmaceutical');
             
-            asyncAction.sendPost('/pharamchicals/assign/id/'+cid, {'pharamchical':pid, 'do':act}, function(data){
+            asyncAction.sendPost('/pharmaceuticals/assign/id/'+cid, {'pharmaceutical':pid, 'do':act}, function(data){
             
                     if( data.success ){
                         
                         var template = '<tr class="consumer-<%= node %>-<%= id %>"><td> <%= name %> </td><td> <%= phone %>  </td></tr>';
-                        assignTo.update('pharamchical', data, template);
+                        assignTo.update('pharmaceutical', data, template);
                          
                     }          
             });

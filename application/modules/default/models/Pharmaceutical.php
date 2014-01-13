@@ -4,13 +4,9 @@ class Default_Model_Pharmaceutical extends Zend_Db_Table_Abstract {
     protected $_name = 'pharmaceuticals';
     protected $_primary = 'id';
 
-    
-    public function indexPharmaceutical() {
-    
+    public function indexPharmaceutical() {    
       $select = $this->select();
-      
       return $this->fetchAll($select);
-    
     }
     
     public function createPharmaceutical($data) {
@@ -18,10 +14,8 @@ class Default_Model_Pharmaceutical extends Zend_Db_Table_Abstract {
     }
     
     public function updatePharmaceutical($id, $data) {
-        
         $where = array('id = ?' => (int)$id);
         return $this->update($data, $where);
-    
     }
         
     public function readPharmaceutical($id) {
@@ -36,9 +30,7 @@ class Default_Model_Pharmaceutical extends Zend_Db_Table_Abstract {
             $where = array('id = ?' => (int)$id);
            return  $this->delete($where);
        }
-    
         return false;
-    
     }
 
     
