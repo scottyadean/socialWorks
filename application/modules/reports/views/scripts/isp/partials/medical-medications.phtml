@@ -1,0 +1,63 @@
+<h4>Please add any medications.</h4>
+
+<?= $this->TableHead( array("Medication/Prescription",
+                            "Frequency",
+                            "Strength",
+                            "Unit/Reason",
+                            "Physician",
+                            "Side Effects",
+                            "Edit",
+                            "Delete" ), "table table-bordered js-medication-index" ) ?>
+
+<?if(isset($this->medications)):?>
+
+<?foreach($this->medications as $m):?>
+<?foreach($m['pharmaceutical'] as $rx):?>
+    <?= $this->TableRow(array( $this->escape($m['pharmaceutical_info']['name']),
+                               $this->escape($rx->frequency),
+                               $this->escape($rx->strength),
+                               $this->escape($rx->unit),
+                               $this->escape($m["name"]),
+                               "<div title='".$this->escape($rx->side_effects)."' class='show-tooltip' data-toggle='tooltip'>"
+                                .$this->Truncate($this->escape($rx->side_effects), 30)."</div>",
+                                "<center><a class='pointer crud-new-update-medication' data-id='{$rx->id}'><i class='icon-edit'></i></a></center>",
+                                "<center><a class='crud-del-medication icon icon-remove' data-id='{$rx->id}'></a></center>"
+                                ), "class='medication-row-{$rx->id} highlight-child'"); ?>
+<?endforeach;?>
+<?endforeach;?>
+ <?endif;?>   
+<?= $this->TableFoot("<tr><td colspan='8'><a class='crud-new-update-medication pull-right'
+                         data-id=''
+                         data-cid='{$this->consumer_id}'>Add Medication
+                         <i class='icon icon-plus'></i></a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-medication">
+<% if( action == 'new' ){%>
+<tr class="medication-row-<%= id %> highlight-child">
+<%}%>                           
+<td><%= helpers.escapeHtml(pharmaceutical_info.name) %></td>
+<td><%= helpers.escapeHtml(values.frequency) %></td>
+<td><%= helpers.escapeHtml(values.strength) %></td>
+<td><%= helpers.escapeHtml(values.unit) %></td>
+<td><%= helpers.escapeHtml(physician.name) %></td>
+
+<td>
+    <div class='show-tooltip' title='<%= helpers.escapeHtml(values.side_effects) %>' data-toggle='tooltip' >
+    <%= helpers.escapeHtml(values.side_effects.substring(0,30)) %>
+    </div>
+    
+</td>
+<td>
+    <center>
+        <a class="pointer crud-new-update-medication" data-id="<%= id %>"><i class="icon-edit"></i></a>
+    </center>
+</td>
+<td>
+    <center>
+        <a class="crud-del-medication icon icon-remove" data-id="<%= id %>"></a>
+    </center>
+</td>
+<% if( action == 'new' ){ %>
+</tr>
+<% } %>
+</script>

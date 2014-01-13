@@ -1,0 +1,43 @@
+<?
+$this->headScript()->appendFile('/js/views/consumer/medications/index.js');
+
+/*
+consumer_id
+pharmaceutical_id
+physician_id
+frequency
+unit
+strength
+side_effects */ 
+?>
+<h2>Medication Info</h2>
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/consumers/medications/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
+<hr />
+<? if(isset( $this->physicians )): ?>
+    <?= $this->TableHead( array("Physician Name",
+                                "Address",
+                                "Telephone #",
+                                "Frequency",
+                                "Unit",
+                                "Delete" ), "table table-striped table-bordered" ) ?>
+  
+    <?foreach($this->physicians as $p):?>
+    <?foreach($p['pharmaceutical'] as $rx):?>
+ 
+        <?= $this->TableRow(array( "<a href='/consumers/medications/edit/id/{$rx->id}'>".$p["name"]."</a>",
+                                   $p["address"],
+                                   $p["phone"],
+                                   $rx->frequency,
+                                   $rx->unit,
+                                   "<a href='/consumer/exam/delete/id/{$rx->id}/cid/{$this->consumer_id}'><i class='icon-remove'></i></a>")); ?>
+    <?endforeach;?>
+    <?endforeach;?>
+    <?= $this->TableFoot() ?>
+
+<?endif;?>
+<hr />
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'/consumer/exam/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>

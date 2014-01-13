@@ -1,0 +1,41 @@
+<h4>Allergies, i.e., Medication, Food, Environment, etc.</h4>
+        
+    <?= $this->TableHead( array("Allergy",
+                                "Info",
+                                "Edit",
+                                "Delete" ), "table table-bordered js-allergy-index" ) ?>
+	   
+    <?if(isset($this->allergies)):?>
+       <?foreach($this->allergies as $k=>$a):?>
+        <?= $this->TableRow(array( $this->escape($a->allergy),
+                                   $this->escape($a->info),
+                                   "<center><a class='pointer crud-new-update-allergy' data-id='{$a->id}' data-cid='{$a->consumer_id}'><i class='icon-edit'></i></a></center>",
+                                   "<center><a class='crud-del-allergy icon icon-remove' data-id='{$a->id}'></a></center>"
+                                   ), "class='allergy-row-{$a->id} highlight-child'"); ?>
+       
+       <?endforeach;?>
+   <?endif;?>
+	   
+    <?= $this->TableFoot("<tr><td colspan='4'><a class='crud-new-update-allergy pull-right'
+                                                     data-id=''
+                                                     data-cid='{$this->consumer_id}'>Add Allergy
+                                                     <i class='icon icon-plus'></i></a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-allergy">
+	<% if( action == 'new' ){%>
+	<tr class="allergy-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<%}%>
+	<td><%= helpers.escapeHtml(values.allergy) %></td>
+	<td><%= helpers.escapeHtml(values.info) %></td>
+	<td>
+	    <center>
+		<a class='pointer crud-new-update-allergy' data-id='<%= helpers.escapeHtml(id) %>'>
+                    <i class='icon-edit'></i>
+		</a>
+	    </center>
+	</td>
+	<td><center><a class="crud-del-allergy icon icon-remove" data-id='<%= helpers.escapeHtml(id) %>'></a></center></td>
+	<% if( action == 'new' ){ %>
+	</tr>
+	<% } %>
+</script>

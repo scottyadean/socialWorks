@@ -1,0 +1,65 @@
+<h4>Select Exam information for <?=$this->consumer->fname?> <?=$this->consumer->lname?></h4>
+    
+
+   <div class="max-height-450px overflow-auto">
+			<? if(isset( $this->physicians )): ?>
+			<?= $this->TableHead( array("Physician Name",
+                                "Address",
+                                "Phone",
+                                "Exam Type",
+                                "Date of Last Exam",
+                                "Result of Exam",
+                                "<a class='js-select-all' data-status='n'>Select <i class=''></i></a>",
+                                "Edit",
+                                "Delete" ), "table table-bordered js-med-index" ) ?>
+			<? ksort($this->physicians) ?>
+			<?foreach($this->physicians as $p):?>
+			<?foreach($p['exams'] as $e):?>
+			<?$strDate = strtotime( $e->date ) ?>
+			<?= $this->TableRow(array( $this->escape($this->Truncate($p["name"], 30)),
+                                   $this->escape($this->Truncate($p["address"], 30)),
+                                   $this->escape($p["phone"]),
+                                   $this->escape($e->type),
+                                   date('m/d/Y', $strDate ),
+                                   "<div class='show-tooltip' title='".$this->escape($e->result)."' data-toggle='tooltip' >"
+								   .$this->Truncate($this->escape($e->result), 30)."</div>",
+                                   "<center><input type='checkbox' name='exams[]' value='{$e->id}' /></center>",
+                                   "<center><a class='pointer crud-new-update-med' data-id='{$e->id}' data-cid='{$this->consumer->id}'><i class='icon-edit'></i></a></center>",
+                                   "<center><a id='med-{$e->id}'
+                                   class='pointer crud-del-med' data-id='{$e->id}' data-cid='{$this->consumer->id}' title='delete'><i class='icon-remove'></i></a></center>",
+                                   ), "class='exam-row-{$e->id} highlight-child'"); ?>
+    <?endforeach;?>
+    <?endforeach;?> 
+    <?= $this->TableFoot("<tr><td colspan='9'><a class='crud-new-update-med pull-right'
+						     data-cid='{$this->consumer_id}'
+							 data-id=''>Add Exam <i class='icon-plus'></i></a></tr></td>") ?>
+	<?endif;?>
+	</div>
+
+
+
+<script type="text/plain" id="js-crud-edit-med">
+	
+	<%if(action == 'new') {%>
+	 <tr class='exam-row-<%= helpers.escapeHtml(values.id) %> highlight-child'>
+	<% } %>	
+	<td><%= helpers.escapeHtml(physician.name.substring(0, 30))%></td>
+	<td><%= helpers.escapeHtml(physician.address.substring(0, 30))%></td>
+	<td><%= helpers.escapeHtml(physician.phone) %></td>
+	<td><%= helpers.escapeHtml(values.type) %></td>
+	<td><%= helpers.escapeHtml(values.date) %></td>
+	<td><div title="<%=helpers.escapeHtml(values.result)%>"><%=helpers.escapeHtml(values.result.substring(0, 30))  %></div></td>
+        <td>
+        <center>
+              <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>' <%= checked %> />
+	</center>
+	</td>
+	<td><center><a class='pointer crud-new-update-med' data-id='<%= helpers.escapeHtml(values.id) %>' data-cid='<%= helpers.escapeHtml(consumer_id) %>'><i class='icon-edit'></i></a></center></td>
+	<td><center><a title="delete" data-cid="<%= helpers.escapeHtml(consumer_id) %>" data-id="<%= helpers.escapeHtml(values.id) %>"
+		   class="pointer crud-del-med" id="med-<%= helpers.escapeHtml(values.id) %>"><i class="icon-remove"></i></a></center></td>
+
+	<%if(action == 'new') {%>
+	 </tr>
+	<% } %>
+
+</script>
