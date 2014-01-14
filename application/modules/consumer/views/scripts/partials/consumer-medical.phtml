@@ -1,9 +1,13 @@
-<div class="accordion" id="accordion2">
+<div class="accordion" id="accordion1">
+    
     <div class="accordion-group">
+        
     <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-    Physicians
-    </a>
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1"
+       href="#collapseOne">Physicians</a>
     </div>
     <div id="collapseOne" class="accordion-body collapse in">
     <div class="accordion-inner">
@@ -32,40 +36,152 @@
     </div>
     </div>
     </div>
+    
+    
     <div class="accordion-group">
     <div class="accordion-heading">
         
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-    Medication 
-    </a>
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1"
+       href="#collapseTwo"> Medication </a>
     
     </div>
 
     <div id="collapseTwo" class="accordion-body collapse">
     <div class="accordion-inner">
     
-    <table class="table table-striped">
-              
-        <tbody id="consumer-pharmaceutical-list" >                    
+  
+        <?= $this->partial('/medication/partials/crud.phtml', 'consumer',
+                    array( "medications"=>$this->medications,
+                           'consumer_id'=>$this->consumer_id));?>
 
-        <tr class="consumer-pharmaceutical-add">
-            <td colspan="2">
-                <a href="/pharmaceuticals/create" class="btn btn-small btn-primary pull-right">Add Medication</a>
-            </td>
-        </tr>
-
-            <?if( isset($this->pharmaceuticals) ):?>
-                <?foreach( $this->pharmaceuticals as $med ):?>
-                    <tr class="consumer-pharmaceutical-<?=$med['id']?>">
-                        <td> <?= $med['name'] ?> </td>
-                        <td> <?= $med['mg'] ?> </td>
-                    </tr>
-                <?endforeach;?>
-            <?endif;?>
-        </tbody>
-    </table>
+    </div>
+    </div>
+    </div>
+    
+    
+    
+     <div class="accordion-group">
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1" href="#collapseThree"> Allergies </a>
     
     </div>
+
+    <div id="collapseThree" class="accordion-body collapse">
+    <div class="accordion-inner">
+    
+          <?= $this->partial( "/allergies/partials/crud.phtml", 'consumer',
+                        array( "allergies"=>$this->allergies,
+                              "consumer_id"=>$this->consumer_id) );?>
+ 
+
     </div>
     </div>
+    </div> 
+    
+ 
+ 
+    <div class="accordion-group">
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1" href="#collapseFour"> Hospitalization Info</a>
+    
+    </div>
+
+    <div id="collapseFour" class="accordion-body collapse">
+    <div class="accordion-inner">
+    
+ 
+      <?= $this->partial( "/hospitalized/partials/crud.phtml", 'consumer',
+                        array( "hospitalized"=>$this->hospitalized,
+                              "consumer_id"=>$this->consumer_id) );?>
+
+    </div>
+    </div>
+    </div>    
+    
+    
+     <div class="accordion-group">
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1" href="#collapseFive">Insurance Info </a>
+    
+    </div>
+
+    <div id="collapseFive" class="accordion-body collapse">
+    <div class="accordion-inner">
+    
+  
+          <?= $this->partial('/insurance/partials/crud.phtml', 'consumer',
+                        array( "insurance"=>$this->insurance,
+                              "consumer_id"=>$this->consumer_id));?>   
+
+    </div>
+    </div>
+    </div>    
+       
+     <div class="accordion-group">
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1" href="#collapseSix">Hospital Exam Info</a>
+    
+    </div>
+
+    <div id="collapseSix" class="accordion-body collapse">
+    <div class="accordion-inner">
+    
+  
+        <?= $this->partial( "/exam/partials/crud.phtml", 'consumer',
+                        array( "physiciansExams"=>$this->physiciansExams,
+                               "selectBoxs"=>false,
+                               "consumer_id"=>$this->consumer_id) );?>
+    </div>
+    </div>
+    </div>        
+
+    
+    
 </div>
+
+
+
+<script type="text/plain" id="js-crud-edit-medication">
+<% if( action == 'new' ){%>
+<tr class="medication-row-<%= id %> highlight-child">
+<%}%>                           
+<td><%= helpers.escapeHtml(pharmaceutical.name) %></td>
+<td><%= helpers.escapeHtml(values.frequency) %></td>
+<td><%= helpers.escapeHtml(values.strength) %></td>
+<td><%= helpers.escapeHtml(values.unit) %></td>
+<td><%= helpers.escapeHtml(physician.name) %></td>
+
+<td>
+    <div class='show-tooltip' title='<%= helpers.escapeHtml(values.side_effects) %>' data-toggle='tooltip' >
+    <%= helpers.escapeHtml(values.side_effects.substring(0,30)) %>
+    </div>
+    
+</td>
+<td>
+    <center>
+        <a class="pointer crud-new-update-medication" data-id="<%= id %>"><i class="icon-edit"></i></a>
+    </center>
+</td>
+<td>
+    <center>
+        <a class="crud-del-medication icon icon-remove" data-id="<%= id %>"></a>
+    </center>
+</td>
+<% if( action == 'new' ){ %>
+</tr>
+<% } %>
+</script>

@@ -1,19 +1,30 @@
-<h4>Select Exam information for <?=$this->consumer->fname?> <?=$this->consumer->lname?></h4>
+<h4>Select Exam information</h4>
     
+    
+    <?
+    
+    $selectLabel = $this->selectBoxs == true ? "<a class='js-select-all' data-status='n'>Select <i class=''></i></a>": "";
+        
+   $header = array( "Physician Name",
+                    "Address",
+                    "Phone",
+                    "Exam Type",
+                    "Date of Last Exam",
+                    "Result of Exam",
+                    $selectLabel,
+                    "Edit",
+                    "Delete");
+    
+    
+   
+   ?>
+
 
    <div class="max-height-450px overflow-auto">
-			<? if(isset( $this->physicians )): ?>
-			<?= $this->TableHead( array("Physician Name",
-                                "Address",
-                                "Phone",
-                                "Exam Type",
-                                "Date of Last Exam",
-                                "Result of Exam",
-                                "<a class='js-select-all' data-status='n'>Select <i class=''></i></a>",
-                                "Edit",
-                                "Delete" ), "table table-bordered js-med-index" ) ?>
-			<? ksort($this->physicians) ?>
-			<?foreach($this->physicians as $p):?>
+			<? if(isset( $this->physiciansExams )): ?>
+			<?= $this->TableHead( $header , "table table-bordered js-med-index" ) ?>
+			<? ksort($this->physiciansExams) ?>
+			<?foreach($this->physiciansExams as $p):?>
 			<?foreach($p['exams'] as $e):?>
 			<?$strDate = strtotime( $e->date ) ?>
 			<?= $this->TableRow(array( $this->escape($this->Truncate($p["name"], 30)),
@@ -23,10 +34,10 @@
                                    date('m/d/Y', $strDate ),
                                    "<div class='show-tooltip' title='".$this->escape($e->result)."' data-toggle='tooltip' >"
 								   .$this->Truncate($this->escape($e->result), 30)."</div>",
-                                   "<center><input type='checkbox' name='exams[]' value='{$e->id}' /></center>",
-                                   "<center><a class='pointer crud-new-update-med' data-id='{$e->id}' data-cid='{$this->consumer->id}'><i class='icon-edit'></i></a></center>",
+                                    $this->selectBoxs ? "<center><input type='checkbox' name='exams[]' value='{$e->id}' /></center>" : "",
+                                   "<center><a class='pointer crud-new-update-med' data-id='{$e->id}' data-cid='{$this->consumer_id}'><i class='icon-edit'></i></a></center>",
                                    "<center><a id='med-{$e->id}'
-                                   class='pointer crud-del-med' data-id='{$e->id}' data-cid='{$this->consumer->id}' title='delete'><i class='icon-remove'></i></a></center>",
+                                   class='pointer crud-del-med' data-id='{$e->id}' data-cid='{$this->consumer_id}' title='delete'><i class='icon-remove'></i></a></center>",
                                    ), "class='exam-row-{$e->id} highlight-child'"); ?>
     <?endforeach;?>
     <?endforeach;?> 

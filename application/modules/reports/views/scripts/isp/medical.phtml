@@ -1,7 +1,13 @@
 <?
+$this->headLink()->appendStylesheet('/css/datepicker.css');
 $this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
 $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
-$this->headLink()->appendStylesheet('/css/datepicker.css');
+$this->headScript()->appendFile('/js/views/consumer/medication/crud.js'); 
+$this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
+$this->headScript()->appendFile('/js/views/consumer/hospitalized/crud.js');
+$this->headScript()->appendFile('/js/views/consumer/allergies/crud.js');
+$this->headScript()->appendFile('/js/views/consumer/insurance/crud.js');
+
 ?>
 
 <form action="/isp/goals" method="post" id="isp-gen-medical" >
@@ -19,33 +25,36 @@ $this->headLink()->appendStylesheet('/css/datepicker.css');
 
 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
 		
-	<?= $this->partial( "/isp/partials/medical-exams.phtml",
-						   array( "physicians"=>$this->physicians,
-								  "consumer_id"=>$this->consumer->id) );?>
-	<hr />
-	<?= $this->partial( "/isp/partials/medical-insurance.phtml",
-						   array( "insurance"=>$this->insurance,
-								  "consumer_id"=>$this->consumer->id) );?>								
-	<hr />
-	<?= $this->partial( "/isp/partials/medical-medications.phtml",
-						   array( "medications"=>$this->medications,
-								  "consumer_id"=>$this->consumer->id) );?>
-
-	<hr />
-	<?= $this->partial( "/isp/partials/medical-allergies.phtml",
-						   array( "allergies"=>$this->allergies,
-								  "consumer_id"=>$this->consumer->id) );?>
-	
-	<hr />
-	<?= $this->partial( "/isp/partials/medical-hospitalized.phtml",
-						   array( "hospitalized"=>$this->hospitalized,
-								  "consumer_id"=>$this->consumer->id) );?>
-	
-	
-	<hr />
-	<?= $this->partial( "/isp/partials/medical-health.phtml",
-						   array( "consumer_id"=>$this->consumer->id) );?>
-	
+        <?= $this->partial( "/exam/partials/crud.phtml", 'consumer',
+                        array( "physiciansExams"=>$this->physicians,
+                              "selectBoxs"=>true,
+                               "consumer_id"=>$this->consumer->id) );?>
+        <hr />
+        
+        <?= $this->partial('/insurance/partials/crud.phtml', 'consumer',
+                        array( "insurance"=>$this->insurance,
+                              "consumer_id"=>$this->consumer->id));?>           
+        
+        <hr />                                                                  
+        <?= $this->partial('/medication/partials/crud.phtml', 'consumer',
+                        array( "medications"=>$this->medications,
+                              "consumer_id"=>$this->consumer->id));?>                                                          
+        
+        
+        <hr />
+        <?= $this->partial( "/allergies/partials/crud.phtml", 'consumer',
+                        array( "allergies"=>$this->allergies,
+                              "consumer_id"=>$this->consumer->id) );?>
+        
+        <hr />
+        <?= $this->partial( "/hospitalized/partials/crud.phtml", 'consumer',
+                        array( "hospitalized"=>$this->hospitalized,
+                              "consumer_id"=>$this->consumer->id) );?>
+        
+        
+        <hr />
+        <?= $this->partial( "/isp/partials/medical-health.phtml",
+                        array( "consumer_id"=>$this->consumer->id) );?>
 	
 
 	

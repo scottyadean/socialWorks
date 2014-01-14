@@ -64,7 +64,9 @@ class Application_Form_ConsumersMedication extends Main_Forms_Builder {
         $consumerInfo = $consumer->findById($this->consumerId);
         $consumerUsers = $consumer->getConsumerUsers();
         $consumerPhysicians = $consumer->getConsumerPhysicians();
-        $consumerPharmaceuticals = $consumer->getConsumerPharmaceuticals();
+        $pharmaceuticals = new Default_Model_Pharmaceutical;
+        
+        $consumerPharmaceuticals = $pharmaceuticals->indexPharmaceutical()->toArray();
         
         $this->_pharmaceuticals = array();
         foreach( $consumerPharmaceuticals as $rx ) {

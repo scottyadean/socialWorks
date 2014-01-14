@@ -131,30 +131,33 @@ class Consumer_Model_ConsumersPharmaceuticals extends Zend_Db_Table_Abstract {
         $consumerInfo = $consumer->findById($consumer_id);
         $consumerUsers = $consumer->getConsumerUsers();    
         $physicians = $consumer->getConsumerPhysicians();
-        $pharmaceuticals = $consumer->getConsumerPharmaceuticals();
         
-        $meds = $this->findByConsumerId($consumer_id, array( 'physician_id > ?' => 0 ));
-         
-         foreach( $physicians as $key=>$p ) {
-            $ex = array();
-            foreach($meds as $k=>$e) {
-               if( $e->physician_id == $p['id'] ) {   
-                  
-                 foreach($pharmaceuticals as $rx) {                    
-                    if($rx['id'] == $e->pharmaceutical_id){
-                        $physicians[$key]['pharmaceutical_info'] = $rx;
-                        break;
-                    }
-                 }
-
-                  $ex[] =  $e;
-                  
-               }
+  
+        $pharmaceuticals = new Default_Model_Pharmaceutical;
+        $pharma = $pharmaceuticals->indexPharmaceutical()->toArray();
+       
+        $meds = $this->findByConsumerId($consumer_id, array( 'physician_id > ?' => 0 ))->toArray();
+        foreach($meds as $key=>$med ) {
+            
+             
+            foreach( $physicians as $k=>$p ) {
+                if( $med['physician_id'] == $p['id'] ){
+                    $meds[$key]['physician'] = $p;
+                    continue;
+                }
             }
             
-            $physicians[$key]['pharmaceutical'] = $ex;
+            foreach($pharma as $kh=>$ph ) {
+               
+                if( $med['pharmaceutical_id'] == $ph['id'] ){
+                    $meds[$key]['pharmaceutical'] = $ph;
+                    continue;
+                }
+            }
+               
         }
-        return $physicians; 
+        
+        return $meds; 
     }
     
    public function countPharmaceutical($id) {

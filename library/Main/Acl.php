@@ -17,7 +17,7 @@ class Main_Acl extends Zend_Acl {
                                                  'exam',
                                                  'note'),
                               'media'=> array('index'),
-                              'tools' => array('index', 'async'),
+                              'tools' => array('index', 'async', 'crud'),
                               'reports' => array('index', 'isp'),
                               'crud'=>array('index')
                              );
@@ -38,11 +38,11 @@ class Main_Acl extends Zend_Acl {
                           'consumer-pharmaceutical',
                           'media-index',
                           'tools-index',
+                          'tools-crud',
                           'reports-index',
                           'tools-async');
                           
-    public $admins = array('crud-index', 
-                          );
+    public $admins = array('crud-index');
                           
   
     public function __construct() {

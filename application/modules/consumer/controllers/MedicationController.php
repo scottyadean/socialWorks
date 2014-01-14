@@ -55,11 +55,15 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
     
    if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
 
-           if( $lastid = $exams->createPharmaceutical($form->getValues())){
+            $fvalues = $form->getValues();
+                  
+   
+           if( $lastid = $exams->createPharmaceutical($fvalues)){
                
                if( $this->xhr ) {
-                  
                   $physician = new Default_Model_Physician;
+                  $pharam_id = $fvalues['pharmaceutical_id']; 
+                  $pharam = new Default_Model_Pharmaceutical;
                   
                   $this->_asJson(array( 'success'=>true,
                                         'msg'=>'New Medication added.',
@@ -67,7 +71,8 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
                                         'action'=>'new',
                                         'consumer_id'=>$this->consumer_id,
                                         'physician_id'=>$this->physician_id,
-                                        'values'=>$form->getValues(),
+                                        'values'=>$fvalues,
+                                        'pharmaceutical'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
                                         'physician'=>$physician->findById($this->physician_id)->toArray()));
                
                   return;
@@ -123,7 +128,7 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
                                         'consumer_id'=>$this->consumer_id,
                                         'physician_id'=>$this->physician_id,
                                         'values'=>$fvalues,
-                                        'pharmaceutical_info'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
+                                        'pharmaceutical'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
                                         'physician'=>$physician->findById($this->physician_id)->toArray()));  
                   return;
                }

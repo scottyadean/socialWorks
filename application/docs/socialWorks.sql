@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 13, 2014 at 10:44 AM
+-- Generation Time: Jan 13, 2014 at 05:24 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `consumers_hospitalized` (
   `duration_of_stay` varchar(50) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `consumers_hospitalized`
@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `consumers_notes` (
   `note` text,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `consumers_notes`
@@ -305,7 +305,21 @@ INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `note`, `created`
 (38, 1, 1, 'test on the 24th for full date testing', '2014-01-20 08:00:00'),
 (39, 1, 1, 'test on the 23th for full date testing', '2014-01-20 08:00:00'),
 (40, 1, 1, 'testing', '2014-01-24 20:14:40'),
-(42, 1, 1, 'this is the 9th', '2014-01-09 21:42:06');
+(42, 1, 1, 'this is the 9th', '2014-01-09 21:42:06'),
+(44, 1, 1, 'this is a case not', '2014-01-10 22:48:05'),
+(45, 1, 1, 'this is a case note for the 15th', '2014-01-15 22:48:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consumers_persons`
+--
+
+CREATE TABLE IF NOT EXISTS `consumers_persons` (
+  `consumer_id` int(11) NOT NULL,
+  `people_id` int(11) NOT NULL,
+  PRIMARY KEY (`consumer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -323,18 +337,15 @@ CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
   `strength` varchar(50) NOT NULL,
   `side_effects` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `consumers_pharmaceuticals`
 --
 
 INSERT INTO `consumers_pharmaceuticals` (`id`, `consumer_id`, `pharmaceutical_id`, `physician_id`, `frequency`, `unit`, `strength`, `side_effects`) VALUES
-(8, 1, '2', 0, '', '', '', ''),
-(11, 1, '2', 1, 'once', 'week', '700mg', 'none'),
-(12, 1, '2', 1, 'once', 'week', '700mg', 'none'),
-(13, 1, '1', 0, '', '', '', ''),
-(14, 1, '3', 0, '', '', '', '');
+(16, 1, '1', 5, '6 times', 'daily', 'test', 'testing update'),
+(17, 1, '1', 5, '6 times', 'daily', 'test', 'testing again');
 
 -- --------------------------------------------------------
 
@@ -360,7 +371,8 @@ INSERT INTO `consumers_physicians` (`consumer_id`, `physician_id`) VALUES
 (2, 1),
 (2, 6),
 (1, 5),
-(1, 6);
+(1, 6),
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -475,10 +487,11 @@ INSERT INTO `images` (`relation_id`, `img`, `type`, `ext`) VALUES
 CREATE TABLE IF NOT EXISTS `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `departments_id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `employer` varchar(255) NOT NULL,
-  `email` varchar(20) NOT NULL,
+  `email` varchar(120) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `cell` varchar(255) NOT NULL,
   `address` varchar(50) NOT NULL,
@@ -486,7 +499,16 @@ CREATE TABLE IF NOT EXISTS `people` (
   `state` varchar(3) NOT NULL,
   `zip` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `people`
+--
+
+INSERT INTO `people` (`id`, `departments_id`, `type`, `fname`, `lname`, `employer`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`) VALUES
+(1, 1, 'med', 'Torey', 'Smith', 'test', 'dr.bro@health.com', '530 626 7217', 'test', '1600 Dove St. Ste 150', 'Folsom', 'CA', 92660),
+(2, 0, 'payee', 'Curtis', 'Harvey', '', 'dev@marketingevolution.com', '', '', '', '', '', 0),
+(3, 0, 'payee', 'Curtis', 'Harvey', '', 'dev@marketingevolution.com', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -652,7 +674,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `account_id`, `username`, `password`, `salt`, `fname`, `lname`, `phone`, `email`, `status`, `position`, `role`, `last_log`, `date_created`) VALUES
-(1, 1, 'scottyadean', '6ab152fa34a0a70e9b682a9497ad0101508b2ed8', 'ac11ccbad0cc2392a5c7', 'Scott', 'Dean', '', 'scott.dean@graphicdesignhouse.com', '_', '', 2, '2014-01-09 10:46:59', '2012-08-18 06:44:33'),
+(1, 1, 'scottyadean', 'f79ce70ab83a84f5a9efca6ae23b88255c4672fd', '683975941ac2528ea1ce', 'Scott', 'Dean', '', 'scott.dean@graphicdesignhouse.com', '_', '', 2, '2014-01-13 11:52:33', '2012-08-18 06:44:33'),
 (4, 0, 'torey.smith', '1e920313e1bae7b29c24b1bf8fd42f5f2406241c', 'ff0033fafc1c04020d8a', 'Torey', 'Smith', '916-698-5585', 'torey@capitalsocailservices.com', '', 'Director of Operations', 4, '2013-07-09 10:17:54', '2013-07-09 10:17:54');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

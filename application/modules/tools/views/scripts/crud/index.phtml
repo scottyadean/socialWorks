@@ -1,0 +1,47 @@
+ <?
+if( $this->layout ){
+//$this->headScript()->appendFile('/js/views/consumer/allergies/index.js');
+}
+?>
+
+<h2><?=$this->displayName?></h2>
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>"{$this->url()}/create/", 'label'=>'Add New')) ?>
+<hr />
+<? if(isset( $this->crud->results )): ?>
+
+  <? $header = $this->crud->visible;
+     $header[] = "edit";
+     $header[] = "delete";
+  ?>
+
+ <?= $this->TableHead( $header , "table table-striped" ) ?>
+  
+    <?foreach($this->crud->results as $r):?>
+        
+        <? $rows = array();
+        
+            foreach( $this->crud->visible as $vis ) {
+                $rows[] = $r->$vis;   
+            }
+        
+           $rows[] = "<a id='crud-edit-{$r->id}' href='{$this->url()}/update/?id={$r->id}' class='pointer curd-edit' data-id='{$r->id}' title='edit'><i class='icon-edit'></i></a>";
+           $rows[] = "<a id='crud-edit-{$r->id}' class='pointer curd-del' data-id='{$r->id}' title='delete'><i class='icon-remove'></i></a>";
+        
+        ?>
+    
+    
+        <?= $this->TableRow($rows); ?>
+    <?endforeach;?>
+    
+    <?= $this->TableFoot() ?>
+<?endif;?>
+
+<hr />
+
+<?= $this->partial('/partials/button.phtml',
+                   'default',
+                   array('link'=>'{$this->url()}/create/', 'label'=>'Add New')) ?>
+

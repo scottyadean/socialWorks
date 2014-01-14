@@ -3,11 +3,13 @@
 
 class Consumer_IndexController extends Zend_Controller_Action {
 
-   public $user_id;  
+   public $user_id;
+   public $consumer_id;
 
    public function init() {
-    
        $this->user_id = Zend_Auth::getInstance()->getIdentity()->id;
+       $this->view->user_id = $this->user_id;
+       $this->consumer_id =  $id = $this->getRequest()->getParam('id', 0);
    }
 
 
@@ -18,22 +20,30 @@ class Consumer_IndexController extends Zend_Controller_Action {
     
     public function viewAction() {
 
-        $id = $this->getRequest()->getParam('id', null);
+       
 
-        if( !is_null($id) ){
+        if( $this->consumer_id  != 0 ){
         
+             
             $consumer = new Consumer_Model_Consumer;
-            $consumerInfo = $consumer->findById($id);
-            $consumerUsers = $consumer->getConsumerUsers();
-            $consumerPhysicians = $consumer->getConsumerPhysicians();
-            $consumerPharmaceuticals = $consumer->getConsumerPharmaceuticals();
-            $consumerCoordinators = $consumer->getConsumerCoordinators();
-            $this->view->consumer = $consumerInfo;
-            $this->view->users = $consumerUsers;
-            $this->view->coordinators = $consumerCoordinators;
-            $this->view->physicians = $consumerPhysicians;
-            $this->view->pharmaceuticals  = $consumerPharmaceuticals;
-            $this->view->user_id = $this->user_id;
+            
+            $this->view->consumer =$consumer->findById($this->consumer_id);
+            $this->view->users =  $consumer->getConsumerUsers();
+            $this->view->physicians = $consumer->getConsumerPhysicians();
+            $this->view->coordinators = $consumer->getConsumerCoordinators();
+            $this->view->insurance = $consumer->getConsumerInsurance(); 
+           
+            $hospitalized = new Consumer_Model_ConsumersHospitalized;
+            $this->view->hospitalized = $hospitalized->getByConsumerId($this->consumer_id);
+            
+            $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
+            $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->consumer_id);
+            
+            $allergiesModel = new Consumer_Model_ConsumersAllergies;
+            $this->view->allergies = $allergiesModel->getByConsumerId($this->consumer_id);
+            
+            $examsModel = new Consumer_Model_ConsumersExams;
+            $this->view->physiciansExams = $examsModel->findByConsumerIdAndMapPhysician($this->consumer_id); 
             
         }
     

@@ -1,4 +1,14 @@
 <? $this->headScript()->appendFile('/js/views/consumer/view.js'); ?>
+<? $this->headScript()->appendFile('/js/views/consumer/medication/crud.js'); ?>
+<? $this->headScript()->appendFile('/js/views/consumer/hospitalized/crud.js'); ?>
+<? $this->headScript()->appendFile('/js/views/consumer/allergies/crud.js'); ?>
+<? $this->headScript()->appendFile('/js/views/consumer/insurance/crud.js'); ?>
+<? $this->headScript()->appendFile('/js/views/consumer/exam/crud.js'); ?>
+
+
+
+<?$this->headLink()->appendStylesheet('/css/datepicker.css');?>
+<?$this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');?>
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#consumerinfo" data-toggle="tab">Info</a></li>
@@ -116,7 +126,12 @@
     <div class="span8">  
         <?= $this->partial('/partials/consumer-medical.phtml',
                     array( "physicians"=>$this->physicians,
-                           "pharmaceuticals"=>$this->pharmaceuticals  ));?>
+                           "medications"=>$this->medications,
+                           'hospitalized'=>$this->hospitalized,
+                           'allergies' => $this->allergies,
+                           'insurance'=>$this->insurance,
+                           'physiciansExams'=>$this->physiciansExams,
+                           'consumer_id'=>$this->consumer->id));?>
         
         <div id="js-med-appointments"> </div>
     </div>

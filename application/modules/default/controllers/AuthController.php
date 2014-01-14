@@ -30,9 +30,9 @@ class Default_AuthController extends Zend_Controller_Action
             if($form->isValid($this->request->getPost()) && Main_Auth::process($form->getValues())) {
                     
                     $this->reloc = $this->request->getParam('reloc', '/');
-                    $reloc = strstr("login", $this->reloc) ? '/' : $this->reloc;
-                    
+                    $reloc = strstr($this->reloc, "login") ? '/' : $this->reloc;
                     $this->_helper->redirector->gotoUrl($reloc);
+                    return;
                     
             }else{
             

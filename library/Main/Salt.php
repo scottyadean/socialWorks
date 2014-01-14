@@ -18,7 +18,6 @@
     }
     
 
-
     public static function getResetPasswordHash($str, $hash)
     {
        return sha1($str.self::$resetPwrdHash.$hash);
