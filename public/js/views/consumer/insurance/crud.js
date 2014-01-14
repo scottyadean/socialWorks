@@ -5,12 +5,12 @@ $("body").delegate("a.crud-new-update-insurance", "click", function() {
       var el  = $(this);
       var id  = el.attr('data-id');
       var cid  = el.attr('data-cid');
-      var path = '/consumer/insurance/';
-      var action = id == '' ? 'new' : 'edit';
+      var path = '/insurance/';
+      var action = id == '' ? 'create' : 'update';
       var btn = '<input type="button" value="Submit" class="js-insurance-form-'+action+' btn" />';
       lightBox.show('mainModal', 'Add Medical Info',
                                 {'remote':path+action+'/'+id+'/',
-                                 'params': { id:id, cid:cid },
+                                 'params': { id:id, consumer_id:cid },
                                  'callback':function(data) {
                                  $("#consumerinsuranceform").append(btn);
                               }},
@@ -20,8 +20,8 @@ $("body").delegate("a.crud-new-update-insurance", "click", function() {
 /*
 * Crud Update Insurance
 */
-$("body").delegate( ".js-insurance-form-new", "click", function() {
-      Crud.Update('/consumer/insurance/new/','consumerinsuranceform', function(data) {
+$("body").delegate( ".js-insurance-form-create", "click", function() {
+      Crud.Update('/insurance/create/','consumerinsuranceform', function(data) {
           var template = _.template($("#js-crud-edit-insurance").html());
           $(".js-insurance-index tbody").prepend(template(data)).css({'display':'none'}).fadeIn(1000,function() {});          
           lightBox.close('mainModal');  
@@ -31,8 +31,8 @@ $("body").delegate( ".js-insurance-form-new", "click", function() {
 /*
 * Crud Update Insurance
 */
-$("body").delegate( ".js-insurance-form-edit", "click", function() {
-      Crud.Update('/consumer/insurance/edit/','consumerinsuranceform', function(data) {
+$("body").delegate( ".js-insurance-form-update", "click", function() {
+      Crud.Update('/insurance/update/','consumerinsuranceform', function(data) {
           var template = _.template($("#js-crud-edit-insurance").html());
           $(".insurance-row-"+data.id).html(template(data)).css({'display':'none'}).fadeIn(1000,function() {});          
           lightBox.close('mainModal');  
@@ -45,7 +45,7 @@ $("body").delegate( ".js-insurance-form-edit", "click", function() {
 $("body").delegate(".crud-del-insurance", "click", function() {
  var el = $(this);
  var id =  el.attr('data-id');
- Crud.Confirm({ url: '/consumer/insurance/delete/',
+ Crud.Confirm({ url: '/insurance/delete/',
                           params: {id: id},
                           title: 'Please confirm deleting of Insurance Info.',
                           text:  'The record will be completelly removed! Is it ok?',

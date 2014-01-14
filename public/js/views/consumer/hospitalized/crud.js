@@ -6,12 +6,12 @@
 		var el  = $(this);
 		var id  = el.attr('data-id');
                 var cid  = el.attr('data-cid');
-		var path = '/consumer/hospitalized/';
-                var action = id == '' ? 'new' : 'edit';
+		var path = '/hospitalized/';
+                var action = id == '' ? 'create' : 'update';
                 var btn = '<input type="button" value="Submit" class="js-hospital-form-'+action+' btn" />';
 		lightBox.show('mainModal', 'Add Hospital Info',
 					  {'remote':path+action+'/'+id+'/',
-					   'params': { id:id, cid:cid },
+					   'params': { id:id, consumer_id:cid },
 					   'callback':function(data) {
                                            $("#consumerhospitalizedform").append(btn);
                                            
@@ -29,8 +29,6 @@
                                                   $("#consumerexamform").append('<input type="button" value="Submit" class="js-exam-form-'+action+' btn" />');
 
                                            
-                                           
-                                           
 					}},
 					'get');
 	  });  
@@ -38,8 +36,8 @@
           /*
 	  * Crud Update hospital
 	  */
-	  $("body").delegate( ".js-hospital-form-new", "click", function() {
-		Crud.Update('/consumer/hospitalized/new/','consumerhospitalizedform', function(data) {
+	  $("body").delegate( ".js-hospital-form-create", "click", function() {
+		Crud.Update('/hospitalized/create/','consumerhospitalizedform', function(data) {
 		    var template = _.template($("#js-crud-edit-hospital").html());
                     $(".js-hospital-index tbody").prepend(template(data)).css({'display':'none'}).fadeIn(1000,function() {});          
                     lightBox.close('mainModal');  
@@ -49,8 +47,8 @@
           /*
 	  * Crud Update hospital
 	  */
-	  $("body").delegate( ".js-hospital-form-edit", "click", function() {
-		Crud.Update('/consumer/hospitalized/edit/','consumerhospitalizedform', function(data) {
+	  $("body").delegate( ".js-hospital-form-update", "click", function() {
+		Crud.Update('/hospitalized/update/','consumerhospitalizedform', function(data) {
 		    var template = _.template($("#js-crud-edit-hospital").html());
                     $(".hospital-row-"+data.id).html(template(data)).css({'display':'none'}).fadeIn(1000,function() {});          
                     lightBox.close('mainModal');  
@@ -63,7 +61,7 @@
        $("body").delegate(".crud-del-hospital", "click", function() {
 	   var el = $(this);
            var id =  el.attr('data-id');
-           Crud.Confirm({ url: '/consumer/hospitalized/delete/',
+           Crud.Confirm({ url: '/hospitalized/delete/',
                                     params: {id: id},
                                     title: 'Please confirm deleting of Hospital Visit Info.',
                                     text:  'The record will be completelly removed! Is it ok?',

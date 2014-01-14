@@ -33,14 +33,23 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $this->view->coordinators = $consumer->getConsumerCoordinators();
             $this->view->insurance = $consumer->getConsumerInsurance(); 
            
-            $hospitalized = new Consumer_Model_ConsumersHospitalized;
-            $this->view->hospitalized = $hospitalized->getByConsumerId($this->consumer_id);
+            //$hospitalized = new Consumer_Model_ConsumersHospitalized;
+            //$this->view->hospitalized = $hospitalized->getByConsumerId($this->consumer_id);
+            
+            $hospitalizedModel = new Default_Model_Crud; 
+            $hospitalizedModel->setDbName('consumers_hospitalized');
+            $this->view->hospitalized = $hospitalizedModel->_index(array('consumer_id = ?' => $this->consumer_id));
+            
             
             $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
             $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->consumer_id);
             
-            $allergiesModel = new Consumer_Model_ConsumersAllergies;
-            $this->view->allergies = $allergiesModel->getByConsumerId($this->consumer_id);
+            $allergiesModel = new Default_Model_Crud; 
+            $allergiesModel->setDbName('consumers_allergies');
+            $this->view->allergies = $allergiesModel->_index(array('consumer_id = ?' => $this->consumer_id));
+            
+            //$allergiesModel = new Consumer_Model_ConsumersAllergies;
+            //$this->view->allergies = $allergiesModel->getByConsumerId($this->consumer_id);
             
             $examsModel = new Consumer_Model_ConsumersExams;
             $this->view->physiciansExams = $examsModel->findByConsumerIdAndMapPhysician($this->consumer_id); 

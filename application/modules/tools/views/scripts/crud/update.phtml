@@ -1,1 +1,3 @@
-<?=$this->form?>
+<?= $this->partial('/crud/create.phtml',
+                    array( "form"=>$this->form,
+                           "layout"=>$this->layout  ));?>

@@ -3,12 +3,11 @@ class Application_Form_ConsumerInsurance extends Main_Forms_Builder {
 
    public $_id;
    public $customSubmitBtn = false;
-   public $consumerId;
+   //public $consumerId;
    public $formType = 'Add';
    public $insuranceTypes = array();
    
    public function build( $action = "/consumer/insurance/new/",
-                          $consumer_id = null,
                           $id = null,
                           $method = "post" ) {
        
@@ -18,7 +17,7 @@ class Application_Form_ConsumerInsurance extends Main_Forms_Builder {
             $this->formType = 'Update';
        }
        
-       $this->consumerId = $consumer_id;
+      
        $this->setName("consumer-insurance-form");
        $this->setMethod($method);
        $this->setAction($action);
@@ -49,7 +48,7 @@ class Application_Form_ConsumerInsurance extends Main_Forms_Builder {
    */
     public function getFields() {
 
-         $fields = array("consumer_id" => array('default'=>$this->consumerId, 'required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
+         $fields = array("consumer_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                          "type" => array('default'=>'medical', 'label'=>'Insurance Type', 'required'=> true, 'type'=>'select', 'multiOptions'=>$this->insuranceTypes ),
                          "medical_number"=>array('label'=>'Medical Number', 'required'=> true), 
                          "medicare_number"=>array('label'=>'Medicare Number', 'required'=> true ),

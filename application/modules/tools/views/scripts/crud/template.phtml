@@ -1,0 +1,8 @@
+
+<? $rows = array(); ?>
+<? foreach($this->crud->visible as $v):?>  
+<? $rows[] = "<%= values.".trim($v)." %>";?>
+<?endforeach;?>
+<? $rows[] = "<a id='crud-edit-<%= id %>' href='{$this->updateUrl}/?id=<%= id %>' class='pointer curd-edit' data-id='<%= id %>' title='edit'><i class='icon-edit'></i></a>";?>
+<? $rows[] = "<a id='crud-edit-<%= id %>' class='pointer curd-del' data-url='{$this->deleteUrl}' data-id='<%= id %>' title='delete'><i class='icon-remove'></i></a>";?>
+<?= $this->TableRow($rows, "id='crud-item-<%= id %>'"); ?>

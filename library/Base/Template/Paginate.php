@@ -17,18 +17,37 @@ class Base_Template_Paginate
 	}				
 	
 	public function links($self = '', $html = '')
-	{	
+	{	$html .= '<div class="pagination"><ul>';
 		if($this->total_pages() > 1)
-		{		
-			if($this->has_next_page())
-				$html .= " <a href='{$self}/{$this->next_page()}'>next</a> ";
+		{
 			
-			for($i=1; $i <= $this->total_pages(); $i++)
-				$html.= $i==$this->current_page ? " <b>{$i}</b> ":" <a href='{$self}/{$i}'>{$i}</a> ";
+			if($this->has_previous_page()){
 			
-			if($this->has_previous_page())
-				$html .=  "<a href='{$self}/{$this->previous_page()}'>back</a> ";
+				$html .=  "<li><a href='{$self}/{$this->previous_page()}'>back</a></li>";
+			
+			}else{
+				
+				$html .=  "<li class='disabled'><a>back</a></li>";	
+			}
+			
+			
+			for($i=1; $i <= $this->total_pages(); $i++){
+				$html.= $i==$this->current_page ? "<li class='active'><a>{$i}</a></li>"
+				:" <li><a href='{$self}/{$i}'>{$i}</a><li>";
+			}
+			
+			if($this->has_next_page()){
+				$html .= "<li><a href='{$self}/{$this->next_page()}'>next</a></li>";
+			}else{
+				
+				$html .= "<li class='disabled'><a>next</a></li>";	
+			}
+			
+			
 		}
+		
+		$html .= '</ul></div>';
+		
 		return $html;
 	}
 	

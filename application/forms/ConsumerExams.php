@@ -10,13 +10,11 @@ class Application_Form_ConsumerExams extends Main_Forms_Builder {
     
     public function build( $action = "/consumer/exams/new/",
                            $consumer_id = null,
-                           $physician_id = null,
                            $id = null,
                            $method= "post" ) {
        
        $this->_id = $id;
        $this->consumerId = $consumer_id;
-       $this->physicianId = $physician_id;
        
        $this->setName("consumer-exam-form");
        $this->setMethod($method);

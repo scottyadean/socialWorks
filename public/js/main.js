@@ -56,6 +56,11 @@ var Crud =  {
 	       callback,format).error(Crud.error);
       },
       
+      Html:function(path, params, callback ) {
+	$.post(path, params, callback, 'html').error(Crud.error);
+      },
+      
+      
       Read:function(path, params, scope, el, template, callback, format ) {
 	Crud.attr = scope;
 	Crud.template = template;

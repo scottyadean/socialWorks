@@ -15,7 +15,11 @@ body {
     padding-bottom: 40px;
 }
 
-
+.errors {
+   
+   color: red;
+   
+}
 
 .container-push{
    display: block;

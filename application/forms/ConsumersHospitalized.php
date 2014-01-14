@@ -3,12 +3,10 @@ class Application_Form_ConsumersHospitalized extends Main_Forms_Builder {
 
    public $_id;
    public $customSubmitBtn = false;
-   public $consumerId;
    public $formType = 'Add';
    public $insuranceTypes = array();
    
-   public function build( $action = "/consumer/hospitalized/new/",
-                          $consumer_id = null,
+   public function build( $action = "/hospitalized/create/",
                           $id = null,
                           $method = "post" ) {
        
@@ -18,7 +16,6 @@ class Application_Form_ConsumersHospitalized extends Main_Forms_Builder {
             $this->formType = 'Update';
        }
        
-       $this->consumerId = $consumer_id;
        $this->setName("consumer-hospitalized-form");
        $this->setMethod($method);
        $this->setAction($action);
@@ -36,13 +33,13 @@ class Application_Form_ConsumersHospitalized extends Main_Forms_Builder {
    */
     public function getFields() {
 
-         $fields = array("consumer_id" => array('default'=>$this->consumerId, 'required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
+         $fields = array("consumer_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                          "hospital" => array('label'=>'Hospital Name', 'required'=> true),
                          "duration_of_stay" => array('label'=>'Duration of stay', 'required'=> true),
                          "date" => array('label'=>'Date', 'required'=> true),
                          "reason"=>array('label'=>'Reason','required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));
         
-           if( isset( $this->_id ) ) {
+           if( !empty( $this->_id )  && (int)$this->_id != 0) {
               
               $fields['id'] = array('default'=>$this->_id, 'type'=>'hidden', 'required'=> true,
                                     'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'));       
@@ -74,9 +71,6 @@ class Application_Form_ConsumersHospitalized extends Main_Forms_Builder {
                                   'ignore'=>true       
                                  ));
     return $custom;
-    
-    
-    
-    
+   
     }   
 }

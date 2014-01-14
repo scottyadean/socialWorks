@@ -1,47 +1,46 @@
- <?
-if( $this->layout ){
-//$this->headScript()->appendFile('/js/views/consumer/allergies/index.js');
-}
-?>
-
-<h2><?=$this->displayName?></h2>
-
-<?= $this->partial('/partials/button.phtml',
-                   'default',
-                   array('link'=>"{$this->url()}/create/", 'label'=>'Add New')) ?>
+<? if( $this->layout ):?>
+    <?$this->headScript()->appendFile('/js/views/tools/crud/index.js')?>
+    
+    <h2><?=$this->displayName?></h2>
+    <?= $this->partial('/partials/button.phtml','default', array('link'=>$this->createUrl."/page/{$this->page}", 'label'=>'Add New')) ?>
 <hr />
-<? if(isset( $this->crud->results )): ?>
-
-  <? $header = $this->crud->visible;
-     $header[] = "edit";
-     $header[] = "delete";
-  ?>
-
- <?= $this->TableHead( $header , "table table-striped" ) ?>
-  
-    <?foreach($this->crud->results as $r):?>
-        
-        <? $rows = array();
-        
-            foreach( $this->crud->visible as $vis ) {
-                $rows[] = $r->$vis;   
-            }
-        
-           $rows[] = "<a id='crud-edit-{$r->id}' href='{$this->url()}/update/?id={$r->id}' class='pointer curd-edit' data-id='{$r->id}' title='edit'><i class='icon-edit'></i></a>";
-           $rows[] = "<a id='crud-edit-{$r->id}' class='pointer curd-del' data-id='{$r->id}' title='delete'><i class='icon-remove'></i></a>";
-        
-        ?>
-    
-    
-        <?= $this->TableRow($rows); ?>
-    <?endforeach;?>
-    
-    <?= $this->TableFoot() ?>
 <?endif;?>
 
+  <? $header = $this->crud->visible;
+   array_walk($header, function(&$n) {
+      $n = ucwords( str_replace("_", " ", $n));
+   });
+  
+     $header[] = "edit";
+     $header[] = "delete"; ?>
+     
+ <?= $this->TableHead( $header , "table table-striped crud-index", "crud-index" ) ?>
+    
+    <? if(isset( $this->results)): ?>                 
+    <?foreach($this->results as $r):?>  
+        <? $rows = array();
+            foreach( $this->crud->visible as $vis ) {
+                $rows[] = $this->escape(  strlen($r->$vis) > 50 ? $this->truncate($r->$vis) : $r->$vis   );   
+            }
+           $rows[] = "<a id='crud-edit-{$r->id}' href='{$this->updateUrl}/id/{$r->id}/page/{$this->page}' class='pointer curd-edit' data-id='{$r->id}' title='edit'><i class='icon-edit'></i></a>";
+           $rows[] = "<a id='crud-edit-{$r->id}' class='pointer curd-del' data-url='{$this->deleteUrl}' data-id='{$r->id}' title='delete'><i class='icon-remove'></i></a>";
+        ?>
+        <?= $this->TableRow($rows, "class='' id='crud-item-{$r->id}'"); ?>
+    <?endforeach;?>    
+<?endif;?>
+
+<?= $this->TableFoot() ?>
+
+<? if( $this->layout ):?>
 <hr />
+<?endif;?>
 
-<?= $this->partial('/partials/button.phtml',
-                   'default',
-                   array('link'=>'{$this->url()}/create/', 'label'=>'Add New')) ?>
 
+<? if( $this->paging  ):?>
+    <?= $this->paginate ?>
+<?endif;?>
+
+
+<? if( $this->layout ):?>
+<script src="<?=$this->templateUrl?>" id="curd-js-template" type="text/plain"></script>
+<?endif;?>
