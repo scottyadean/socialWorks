@@ -1,0 +1,77 @@
+<h4>Goals & Objectives</h4>
+
+    <div class="crud-create-update crud-load-template hidden"
+     id="goal-bind-crud"
+     data-id=''
+     data-path='/goals'
+     data-form='consumergoalsform'
+     data-title="Edit Goal Data"
+     data-params='',
+     data-action='create'
+     data-target='js-goals-index'
+     data-template='js-crud-edit-goals'
+     data-template-path='consumers/goals'></div>
+        
+    <?= $this->TableHead( array("Goal",
+                                "Objective",
+                                "Start Date",
+                                "End Date",
+                                "Achieved",
+                                "Edit",
+                                "Delete" ), "table table-bordered js-goals-index" ) ?>
+	   
+    <?if(isset($this->goals)):?>
+       <?foreach($this->goals as $k=>$g):
+       $id = $g['id'];
+       ?>
+        <?= $this->TableRow(array( $this->escape($g['goal']),
+                                   $this->escape($g['objective']),
+                                   $this->escape($g['effective_start_date']),
+                                   $this->escape($g['effective_complete_date']),
+                                   "<span class='js-goals-achieved' data-id='{$id}' data-ac='".$this->escape($g['achieved'])."'>".$this->escape($g['achieved'])."</span>",
+                                   "<center>
+								    <a class='crud-create-update icon icon-edit'
+									  data-action='update'
+                                      data-bind='allergy-bind-crud'
+                                      data-params='id:{$id},consumer_id:{$a->consumer_id}'</a>
+                                      </center>",
+                                   "<center>
+                                        <a class='crud-delete icon icon-remove' data-bind='goal-bind-crud' data-params='id:{$id}'></a>
+                                   </center>"
+                                   ), "class='goals-row-{$id} highlight-child'"); ?>
+       
+       <?endforeach;?>
+   <?endif;?>
+	   
+    <?= $this->TableFoot("<tr><td colspan='7'><a class='crud-create-update pull-right'
+                                                        data-action='create'
+                                                        data-bind='goal-bind-crud'
+                                                        data-params='consumer_id:{$this->consumer_id}'>Add Goal
+                                                     <i class='icon icon-plus'></i></a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-goals">
+	<% if( action == 'new' ){%>
+        <tr class="goals-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<%}%>
+    <td><%= helpers.escapeHtml(values.goal) %></td>
+    <td><%= helpers.escapeHtml(values.objective) %></td>
+    <td><%= helpers.escapeHtml(values.effective_start_date) %></td>
+    <td><%= helpers.escapeHtml(values.effective_complete_date) %></td>
+    <td><%= helpers.escapeHtml(values.achieved) %></td>
+    <td>
+        <center>
+            <a class='crud-create-update icon icon-edit'
+               data-action='update'
+               data-bind='allergy-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>'</a>
+            </center>
+    </td>
+    <td>
+        <center>
+            <a class='crud-delete icon icon-remove' data-bind='goal-bind-crud' data-params='id:<%= helpers.escapeHtml(id) %>'></a>
+        </center>
+    </td>
+    <% if( action == 'new' ){ %>
+        </tr>
+	<% } %>
+</script>

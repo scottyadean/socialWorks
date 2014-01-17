@@ -9,6 +9,9 @@
                                         
         var template = _.template($('#date-template').html());
              
-        $("#date-element").append(template({start:'now',field:efield}));
+        $("#date-element").append(template({start:'now',field:efield, id:'date-picker'}));
         $("#date-picker").datepicker({format:'yyyy-mm-dd'}).on('changeDate', function(ev){}); 
+    
+        
+    
     });

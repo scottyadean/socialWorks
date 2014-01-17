@@ -34,6 +34,7 @@ class Tools_CrudController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
+      
         $this->view->crud = $this->_curd;
         $count = $this->_model->_count($this->_colRef);
         $paginate = new Base_Template_Paginate(3, $count, $this->page);
@@ -48,35 +49,25 @@ class Tools_CrudController extends Zend_Controller_Action {
     
     public function createAction() {
         
-        $form  = new $this->_form; 
-        $form->customSubmitBtn = $this->xhr; 
-        $form->build( $this->uri, $this->id);
+        $this->form->build( $this->uri, $this->id);
         
-        if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-               if( $lastid = $this->_model->_create($form->getValues())){
-                   
-                   if($this->xhr) {
-                   
-                         $this->_asJson(array('id'=>$lastid,
-                                              'success'=>true,
-                                              'values'=>(array)$form->getValues(),
-                                              'action'=>'new',
-                                              'msg'=>'New record added.'));
-                      return;
-                   }
-                   
-                   $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New record added.") );  
-                   $this->_redirect($this->indexUrl.'/page/'.$this->page);
-                   
-               }
-           }
-    
-
-        $form->populate($this->params);
-        $this->view->form  = $form;
-       }
+        $res = Main_Forms_Handler::onPost($this->form,
+                                     $this->post,
+                                     $this->_model,
+                                     "_create",
+                                     $this->params,
+                                     $this->_helper,
+                                     $this->indexUrl.'/page/'.$this->page,
+                                     $this->view->displayName." created.",
+                                     $this->xhr);  
+      if($this->xhr && $this->post) {
+         $this->_asJson($res);
+         return;
+      }
+      
+      $this->view->form  = $this->form;
+   }
        
-    
     public function readAction() {
         $this->view->crud = $this->_curd;
         $this->view->result = $this->_model->_read($this->id);
@@ -84,33 +75,26 @@ class Tools_CrudController extends Zend_Controller_Action {
     
     public function updateAction() {
 
-        $form  = new $this->_form;
-        
-        
-        $form->customSubmitBtn = $this->xhr; 
-        $form->build( $this->uri, $this->id);        
-        $data = $this->_model->_read($this->id)->toArray();
-        $form->populate($data);
+        $this->form->build( $this->uri, $this->id);        
+        $data = $this->_model->_read((int)$this->id)->toArray();
+        $this->form->populate($data);
 
-        if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-       
-           $this->_model->_update($form->getValues());
-           
-            if($this->xhr) {
-                  
-               $this->_asJson(array('id'=>$this->id,
-                                    'success'=>true,
-                                    'values'=>(array)$form->getValues(),
-                                    'action'=>'update',
-                                    'msg'=>'Record updated.'));
-               return;
-            }
-           $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Record updated.") );  
-           $this->_redirect($this->indexUrl.'/page/'.$this->page);
-   
-          }
+        $res = Main_Forms_Handler::onPost($this->form,
+                                          $this->post,
+                                          $this->_model,
+                                          "_update",
+                                          $this->params,
+                                          $this->_helper,
+                                          $this->indexUrl.'/page/'.$this->page,
+                                          $this->view->displayName." update successful.",
+                                          $this->xhr);  
+         
+         if($this->xhr && $this->post) {
+            $this->_asJson($res);
+            return;
+         }
           
-           $this->view->form  = $form;
+        $this->view->form  = $this->form;
         
     }
     
@@ -130,8 +114,8 @@ class Tools_CrudController extends Zend_Controller_Action {
       
    }
 
-   
     public function templateAction() {
+      
       $this->_helper->layout->disableLayout();
       $this->view->crud = $this->_curd;
       $this->getResponse()->setHeader('Content-type', 'text/plain');
@@ -141,8 +125,8 @@ class Tools_CrudController extends Zend_Controller_Action {
     
     protected function _setViewParams() {
               
-        $model  = $this->getRequest()->getParam("crudModel" , "Default_Model_Crud");
-        $from   = $this->getRequest()->getParam("crudFrom" , "Application_Form_".ucwords($this->dbname));
+        $model  = "Default_Model_Crud";
+        $from   = "Application_Form_".$this->getRequest()->getParam("crudFrom" , ucwords($this->dbname));
         $fields = $this->getRequest()->getParam("crudExcluded" , array());
         $rurl   = $this->getRequest()->getParam("crudRedirect" ,$this->uri);
         $name   = $this->getRequest()->getParam("crudDisplayName" , "");
@@ -166,6 +150,9 @@ class Tools_CrudController extends Zend_Controller_Action {
         $this->_curd = $this->_model->crudData($fields);
         $this->_form = $from;
         $this->_colRef = $colref;
+        
+        $this->form  = new $this->_form;
+        $this->form->customSubmitBtn = $this->xhr; 
         
         $this->view->layout = true;
         $this->view->indexUrl  = $this->indexUrl;

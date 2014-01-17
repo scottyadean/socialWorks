@@ -51,7 +51,7 @@ class Application_Form_Pharmaceutical extends Main_Forms_Builder {
                                  'ignore'=>true),
                                  
                     'cancel' => array(
-                                  'label'=>'Cancel',
+                                  'label'=>'Done',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

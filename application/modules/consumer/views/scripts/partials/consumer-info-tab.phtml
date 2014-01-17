@@ -1,0 +1,29 @@
+<ul class="rounded-corners tools">
+<li class="tools-header">Actons:</li>
+
+<li><a class="pointer js-edit-assignee" consumer:id="<?=$this->consumer->id?>" >Assign employee</a></li>
+
+<?if ( isset($this->users)): ?>
+<?foreach( $this->users as $u ):?>
+    <p class="consumer-user-<?=$u['id']?>">
+        <?=$u['username']?>
+    </p>
+<?endforeach?> 
+<?endif;?>
+
+<li>
+<a class="pointer js-assign-coordinator" consumer:id="<?=$this->consumer->id?>" >Assign Service Coordinator</a>
+</li>
+
+<?if ( isset($this->coordinators)): ?>
+
+<?foreach( $this->coordinators as $c ):?>
+    <p class="consumer-coordinator-<?=$c['id']?>">
+        <?=$c['fname']?> <?=$c['lname']?>
+    </p>
+<?endforeach?> 
+
+<?endif;?>
+
+</ul>
+                 

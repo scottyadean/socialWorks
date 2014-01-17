@@ -66,7 +66,7 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
                                  'options' => array('class'=>'btn btn-small btn-primary'),
                                  'ignore'=>true),
                    'cancel' => array(
-                                  'label'=>'Cancel',
+                                  'label'=>'Done',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

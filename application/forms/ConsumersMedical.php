@@ -44,7 +44,7 @@ class Application_Form_ConsumersMedical extends Main_Forms_Builder {
                        "user_id" => array('type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')), 
                        "consumer_id"=>array('default'=>$this->_consumer_id, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                        "physician_id"=>array( 'label'=>'physician', 'type'=>'select', 'multiOptions'=>$this->physicians,  ),
-                       "date"=>array( 'label'=>'Date & Time of Appointment', 'requried'=>true),
+                       "date"=>array( 'label'=>'Date & Time of Appointment', 'attributes'=>array('class'=>'date_widget'), 'requried'=>true),
                        "ampm"=>array( 'label'=>'AM - PM', 'requried'=>true, 'type'=>'select', 'multiOptions'=>array('am'=>'AM.', 'pm'=>'PM.'),  ),
                        "time"=>array( 'label'=>'Time', 'requried'=>true),
                        "description"=>array('required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
@@ -52,7 +52,7 @@ class Application_Form_ConsumersMedical extends Main_Forms_Builder {
                        "special"=>array('label'=>'Special Instructions/Orders', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
                        "medications"=>array('label'=>'Medication changes/new', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
                        "referrals"=>array('label'=>'Physician Referrals', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
-                       "next"=>array("label"=>'Next Appointment'),
+                       "next"=>array("label"=>'Next Appointment', 'attributes'=>array('class'=>'date_widget')),
                       );
       
       
@@ -79,7 +79,7 @@ class Application_Form_ConsumersMedical extends Main_Forms_Builder {
                                     'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'), 
                                     'options' => array('class'=>'btn btn-small btn-primary'),
                                     'ignore'=>true),
-                 'cancel' => array('label'=>'Cancel',
+                 'cancel' => array('label'=>'Done',
                                    'type'=>'button',
                                    'name'=>'cancel',
                                    'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

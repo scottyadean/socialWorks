@@ -1,0 +1,49 @@
+
+<div class="alert alert-success ">
+
+<a class="crud-new-update-appointments pull-right"
+   data-id=""
+   data-cid="<?=$this->escape($this->appointment['consumer_id'])?>"><i class="icon icon-plus"></i></a>
+
+   
+<a data-cid="<?=$this->escape($this->appointment['consumer_id'])?>"
+   data-id="<?=$this->escape($this->appointment['id'])?>" class="pull-right crud-new-update-appointments"><i class="icon-edit"></i>
+   </a>
+   
+
+<p> <strong>When:</strong> <?= date("M-jS-Y", strtotime($this->appointment['date'])) ?></p>
+<p> <strong>At:</strong> <?= $this->escape($this->appointment['time']) ?> <?= $this->escape($this->appointment['ampm']) ?></p>
+<p> <strong>Where:</strong> <?=$this->escape($this->appointment['hospital']) ?></p>
+<p> <strong>With:</strong> <?=$this->escape($this->physician['name']) ?> </p>
+</div>
+
+
+
+
+   
+   <? $props = array("accompanying", "description", "info", "special", "medications", "referrals");?>
+   
+    <div class="accordion" id="accordion1">
+    <div class="accordion-group">
+   
+   <? foreach($props as $k=>$p):?>
+    <div class="accordion-heading">
+        
+    <a class="accordion-toggle"
+       data-toggle="collapse"
+       data-parent="#accordion1" href="#collapse<?=$k?>"><?=ucwords($p)?></a>
+    </div>
+
+    <div id="collapse<?=$k?>" class="accordion-body collapse">
+    <div class="accordion-inner">
+        
+        <blockquote>
+            <?=$this->appointment[$p]?>       
+        </blockquote>
+    
+    </div>
+    </div>
+    
+     <?endforeach;?>
+    </div>            
+    </div>

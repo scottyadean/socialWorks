@@ -1,0 +1,34 @@
+<img src="/image/db/<?=$this->consumer->id?>/c"
+    consumer:id="<?=$this->consumer->id?>"
+    consumer:type="c"
+    id="js-update-img"
+    align="left"
+    class="img-polaroid pull-left pointer js-update-img margin-right-10" >
+        
+    <address>
+        <strong><?= $this->consumer->fname ?> <?= $this->consumer->lname ?></strong><br>
+        <?= $this->consumer->address ?><br>
+        <?= $this->consumer->city ?>, <?= $this->consumer->state ?> <?= $this->consumer->zip ?><br>
+        <abbr title="Phone">P:</abbr> <?= $this->consumer->phone ?>
+    </address>
+    
+    <address>
+        Type: <?= ucwords($this->consumer->type)?><br>
+        <a href="mailto:<?= $this->consumer->email ?>"><?= $this->consumer->email ?></a>
+    </address>
+    
+    <hr  class="clear" />    
+    
+    <blockquote>    
+    <p>Age:<?= $this->BirthYears($this->consumer->birth_date); ?></p>
+    <small><?= $this->consumer->birth_date?></small><br />
+    <?= $this->consumer->bio ?>
+    <hr />
+    <a class="btn btn-small" href="/consumer/edit/<?=$this->consumer->id?>">Edit Info</a>
+    </blockquote>
+    
+    
+    <div class='data'>
+        <input type="hidden" id="page-data-consumer-id" value="<?=$this->consumer->id?>" />
+    </div>
+    

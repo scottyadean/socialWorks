@@ -56,7 +56,7 @@ class Application_Form_Physician extends Main_Forms_Builder {
         if(!empty($this->row_id )){
         
         
-       $custom['cancel'] = array('label'=>'Cancel',
+       $custom['cancel'] = array('label'=>'Done',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

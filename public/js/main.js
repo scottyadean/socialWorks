@@ -2,148 +2,247 @@ var lightBox = {
     path:null,
     div:null,
     callback:null,
-    
-    show:function(div, label, options, method) {
+     
+    show:function(div, label, options, method) {   
         
-        if (options.remote != undefined && this.path != options.remote) {
-            var params = options.params != undefined ? options.params : {};
-	    
-            this.callback = options.callback != undefined ? options.callback : null;
-	    this.path = options.remote;
-            this.div = div;     
-
-            $("#"+div+"Label").html(label);
-            $('#'+div+"Body").html( "loading..." );
-                        
+	if (options.remote != undefined && this.path != options.remote) {
+            
+	    var params = options.params != undefined ? options.params : {};
             var reqm = (method != undefined) ? method : 'get'; 
             var send = (reqm.toLowerCase() == 'post') ? asyncAction.sendPost : asyncAction.sendGet;
             
-	    send(this.path, params, lightBox.load, 'html');
-        }else{   
+	    this.callback = options.callback != undefined ? options.callback : null;
+            this.path = options.remote;
+            this.div = div;     
+            
+	    $("#"+div+"Label").html(label);
+            $('#'+div+"Body").html( "loading..." );
+            
+	    send(this.path, params,  $.proxy(this.load, this), 'html');
+                        
+        }else{
+            
            $('#'+div).modal('show');
-        }
+        }   
     },
     
     load:function(data) {
-	$('#'+lightBox.div+"Body").html(data);
-        $('#'+lightBox.div).modal('show');
 	
-	if (lightBox.callback !== null) {
-	    
-	    lightBox.callback.call(data);
+	$('#'+this.div+"Body").html(data);
+        $('#'+this.div).modal('show');
+	
+	if (typeof this.callback == 'function') {
+	    this.callback.call(data);
 	}
 	
     },
     
-    close:function(div) {
-        
-        $('#'+div).modal('hide');
-        
+    close:function(div)
+    {
+	$("#"+div).modal('hide');
+	
+    },
+    
+    dateFields:function() {
+	
+	 $(".date_widget").each(function(){
+            
+            var el = $(this);
+                el.attr('readonly','readonly');
+
+            var id = el.attr('id');
+            var html = $("#"+id+"-element");
+
+            var efield = html.html();
+                         html.html("");
+                                            
+            var template = _.template($('#date-template').html());
+            html.append(template({start:'now',field:efield, id:'date-picker'+id}));
+	    $('#date-picker'+id).datepicker({format:'yyyy-mm-dd'}).on('changeDate', function(ev){}); 
+        });
     }
 };
 
-
 var Crud =  {
-      
+    
       scope:null,
       template:"",
       callback:false,
       
-      Create:function(path, data, callback, format) {	
-	var params = Crud.params(data);
-	$.post(path,
-	       params,
-	       callback,format).error(Crud.error);
-      },
-      
-      Html:function(path, params, callback ) {
-	$.post(path, params, callback, 'html').error(Crud.error);
-      },
-      
-      
-      Read:function(path, params, scope, el, template, callback, format ) {
-	Crud.attr = scope;
-	Crud.template = template;
-	Crud.el = $("#"+el);
-	Crud.callback = callback;
-	Crud.el.html("");
-	$.post(path, params, Crud.populate, format).error(Crud.error);
-      },
-      
-      Update:function(path, data, callback, format){
+      Events:function(){
+		
+		/* //////////////////////////////////////////
+		 * //////////////////////////////////////////
+		 * Crud New/Edit Events
+		 */////////////////////////////////////////////
+		 $("body").delegate(".crud-create-update", "click", function() {
+			  var crud = Crud.Info($(this));
+			 $.proxy(lightBox.show('mainModal', crud.title,
+							{'remote':crud.full_path,
+							 'params': crud.params,
+							 'callback':function(data) {
+								$("#"+crud.form).append(crud.btn);
+						  }},'get'), crud);
+		 });  
 	
-	var params = Crud.params(data);
+		/*
+		* Crud Update 
+		*/
+		$("body").delegate( ".crud-create", "click", function() {
+			var el = $("#"+$(this).attr('data-bind'));
+			var crud = Crud.Info(el, 'create');
+			 Crud.Update(crud.path+"/create/", crud.form,  $.proxy(function(data) {
+			  var template = _.template($("#"+crud.template).html());
+			  $("#"+crud.target).prepend(template(data)).css({'display':'none'}).fadeIn(3000,function() {});          
+			  lightBox.close('mainModal');  
+			  },crud), 'json' );
+			 
+		});
 	
-	$.post(path,
-	       params,
-	       callback,format).error(Crud.error);
-     
+		/*
+		* Crud Update
+		*/
+		$("body").delegate( ".crud-update", "click", function() {
+			  
+			  var el = $("#"+$(this).attr('data-bind'));
+			  var crud = Crud.Info(el, 'update');
+			  
+			  Crud.Update(crud.path+"/update/", crud.form,  $.proxy(function(data) {
+				  var template = _.template($("#"+crud.template).html());
+				  $("#"+crud.target+" .crud-row-"+data.id).html(template(data)).css({'display':'none'}).fadeIn(3000,function() {});          
+				  lightBox.close('mainModal');  
+			  },crud), 'json' );
+		});
+		
+		/*
+		 Curd Delete
+		*/
+		$("body").delegate(".crud-delete", "click", function() {
+		 var el = $("#"+$(this).attr('data-bind'));   
+		 var crud = Crud.Info(el, 'delete');
+		 var params = Crud.paramsString($(this).attr('data-params'));
+		 Crud.Confirm({ url: crud.path+"/delete/",
+								  params: params,
+								  title: 'Please confirm deleting of Allergy Info.',
+								  text:  'The record will be completelly removed! Is it ok?',
+								  ok: 'Remove',
+								  cancel: 'Cancel'
+		   }).done(function(data) {
+				 var el = $("#"+crud.target+" .crud-row-"+data.id).css({'color':'red'});
+					 el.fadeOut(1000, function() { $(this).remove(); });
+		   }).fail(function() {
+		  });
+		});
+		
+	  },
+	  	  
+	  Info:function(el, act) {
+    
+		var params  = (el.attr('data-params') != undefined ) ? el.attr('data-params') : '';
+		var action  = (el.attr('data-action') != undefined ) ?  el.attr('data-action') : act;
+		var element = (el.attr('data-bind') != undefined ) ? $("#"+el.attr('data-bind')) : el;
+		var info = { path: element.attr('data-path'),
+					form: element.attr('data-form'),
+					title: element.attr('data-title'),
+					action: action,
+					target: element.attr('data-target'),
+					element: element.attr('id'),
+					template: element.attr('data-template'),
+					request:Math.round(new Date().getTime() / 1000),
+					params:Crud.paramsString(params)};  
+		
+		info.btn = '<input type="button" value="Submit" data-bind="'+info.element+'" class="crud-'+info.action+'" />';
+		info.full_path = info.path+"/"+info.action+'/crud/'+info.request+'/';
+		
+		return info;
+                        
+        },
+      
+    Create:function(path, data, callback, format) {	
+		var params = Crud.params(data);
+		$.post(path,
+			   params,
+			   callback,format).error(Crud.error);
+    },
+
+    Read:function(path, params, scope, el, template, callback, format ) {
+		Crud.attr = scope;
+		Crud.template = template;
+		Crud.el = $("#"+el);
+		Crud.callback = callback;
+		Crud.el.html("");
+		$.post(path, params, Crud.populate, format).error(Crud.error);
+    },
+      
+    Update:function(path, data, callback, format) {
+		var params = Crud.params(data);
+		$.post(path,
+			   params,
+			   callback,format).error(Crud.error);
       },
       
-      
-      Delete:function(path, params, callback, format) {
-	
-	$.post(path,
-	       params,
-	       callback,format).error(Crud.error);
-     
+    Delete:function(path, params, callback, format) {
+		$.post(path,
+			   params,
+			   callback,format).error(Crud.error);
       },
 
     Confirm:function(options) {
+		if (options == undefined || !options) { options = {}; }
+	 
+		var show = function(el, text) {
+			if (text) { el.html(text); el.show(); } else { el.hide(); }
+		}
+	 
+		var url = options.url ? options.url : '';
+		var data = options.params ? options.params : '';
+		var ok = options.ok ? options.ok : 'Ok';
+		var cancel = options.cancel ? options.cancel : 'Cancel';
+		var title = options.title
+		var text = options.text;
+		var dialog = $('#confirm-dialog');
+		var header = dialog.find('.modal-header');
+		var footer = dialog.find('.modal-footer');
+	 
+		show(dialog.find('.modal-body'), text);
+		show(dialog.find('.modal-header h3'), title);
+		footer.find('.btn-danger').unbind('click').html(ok);
+		footer.find('.btn-cancel').unbind('click').html(cancel);
+		dialog.modal('show');
+	 
+		var $deferred = $.Deferred();
+		var is_done = false;
+		
+		footer.find('.btn-danger').on('click', function(e) {
+			is_done = true;
+			dialog.modal('hide');
+			if (url) {	
+			$.ajax({
+				url: url,
+				data: data,
+				type: 'POST',
+				}).done(function(result) {
+				$deferred.resolve(result);
+				}).fail(function() {
+				$deferred.reject();	
+			});
+			} else {
+			$deferred.resolve();
+			}
+		 });
 	
-	if (options == undefined || !options) { options = {}; }
- 
-	var show = function(el, text) {
-	    if (text) { el.html(text); el.show(); } else { el.hide(); }
-	}
- 
-	var url = options.url ? options.url : '';
-	var data = options.params ? options.params : '';
-	var ok = options.ok ? options.ok : 'Ok';
-	var cancel = options.cancel ? options.cancel : 'Cancel';
-	var title = options.title
-	var text = options.text;
-	var dialog = $('#confirm-dialog');
-	var header = dialog.find('.modal-header');
-	var footer = dialog.find('.modal-footer');
- 
-	show(dialog.find('.modal-body'), text);
-	show(dialog.find('.modal-header h3'), title);
-	footer.find('.btn-danger').unbind('click').html(ok);
-	footer.find('.btn-cancel').unbind('click').html(cancel);
-	dialog.modal('show');
- 
-	var $deferred = $.Deferred();
-	var is_done = false;
-	
-	footer.find('.btn-danger').on('click', function(e) {
-	    is_done = true;
-	    dialog.modal('hide');
-	    if (url) {	
-		$.ajax({
-		    url: url,
-		    data: data,
-		    type: 'POST',
-		    }).done(function(result) {
-		    $deferred.resolve(result);
-		    }).fail(function() {
-		    $deferred.reject();	
-		});
-	    } else {
-		$deferred.resolve();
-	    }
-    });
-
-    dialog.on('hide', function() {
-	if (!is_done) { $deferred.reject(); }
-    })
-     
-    return $deferred.promise();
+		dialog.on('hide', function() {
+			if (!is_done) { $deferred.reject(); }
+		})
+		 
+		 return $deferred.promise();
     },      
-      
-      populate:function( data ) {
+  
+    populate:function( data ) {
+        
 	var template = _.template(Crud.template);
 	var attr = data;
+
 	if (Crud.attr !== false) {
 	  attr = data[Crud.attr];    
 	}
@@ -158,110 +257,104 @@ var Crud =  {
 	
       },
     
-      params:function(data){
-	if (typeof form == 'object') {
-	    return data;
-	}else{
-	  return $("#"+data).serialize();
-	}
-      },
-    
-      error:function(e) {
-	
-	console.log(e);
-      }
-    
-    
+	params:function(data) {
+		return (typeof data == 'object') ? data : $("#"+data).serialize();
+	},
+      
+    paramsString:function(string) {
+		var array = string != undefined && string.length > 0 ?  string.split(",") : false; 
+		var values = {};
+		if (array == false) { return {}; }
+		_.map(array, function(v) {
+			if (v != '') {
+			var p = v.split(":");
+			values[p[0]] = p[1];
+			}
+		});	
+		return values; 
+	},
+      
+    loadTemplates:function() {	
+		$(".crud-load-template").each(function(){
+			var el = $(this);
+			var script = $('<script></script>');
+				script.attr('type','text/template');
+				script.attr('id',el.attr("data-template"));
+				$("body").append( script );
+				
+				$.proxy( content.load('/js/templates/'+el.attr("data-template-path")+'.js',
+									  null,
+									  function(data){
+										script.append(data);
+									   },
+									  'text'),  script);
+				
+		});
+	},
+	error:function(e) {
+		console.log(e);
+    } 
 }
 
 var content = {
-    
-        load:function(path, params, callback, format) {
-            
+        load:function(path, params, callback, format) {   
              asyncAction.sendPost(path, params, callback, format);
         }
-    
     }; 
-
 
 var asyncAction = {
     
     ele:{},
-        
-    
+            
     sendPost:function( path, params, callback, format) {
         
-        
         var reqf = format !== undefined ? format : 'json'; 
-        
         $.post(path,
-	    params,
-	    callback,
-	    reqf).error(function(e){ console.log(e); });
-        
+				params,
+				callback,
+				reqf).error(function(e){ console.log(e); });        
     },
     
     
     sendGet:function( path, params, callback, format) {
-     
-     
      var reqf = format !== undefined ? format : 'json'; 
-     
      $.get(path,
-         params,
-         callback,
-         reqf).error(function(e){ console.log(e); });
-     
- },
- 
- 
- 
-  appendToDom:function(ele, path, params, method, format) {
-    
-     var reqf = format !== undefined ? format.toLowerCase() : 'html'; 
-     var reqm = method !== undefined ? method.toLowerCase() : 'get';
-     var send = reqm == 'post' ? this.sendPost : this.sendGet;
-
-     this.ele = ele;
-     send( path, params, this.appendToDomComplete, format ); 
-     return true;
-    
-  },
+           params,
+           callback,
+           reqf).error(function(e){ console.log(e); });
+	},
+	
+	appendToDom:function(ele, path, params, method, format) {
+		var reqf = format !== undefined ? format.toLowerCase() : 'html'; 
+		var reqm = method !== undefined ? method.toLowerCase() : 'get';
+		var send = reqm == 'post' ? this.sendPost : this.sendGet;
+		this.ele = ele;
+		send( path, params, this.appendToDomComplete, format ); 
+		return true;
+	},
   
-  
-  appendToDomComplete:function(html) {
-    
-        $("#"+asyncAction.ele.id).append(html);
-        
-        if (typeof asyncAction.ele.callback == 'function') {
-            asyncAction.ele.callback( asyncAction.ele.id, html );
-        }
-        
-  }
-
-    
+	appendToDomComplete:function(html) {
+	
+		$("#"+asyncAction.ele.id).append(html);
+		if (typeof asyncAction.ele.callback == 'function') {
+			asyncAction.ele.callback( asyncAction.ele.id, html );
+		}
+	}
 };
 
 var imgUpload = {
-     
          complete:function(success, msg){
-             
              if (success) {
-
                  var timestamp = new Date().getTime();
                  var refresh = $("#js-update-img").attr('src')+'/'+timestamp;
                  $('.js-update-img').attr('src', refresh);
-                
              }else{
-                 
                  $('#img-upload-form-msg').addClass('alert alert-error');
                  $('#img-upload-form-msg').html( this.error(msg) );
-             }
-                            
+             }         
          },
-        
-         error:function(key){
-             
+
+         error:function(key){             
              var errs = {};
                  errs.fileMimeTypeFalse = 'Allowed file types, gif and jpg';
                  errs.fileUploadErrorNoFile = 'File field can not be empty'; 
@@ -269,12 +362,8 @@ var imgUpload = {
              if (errs[key] != undefined) {
                  return errs[key];
              }
-             
-             
              return key;
-             
          }
-     
      };
      
   var assignTo = {
@@ -586,9 +675,11 @@ var Chat = {
     */
      $( function(){  
         synonyms.init();
+		lightBox.dateFields();
+		//Crud.loadTemplates();
+		Crud.Events();
      });
    
-    
-    
+
     
         

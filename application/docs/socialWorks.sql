@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 13, 2014 at 05:24 PM
+-- Generation Time: Jan 17, 2014 at 11:41 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `consumers` (
 --
 
 INSERT INTO `consumers` (`id`, `type`, `fname`, `lname`, `address`, `state`, `county`, `city`, `zip`, `phone`, `email`, `birth_date`, `bio`, `uci`, `create_date`) VALUES
-(1, 'ils', 'Mr', 'Special', '2955 Coloma St.', 'CA', 'El Dorado', 'PLACERVILLE', '95667', '530 957 5821', 'scott@graphicdesignhouse.com', '1970-04-28', 'test', '5439187', '2013-08-20 20:57:05'),
+(1, 'ils', 'Mr', 'Special', '2955 Coloma St.', 'CA', 'El Dorado', 'PLACERVILLE', '95667', '530 957 5821', 'scott@graphicdesignhouse.com', '1976-05-06', 'This is some info about mr. special', '5439187', '2013-08-20 20:57:05'),
 (2, 'ils', 'john', 'smith', '2333 main st', 'CA', 'USA', 'Placerville', '95667', '543 789 9087', 'spencer@agamsi.com', '1976-05-06', 'test', '5439187', '2013-10-08 22:29:55');
 
 -- --------------------------------------------------------
@@ -90,14 +90,17 @@ CREATE TABLE IF NOT EXISTS `consumers_allergies` (
   `allergy` varchar(255) NOT NULL,
   `info` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `consumers_allergies`
 --
 
 INSERT INTO `consumers_allergies` (`id`, `consumer_id`, `allergy`, `info`) VALUES
-(4, 1, 'sneezing from pet dander', 'test');
+(4, 4, 'sneezing from pet dander', 'update screen test too'),
+(6, 1, 'sneezing from pet dander', 'tmp upd again updaet'),
+(11, 1, 'test', 'testing update'),
+(13, 1, 'sneezing from pet dander', 'test');
 
 -- --------------------------------------------------------
 
@@ -172,10 +175,21 @@ INSERT INTO `consumers_exams` (`id`, `consumer_id`, `physician_id`, `type`, `dat
 
 CREATE TABLE IF NOT EXISTS `consumers_goals` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `consumers_id` int(11) NOT NULL,
+  `consumer_id` int(11) NOT NULL,
   `goal` text NOT NULL,
+  `objective` text NOT NULL,
+  `effective_start_date` date NOT NULL,
+  `effective_complete_date` date NOT NULL,
+  `achieved` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `consumers_goals`
+--
+
+INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
+(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'Y');
 
 -- --------------------------------------------------------
 
@@ -191,14 +205,14 @@ CREATE TABLE IF NOT EXISTS `consumers_hospitalized` (
   `duration_of_stay` varchar(50) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `consumers_hospitalized`
 --
 
 INSERT INTO `consumers_hospitalized` (`id`, `consumer_id`, `hospital`, `reason`, `duration_of_stay`, `date`) VALUES
-(6, 1, 'Mercy', 'test', '4 days', '2014-01-16');
+(8, 1, 'Mercy', 'test', '4 days', '2013-12-19');
 
 -- --------------------------------------------------------
 
@@ -214,14 +228,15 @@ CREATE TABLE IF NOT EXISTS `consumers_insurance` (
   `medicare_number` varchar(50) DEFAULT NULL,
   `insurance_info` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `consumers_insurance`
 --
 
 INSERT INTO `consumers_insurance` (`id`, `consumer_id`, `type`, `medical_number`, `medicare_number`, `insurance_info`) VALUES
-(1, 1, 'medical', '123445', '123431', 'info about insurance');
+(3, 1, 'medical', '1232221', '123431', 'testing this stuff and updating'),
+(4, 1, 'vision', '1232221', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -247,7 +262,14 @@ CREATE TABLE IF NOT EXISTS `consumers_medicals` (
   `medications` text NOT NULL,
   `referrals` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `consumers_medicals`
+--
+
+INSERT INTO `consumers_medicals` (`id`, `date`, `hospital`, `user_id`, `time`, `ampm`, `next`, `location_id`, `consumer_id`, `physician_id`, `accompanying`, `description`, `info`, `special`, `medications`, `referrals`) VALUES
+(12, '2014-01-06', 'Mercy Mercy Mercy Mercy', 0, '2:00', 'pm', '2014-01-04', NULL, 1, 1, 'none', 'test', 'test', 'test', 'test', '');
 
 -- --------------------------------------------------------
 
@@ -337,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
   `strength` varchar(50) NOT NULL,
   `side_effects` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `consumers_pharmaceuticals`
@@ -366,7 +388,6 @@ INSERT INTO `consumers_physicians` (`consumer_id`, `physician_id`) VALUES
 (1, 3),
 (1, 2),
 (2, 26),
-(1, 26),
 (2, 5),
 (2, 1),
 (2, 6),
@@ -486,29 +507,30 @@ INSERT INTO `images` (`relation_id`, `img`, `type`, `ext`) VALUES
 
 CREATE TABLE IF NOT EXISTS `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `departments_id` int(11) NOT NULL,
+  `consumer_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
-  `employer` varchar(255) NOT NULL,
   `email` varchar(120) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `cell` varchar(255) NOT NULL,
-  `address` varchar(50) NOT NULL,
-  `city` varchar(10) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(100) NOT NULL,
   `state` varchar(3) NOT NULL,
   `zip` int(11) NOT NULL,
+  `info` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`id`, `departments_id`, `type`, `fname`, `lname`, `employer`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`) VALUES
-(1, 1, 'med', 'Torey', 'Smith', 'test', 'dr.bro@health.com', '530 626 7217', 'test', '1600 Dove St. Ste 150', 'Folsom', 'CA', 92660),
-(2, 0, 'payee', 'Curtis', 'Harvey', '', 'dev@marketingevolution.com', '', '', '', '', '', 0),
-(3, 0, 'payee', 'Curtis', 'Harvey', '', 'dev@marketingevolution.com', '', '', '', '', '', 0);
+INSERT INTO `people` (`id`, `consumer_id`, `type`, `fname`, `lname`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`, `info`) VALUES
+(6, 1, 'aunt', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'testing a really long info field can you dig it man its crazy dawg I should have been doing this all a long'),
+(7, 1, 'bother', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'dfasdfasd', 'Ca', 75757, 'test'),
+(9, 1, 'payee', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'test'),
+(10, 1, 'bother', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'test', 'Ca', 75757, 'test');
 
 -- --------------------------------------------------------
 
@@ -560,9 +582,9 @@ CREATE TABLE IF NOT EXISTS `physicians` (
 --
 
 INSERT INTO `physicians` (`id`, `name`, `phone`, `address`, `city`, `state`, `zip`, `email`, `site`, `notes`) VALUES
-(1, 'Dr bros', '530 626 7217', '123 Main St', 'Placerville', 'AL', '95667', 'dr.bro@health.com', 'health.com', 'test'),
-(5, 'validation test', '(916) 847-5130', '2955 Coloma St.', 'Shingle Springs', 'CA', '95667', 'scott@graphicdesignhouse.com', '', 'test'),
-(6, 'Vouched4', '(916) 847-5130', '2955 Coloma St.', 'Shingle Springs', 'CA', '95667', 'scott@graphicdesignhouse.com', '', 'dasf asdf asdfasd sdaf  asdfasdfasdfasdf sfasdf sd sad fsadf'),
+(1, 'Dr bros', '530 626 7217', '123 Main St', 'Placerville', 'CA', '95667', 'dr.bro@health.com', 'health.com', 'test'),
+(5, 'Dr Monroe', '(916) 847-5130', '2955 Coloma St.', 'Shingle Springs', 'CA', '95667', 'scott@graphicdesignhouse.com', '', 'testing'),
+(6, 'Mr MD', '(916) 847-5130', '2955 Coloma St.', 'Shingle Springs', 'CA', '95667', 'scott@graphicdesignhouse.com', '', 'dasf asdf asdfasd sdaf  asdfasdfasdfasdf sfasdf sd sad fsadf'),
 (26, 'Mr Doctor', '(916) 847-5130', '2955 Coloma St.', 'Shingle Springs', 'CA', '95667', 'scott@graphicdesignhouse.com', '', 'test');
 
 -- --------------------------------------------------------

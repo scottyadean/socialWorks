@@ -1,7 +1,5 @@
 <?php
-
 class Consumer_MedicalController extends Zend_Controller_Action {
-
 
     public $id;
     public $xhr;
@@ -12,8 +10,7 @@ class Consumer_MedicalController extends Zend_Controller_Action {
     public $callback;
     public $consumer_id;
 
-    public function init() {
-        
+    public function init() {        
         $this->consumer_id = $this->getRequest()->getParam('consumer_id', $this->getRequest()->getParam('cid', 0));
         $this->id = $this->getRequest()->getParam('id', 0);
         $this->xhr = $this->getRequest()->isXmlHttpRequest();
@@ -32,16 +29,25 @@ class Consumer_MedicalController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-
         $model = new Consumer_Model_ConsumersMedical;
         $this->view->appointments = $model->findByConsumerId($this->consumer_id);
         $this->view->consumer_id = $this->consumer_id;
-               
+    }
+    
+    public function readAction() {
+        $model = new Consumer_Model_ConsumersMedical;
+        $this->view->appointment = $model->readAppointment($this->id);
+        
+        $physician =  new  Default_Model_Physician;
+        $this->view->physician = $physician->findById($this->view->appointment->physician_id);  
     }
     
     
-   public function newAction(){
+   public function createAction(){
+      $this->_forward('new');
+    } 
     
+   public function newAction() {
     $model= new Consumer_Model_ConsumersMedical;
     $form = new Application_Form_ConsumersMedical;
     $form->customSubmitBtn = $this->xhr;
@@ -74,6 +80,11 @@ class Consumer_MedicalController extends Zend_Controller_Action {
     
  
    }
+   
+   public function updateAction(){
+      $this->_forward('edit');
+    } 
+    
     
     public function editAction() {
         

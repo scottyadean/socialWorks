@@ -1,8 +1,9 @@
 <? if( $this->layout ):?>
     <?$this->headScript()->appendFile('/js/views/tools/crud/index.js')?>
-    
-    <h2><?=$this->displayName?></h2>
-    <?= $this->partial('/partials/button.phtml','default', array('link'=>$this->createUrl."/page/{$this->page}", 'label'=>'Add New')) ?>
+    <h2><?=$this->escape($this->displayName)?></h2>
+    <?= $this->partial('/partials/button.phtml','default',
+                       array('link'=>$this->escape($this->createUrl)."/page/".$this->escape($this->page),
+                       'label'=>'Add New')) ?>
 <hr />
 <?endif;?>
 
@@ -22,10 +23,10 @@
             foreach( $this->crud->visible as $vis ) {
                 $rows[] = $this->escape(  strlen($r->$vis) > 50 ? $this->truncate($r->$vis) : $r->$vis   );   
             }
-           $rows[] = "<a id='crud-edit-{$r->id}' href='{$this->updateUrl}/id/{$r->id}/page/{$this->page}' class='pointer curd-edit' data-id='{$r->id}' title='edit'><i class='icon-edit'></i></a>";
-           $rows[] = "<a id='crud-edit-{$r->id}' class='pointer curd-del' data-url='{$this->deleteUrl}' data-id='{$r->id}' title='delete'><i class='icon-remove'></i></a>";
+           $rows[] = "<a id='crud-edit-".(int)$r->id."' href='".$this->escape($this->updateUrl)."/id/".(int)$r->id."/page/".(int)$this->page."' class='pointer curd-edit' data-id='".(int)$r->id."' title='edit'><i class='icon-edit'></i></a>";
+           $rows[] = "<a id='crud-edit-".(int)$r->id."' class='pointer curd-del' data-url='".$this->escape($this->deleteUrl)."' data-id='".(int)$r->id."' title='delete'><i class='icon-remove'></i></a>";
         ?>
-        <?= $this->TableRow($rows, "class='' id='crud-item-{$r->id}'"); ?>
+        <?= $this->TableRow($rows, "id='crud-item-".(int)$r->id."'"); ?>
     <?endforeach;?>    
 <?endif;?>
 
@@ -42,5 +43,5 @@
 
 
 <? if( $this->layout ):?>
-<script src="<?=$this->templateUrl?>" id="curd-js-template" type="text/plain"></script>
+    <script src="<?=$this->escape($this->templateUrl)?>" id="curd-js-template" type="text/plain"></script>
 <?endif;?>

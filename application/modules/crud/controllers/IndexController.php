@@ -11,7 +11,6 @@ class Crud_IndexController extends Zend_Controller_Action {
 
 
     public function init() {
-        
         $this->dir = APPLICATION_PATH."/../src/build";
         $this->dirFound = is_dir($this->dir);
         $this->dirWrite = is_writable($this->dir);

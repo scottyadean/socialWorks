@@ -16,15 +16,12 @@ body {
 }
 
 .errors {
-   
-   color: red;
-   
+   color: red;  
 }
 
 .container-push{
    display: block;
    height:  50px;
-   
    }
 
 .navbar-push{
@@ -36,6 +33,10 @@ body {
     color:#f6f6f6;
 }
 
+
+.btn-group{
+   margin-bottom: 5px;
+}
 
 #flash-messages {
     list-style-type: none;
@@ -62,6 +63,12 @@ button.btn {
    
    height: 81px;
    width: 500px;
+   
+}
+
+.small-txt {
+   
+   font-size: 80%;
    
 }
 
@@ -155,10 +162,18 @@ button.btn {
     
     border: 1px solid #E5E5E5;
     border-radius: 4px 4px 4px 4px;
-    margin: 0px 0px 2px 0px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 15px 2px;
     list-style-type: none;
     
 }
+
+.tools li, .tools p{
+    
+    margin: 0px 0px 0px 2px;
+    
+}
+
 
 .tools .tools-header {
     background-color: #f6f6f6;
@@ -184,6 +199,45 @@ button.btn {
     color: #FFF;
     
 }
+
+
+/* .module */
+.module{
+    
+    border: 1px solid #E5E5E5;
+    border-radius: 4px 4px 4px 4px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 15px 2px;
+    list-style-type: none;
+    
+}
+
+.module li, .module p{
+    margin: 0px 0px 0px 2px;
+}
+
+
+.module .module-header {
+    background-color: #f6f6f6;
+    padding: 3px;
+    display: block;
+    margin: 0px;
+    font-weight: bold;
+    color: #333;
+}
+
+.module a.bright{
+    background-color: #fff;
+    display: block;
+    text-decoration: none;
+    padding: 3px;
+}
+
+.module a.bright:hover{
+    background-color: #0088CC;
+    color: #FFF;
+}
+
 
 /* calendar */
 .event-on-calendar {
@@ -251,6 +305,14 @@ button.btn {
    margin-bottom: 10px;
 }
 
+.margin-10px{
+   margin: 10px;
+}
+
+.clear{
+    clear: both;
+   }
+
 .neg-margin-top-10{
    margin-top: -10px;
 }
@@ -285,3 +347,5 @@ button.btn {
 
 .modal { overflow: visible; }
 .modal-body { overflow-y: auto; max-height:450px; }
+
+#achieved-element{ margin-bottom: 10px;}

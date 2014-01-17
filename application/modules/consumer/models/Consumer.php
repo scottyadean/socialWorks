@@ -69,9 +69,17 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
         
         return $this->_current->findDependentRowset(
                'Consumer_Model_ConsumersGoals')->toArray();
-        
+    }
+    
+    public function getConsumerAppointments(){
+
+        return $this->_current->findDependentRowset(
+               'Consumer_Model_ConsumersMedical')->toArray();
     }
 
+    
+    
+    
     public function getConsumerNotes(){
         
         return $this->_current->findDependentRowset(

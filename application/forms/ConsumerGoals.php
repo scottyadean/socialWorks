@@ -1,12 +1,12 @@
 <?php
-class Application_Form_ConsumersAllergies extends Main_Forms_Builder {
+class Application_Form_ConsumerGoals extends Main_Forms_Builder {
 
    public $_id;
    public $customSubmitBtn = false;
    public $formType = 'Add';
    public $insuranceTypes = array();
    
-   public function build( $action = "/consumer/allergies/new/",
+   public function build( $action = "/goals/create/",
                           $id = null,
                           $method = "post" ) {
        
@@ -16,10 +16,10 @@ class Application_Form_ConsumersAllergies extends Main_Forms_Builder {
             $this->formType = 'Update';
        }
        
-       $this->setName("consumer-allergies-form");
+       $this->setName("consumer-goals-form");
        $this->setMethod($method);
        $this->setAction($action);
-       $this->formElementsFromTable('consumers_allergies', $this->getFields());
+       $this->formElementsFromTable('consumers_goals', $this->getFields());
        
        if($this->customSubmitBtn == false){
             $this->formElementsFromArray($this->getCustomFields());
@@ -37,8 +37,11 @@ class Application_Form_ConsumersAllergies extends Main_Forms_Builder {
     public function getFields() {
 
          $fields = array("consumer_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                         "allergy" => array('label'=>'Allergy', 'required'=> true),
-                         "info"=>array('label'=>'Info','required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));
+                         "goal" => array('label'=>'Goal Info', 'required'=> true, 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size')),
+                         "objective" => array('label'=>'Objective', 'required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size')),
+                         "effective_start_date" => array('attributes'=> array('class'=>'date_widget')),
+                         "effective_complete_date" => array('attributes'=> array('class'=>'date_widget')),
+                         "achieved"=>array('label'=>'Achieved', 'type'=>'select', 'default'=>'N', 'multiOptions'=>array('N'=>'No','Y'=>'Yes'), 'required'=> false));
         
            if( !empty( $this->_id ) ) {
               

@@ -1,5 +1,10 @@
 <ul class="rounded-corners tools">
     <li class="tools-header">Actons:</li>
-    <li><a href="/appointment/index/cid/<?=$this->consumer->id?>">Add Appointment</a></li>
-    <li><a class="pointer js-assign-physician" consumer:id="<?=$this->consumer->id?>"> Assign Physician</a></li>
+    <?foreach($this->links as $label=>$link):?>
+        <li>
+            <a <?=isset($link['href']) ? "href=".$link['href'] : "" ?> <?= isset($link['class']) ?  "class='".$link['class']."'" : ""?> <?= isset($link['attr']) ?  $link['attr'] : ""?>>
+                <?=$label?>
+            </a>
+        </li>
+    <?endforeach;?>
 </ul>

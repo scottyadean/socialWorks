@@ -59,10 +59,7 @@ class Default_Model_Crud extends Zend_Db_Table_Abstract {
         
         if( $where && is_array($where) ) {
             
-            foreach($where as $k=>$v){
-                
-                print "$k  $v <Br />"; 
-                
+            foreach($where as $k=>$v) {
                 $select->where("{$k}", $v);
             }
         }

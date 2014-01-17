@@ -31,7 +31,10 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $this->view->users =  $consumer->getConsumerUsers();
             $this->view->physicians = $consumer->getConsumerPhysicians();
             $this->view->coordinators = $consumer->getConsumerCoordinators();
-            $this->view->insurance = $consumer->getConsumerInsurance(); 
+            $this->view->insurance = $consumer->getConsumerInsurance();
+            $this->view->goals = $consumer->getConsumerGoals();
+            $this->view->appointments = $consumer->getConsumerAppointments();
+            
            
             //$hospitalized = new Consumer_Model_ConsumersHospitalized;
             //$this->view->hospitalized = $hospitalized->getByConsumerId($this->consumer_id);
