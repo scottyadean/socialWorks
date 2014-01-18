@@ -41,6 +41,23 @@ class Main_Forms_Handler {
                     $helper->redirector->gotoUrl($uri);
                        
                 }
-            }   
+            }else{
+                
+                    //on error is ajax return form and errors.
+                    if($xhr){
+                        
+                            $id =  isset($params['id']) && !empty($params['id']) ? $params['id'] : 0;
+                            return array( 'id' => $id,
+                                          'success'=>false,
+                                          'message'=>'Error Performing '.$action,
+                                          'action'=>$action,
+                                          'errors'=>$form->getErrors(),
+                                          'values'=>$form->getValues()); 
+                        
+                               
+                        
+                     }        
+                
+            } 
     }
 }

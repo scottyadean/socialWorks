@@ -36,7 +36,7 @@ class Application_Form_ConsumersHospitalized extends Main_Forms_Builder {
          $fields = array("consumer_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                          "hospital" => array('label'=>'Hospital Name', 'required'=> true),
                          "duration_of_stay" => array('label'=>'Duration of stay', 'required'=> true),
-                         "date" => array('label'=>'Date', 'required'=> true),
+                         "date" => array('label'=>'Date', 'required'=> true, 'attributes'=>array('class'=>'date_widget') ),
                          "reason"=>array('label'=>'Reason','required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));
         
            if( !empty( $this->_id )  && (int)$this->_id != 0) {

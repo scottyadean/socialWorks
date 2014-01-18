@@ -1,33 +1,53 @@
 <h4>If consumer was hospitalized or taken to the Emergency Room</h4>
 
+<div class="crud-create-update crud-load-template pointer hidden"
+    id="hospital-bind-crud"
+    data-id=''
+    data-path='/hospitalized'
+    data-form='consumerhospitalizedform'
+    data-title="Edit Hospital Visits"
+    data-params='',
+    data-action='create'
+    data-target='js-hospital-index'
+    data-template='js-crud-edit-hospital'
+    data-callback='lightBox.dateFields'
+    data-template-path='consumers/hospitalized'></div>
+
 <?= $this->TableHead( array("Hospital",
                             "Reasion",
                             "Date",
                             "Duration of Stay",
                             "Edit",
-                            "Delete" ), "table table-bordered js-hospital-index" ) ?>
+                            "Delete" ), "table table-bordered js-hospital-index", "js-hospital-index" ) ?>
 	   
     <?if(isset($this->hospitalized)):?>
-       <?foreach($this->hospitalized as $k=>$h):?>
-        <?= $this->TableRow(array( $this->escape($h->hospital),
-                                   $this->escape($h->reason),
-                                   $this->escape($h->date),
-                                   $this->escape($h->duration_of_stay),
-                                   "<center><a class='pointer crud-new-update-hospital' data-id='{$h->id}' data-cid='{$h->consumer_id}'><i class='icon-edit'></i></a></center>",
-                                   "<center><a class='crud-del-hospital icon icon-remove' data-id='{$h->id}'></a></center>"
-                                   ), "class='hospital-row-{$h->id} highlight-child'"); ?>
+       <?foreach($this->hospitalized as $k=>$v):?>
+        <?= $this->TableRow(array( $this->escape($v->hospital),
+                                   $this->escape($v->reason),
+                                   $this->escape($v->date),
+                                   $this->escape($v->duration_of_stay),
+                                   "<center>
+                                   <a class='crud-create-update icon icon-edit'
+                                      data-action='update'
+                                      data-bind='hospital-bind-crud'
+                                      data-params='id:{$v->id}'></a>
+                                   </center>",
+                                   "<center>
+                                   <a class='crud-delete icon icon-remove' data-bind='hospital-bind-crud' data-params='id:{$v->id}'></a>
+                                   </center>"), "class='crud-row-{$v->id} highlight-child'"); ?>
        
        <?endforeach;?>
    <?endif;?>
 	   
-    <?= $this->TableFoot("<tr><td colspan='6'><a class='crud-new-update-hospital pull-right'
-                                                     data-id=''
-                                                     data-cid='{$this->consumer_id}'>Add Hospital Visit
-                                                     <i class='icon icon-plus'></i></a></td></tr>" ) ?>
+    <?= $this->TableFoot("<tr><td colspan='6'><a class='crud-create-update pull-right'
+                                                        data-action='create'
+                                                        data-bind='hospital-bind-crud'
+                                                        data-params='consumer_id:{$this->consumer_id}'>Add Hospital Visit
+                                                     </a></td></tr>" ) ?>
 
 <script type="text/plain" id="js-crud-edit-hospital">
-	<% if( action == 'new' ){%>
-            <tr class="hospital-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<% if( action == 'create' ){%>
+            <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
 	<%}%>
 	
         <td><%= helpers.escapeHtml(values.hospital) %></td>
@@ -35,19 +55,42 @@
         <td><%= helpers.escapeHtml(values.date) %></td>
 	<td><%= helpers.escapeHtml(values.duration_of_stay) %></td>
         <td>
-	    <center>
-		<a class='pointer crud-new-update-hospital' data-id='<%= helpers.escapeHtml(id) %>'>
-                    <i class='icon-edit'></i>
-		</a>
-	    </center>
-	</td>
-	<td>
             <center>
-                <a class="crud-del-hospital icon icon-remove" data-id='<%= helpers.escapeHtml(id) %>'></a>
+            <a class='crud-create-update icon icon-edit'
+               data-action='update'
+               data-bind='hospital-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>'></a>
             </center>
         </td>
-	
-        <% if( action == 'new' ){ %>
+
+        <td>
+            <center>
+            <a class='crud-delete icon icon-remove'
+               data-bind='hospital-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>'></a>
+            </center>            
+        </td>
+        
+        <% if( action == 'create' ){ %>
             </tr>
 	<% } %>
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -66,6 +66,8 @@ button.btn {
    
 }
 
+.
+
 .small-txt {
    
    font-size: 80%;
@@ -83,6 +85,22 @@ button.btn {
 .width40px{    
      width: 40px;
 }
+
+.width50px{
+    
+   width: 50px; 
+}
+
+.width60px{
+    
+   width: 60px; 
+}
+
+.width70px{
+    
+   width: 70px; 
+}
+
 
 .height10px {
     height:10px;

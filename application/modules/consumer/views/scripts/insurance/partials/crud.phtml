@@ -1,50 +1,81 @@
-<h4>Please double check insurance information.</h4>
+<h4><?if(isset($this->title)):?><?=$this->title?><?else:?>Insurance information.<?endif;?></h4>
+
+
+    <div class="crud-create-update crud-load-template pointer hidden"
+     id="insurance-bind-crud"
+     data-id=''
+     data-path='/insurance'
+     data-form='consumerinsuranceform'
+     data-title="Edit Insurance Info"
+     data-params='',
+     data-action='create'
+     data-target='js-insurance-index'
+     data-template='js-crud-edit-insurance'
+     data-template-path='consumers/insurance'></div>
 
 <?= $this->TableHead( array("Insurance Type",
                             "Medical #",
                             "Medicare #",
                             "Information",
                             "Edit",
-                            "Delete" ), "table table-bordered js-insurance-index" ) ?>
+                            "Delete" ), "table table-bordered js-insurance-index", "js-insurance-index" ) ?>
    
 <?if(isset($this->insurance)):?>
-   <?foreach($this->insurance as $k=>$i):?>
-
-    <?= $this->TableRow(array( $this->escape($i['type']),
-                           $this->escape($i['medical_number']),
-                           $this->escape($i['medicare_number']),
-                                                           $this->escape($i['insurance_info']),
-                           "<center><a class='pointer crud-new-update-insurance' data-id='{$i['id']}'><i class='icon-edit'></i></a></center>",
-                                                           "<center><a class='crud-del-insurance icon icon-remove' data-id='{$i['id']}'></a></center>"
-                                                           ), "class='insurance-row-{$i['id']} highlight-child'"); ?>
+   <?foreach($this->insurance as $k=>$v):?>
+    <? $id = $v['id']?>
+    <?= $this->TableRow(array( $this->escape($v['type']),
+                           $this->escape($v['medical_number']),
+                           $this->escape($v['medicare_number']),
+                           $this->escape($v['insurance_info']),
+                           "<center>
+                            <a class='crud-create-update icon icon-edit'
+                               data-action='update'
+                               data-bind='insurance-bind-crud'
+                               data-params='id:{$id}'></a>
+                            </center>",
+                            "<center>
+                            <a class='crud-delete icon icon-remove'
+                            data-bind='insurance-bind-crud' data-params='id:{$id}'></a>
+                            </center>" ), "class='crud-row-{$id} highlight-child'"); ?>
    
    <?endforeach;?>
 <?endif;?>
    
-<?= $this->TableFoot("<tr><td colspan='6'><a class='crud-new-update-insurance pull-right'
-                                                 data-id=''
-                                                     data-cid='{$this->consumer_id}'>Add Insurance
-                                                     <i class='icon icon-plus'></i></a></td></tr>" ) ?>
+<?= $this->TableFoot("<tr><td colspan='6'><a class='crud-create-update pull-right'
+                                             data-bind='insurance-bind-crud'
+                                             data-action='create'
+                                             data-params='consumer_id:{$this->consumer_id}'>Add Insurance</a></td></tr>" ) ?>
 
 
 <script type="text/plain" id="js-crud-edit-insurance">
-	<% if( action == 'new' ){%>
-	<tr class="insurance-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<% if( action == 'create' ){%>
+            <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
 	<%}%>
-	<td><%= helpers.escapeHtml(values.type) %></td>
+	
+        <td><%= helpers.escapeHtml(values.type) %></td>
 	<td><%= helpers.escapeHtml(values.medical_number) %></td>
 	<td><%= helpers.escapeHtml(values.medicare_number) %></td>
 	<td><%= helpers.escapeHtml(values.insurance_info) %></td>
-	<td>
-		<center>
-			<a class='pointer crud-new-update-insurance' data-id='<%= helpers.escapeHtml(id) %>'>
-				<i class='icon-edit'></i>
-			</a>
-		</center>
-	</td>
-	<td><center><a class="crud-del-insurance icon icon-remove" data-id='<%= helpers.escapeHtml(id) %>'></a></center></td>
-	<% if( action == 'new' ){ %>
-	</tr>
+        
+        <td>
+            <center>
+            <a class='crud-create-update icon icon-edit'
+               data-action='update'
+               data-bind='insurance-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>'></a>
+            </center>
+        </td>
+        
+        <td>
+            <center>
+             <a class='crud-delete icon icon-remove'
+                data-bind='insurance-bind-crud'
+                data-params='id:<%= helpers.escapeHtml(id) %>'></a>
+            </center>            
+        </td>
+        
+	<% if( action == 'create' ){ %>
+            </tr>
 	<% } %>
 </script>
 		

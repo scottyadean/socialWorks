@@ -7,9 +7,12 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
    public $uri;
    public $post;
    public $format;
+   public $params;
    public $callback;
    public $consumer_id;
    public $physician_id;
+   
+   protected $_model;
    
    public function init() {
         $this->id = $this->getRequest()->getParam('id', null);
@@ -20,6 +23,7 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
         $this->uri = $this->getRequest()->getRequestUri();
         $this->sort = $this->getRequest()->getParam('sort', false);
         $this->post = $this->getRequest()->isPost();
+        $this->params = $this->getRequest()->getParams();
         $this->format = $this->getRequest()->getParam('format', false);
         $this->callback = $this->getRequest()->getParam('callback', null);
         $this->view->layout = true;
@@ -40,12 +44,10 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
     
     /**
     * Creat a new medication
-    * @param $id
     * @return<array,json>
     */
-   public function newAction(){
-    
-    $exams = new Consumer_Model_ConsumersPharmaceuticals;
+   public function createAction(){
+    $this->_model = new Consumer_Model_ConsumerMedications;
     
     $form  = new Application_Form_ConsumersMedication;
     $form->customSubmitBtn = $this->xhr;
@@ -53,95 +55,92 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
                   $this->id,
                   $this->consumer_id);
     
-   if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
+      $res = Main_Forms_Handler::onPost($form,
+                                  $this->post,
+                                  $this->_model,
+                                  "createMedication",
+                                  $this->params,
+                                  $this->_helper,
+                                  '/consumers/medications/index/cid/' . $this->consumer_id,
+                                  "Medication created successfully.",
+                                  $this->xhr);  
 
-            $fvalues = $form->getValues();
-                  
-   
-           if( $lastid = $exams->createPharmaceutical($fvalues)){
-               
-               if( $this->xhr ) {
-                  $physician = new Default_Model_Physician;
-                  $pharam_id = $fvalues['pharmaceutical_id']; 
-                  $pharam = new Default_Model_Pharmaceutical;
-                  
-                  $this->_asJson(array( 'success'=>true,
-                                        'msg'=>'New Medication added.',
-                                        'id'=>$lastid,
-                                        'action'=>'new',
-                                        'consumer_id'=>$this->consumer_id,
-                                        'physician_id'=>$this->physician_id,
-                                        'values'=>$fvalues,
-                                        'pharmaceutical'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
-                                        'physician'=>$physician->findById($this->physician_id)->toArray()));
-               
-                  return;
-               }
-               
-               $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New Medication added.") );  
-               $this->_redirect('/consumers/medications/index/cid/' . $this->consumer_id);
-                  
-           }
-       
-       }
+    if($this->xhr && $this->post && !empty($res)) {
+        
+        $fvalues = $form->getValues();
+        $pharam = new Default_Model_Pharmaceutical;
+        $physician = new Default_Model_Physician;
+        
+        $this->consumer_id =  $fvalues['consumer_id'];
+        $this->physician_id = $fvalues['physician_id'];
+        $this->pharmaceutical_id = $fvalues['pharmaceutical_id'];
+        
+              
+        $res = array_merge($res, array('consumer_id'=>$this->consumer_id,
+                        'physician_id'=>$this->physician_id,
+                        'pharmaceutical'=>$pharam->readPharmaceutical($this->pharmaceutical_id)->toArray(),
+                        'physician'=>$physician->findById($this->physician_id)->toArray()));  
+        
+        $this->_asJson($res);
+        return;
+     }
+      
     
-     
-    $this->view->exams = $exams->findByConsumerId($this->consumer_id); 
+    //$this->renderScript('/medication/form.phtml'); 
     $this->view->form  = $form;
     
  
    }
     
-   public function editAction() {
+   public function updateAction() {
     
-      $meds = new Consumer_Model_ConsumersPharmaceuticals;
-      $medsData = $meds->readPharmaceutical($this->id)->toArray();
+      $this->_model = new  Consumer_Model_ConsumerMedications;
+      $data =  $this->_model->readMedication($this->id)->toArray();
       
-      $this->consumer_id = $medsData['consumer_id'];
-      $this->physician_id = $medsData['physician_id'];
-      $this->pharmaceutical_id = $medsData['pharmaceutical_id'];
+      $this->consumer_id = $data['consumer_id'];
+      $this->physician_id = $data['physician_id'];
+      $this->pharmaceutical_id = $data['pharmaceutical_id'];
       
       $form  = new Application_Form_ConsumersMedication;
       $form->customSubmitBtn = $this->xhr;
-      
       $form->build( $this->uri,
                     $this->id,
                     $this->consumer_id,
                     $this->physician_id,
                     $this->pharmaceutical_id
                     );
+      $form->populate($data);
+
+
       
-     if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-     if($meds->updatePharmaceutical($form->getValues())) {         
-               if( $this->xhr ) {
+      $res = Main_Forms_Handler::onPost($form,
+                                  $this->post,
+                                  $this->_model,
+                                  "updateMedication",
+                                  $this->params,
+                                  $this->_helper,
+                                  '/consumers/medications/index/cid/' . $this->consumer_id,
+                                  "Medication updated successfully.",
+                                  $this->xhr);  
+      
+        if($this->xhr && $this->post && !empty($res)) {
+            
+            $fvalues = $form->getValues();
+            $pharam_id = $fvalues['pharmaceutical_id']; 
+            $pharam = new Default_Model_Pharmaceutical;
+            $physician = new Default_Model_Physician;
                   
-                  $fvalues = $form->getValues();
-                  
-                  $pharam_id = $fvalues['pharmaceutical_id']; 
-                  $pharam = new Default_Model_Pharmaceutical;
-                  $physician = new Default_Model_Physician;
-                  
-                  $this->_asJson(array( 'success'=>true,
-                                        'msg'=>'Medication updated.',
-                                        'id'=>$this->id,
-                                        'action'=>'edit',
-                                        'consumer_id'=>$this->consumer_id,
-                                        'physician_id'=>$this->physician_id,
-                                        'values'=>$fvalues,
-                                        'pharmaceutical'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
-                                        'physician'=>$physician->findById($this->physician_id)->toArray()));  
-                  return;
-               }
-              
-              
-                 $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Medication updated.") );  
-                 $this->_redirect('/consumers/medications/index/cid/' . $this->consumer_id);
-             }
-         
+            $res = array_merge($res, array('consumer_id'=>$this->consumer_id,
+                            'physician_id'=>$this->physician_id,
+                            'pharmaceutical'=>$pharam->readPharmaceutical($pharam_id)->toArray(),
+                            'physician'=>$physician->findById($this->physician_id)->toArray()));  
+            
+            $this->_asJson($res);
+            return;
          }
       
-      $form->populate($medsData);
       $this->view->form  = $form;
+      $this->renderScript('/medication/form.phtml');
     
    }
 
@@ -149,20 +148,19 @@ class Consumer_MedicationController  extends Zend_Controller_Action {
 
    public function deleteAction() {
     
-      $exams   = new Consumer_Model_ConsumersPharmaceuticals;
-      $success = $exams->deletePharmaceutical($this->id);
    
       if($this->xhr && !is_null($this->id)) {    
         
+        $this->_model  = new Consumer_Model_ConsumerMedications;
+        $success = $this->_model->deleteMedication($this->id);
+        
         $this->_asJson(array( 'success'=>$success, 'id'=>$this->id ));
+      
+      } else {
         
-      }else{
-        
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Medication Removed.") );  
-        $this->_redirect('/consumers/medications/index/cid/' . $this->consumer_id."/success/".$success);
-        
+        $this->_helper->flashMessenger->addMessage(array('alert alert-error'=>"No Direct Access to Delete Action") );  
+        $this->_redirect($this->indexUrl);
+      
       }
             
    }

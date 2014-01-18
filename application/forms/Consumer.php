@@ -38,7 +38,7 @@ class Application_Form_Consumer extends Main_Forms_Builder {
                       "zip"  => array('required'=> true), 
                       "phone"  => array('required'=> true), 
                       "email"  => array('required'=> true),
-                      "birth_date"=>array( 'required' => true ),
+                      "birth_date"=>array( 'required' => true, 'attributes'=>array('class'=>'date_widget') ),
                       "bio"  => array('label'=>'Notes', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
                       );
     }

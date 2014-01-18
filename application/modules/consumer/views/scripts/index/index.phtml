@@ -1,11 +1,11 @@
 
 
 <p>
-<a href="/consumer/new" class="btn btn-small btn-primary"> Add New </a>
+<a href="/consumer/new" class=""> Add New </a>
 </p>
 
 
-<table class="table table-bordered table-hover table-striped ">
+<table class="table table-hover table-striped ">
 <tbody>
 
 <?php 
@@ -18,6 +18,7 @@
 <? if(isset($this->consumers)): ?>
     <thead>
         <tr>
+            <th> </th>
             <th>Type</th>
             <th>Name</th>
             <th>Phone</th>
@@ -30,6 +31,11 @@
 
     <?foreach( $this->consumers as $consumer ):?>
             <tr>
+            <td>
+                <a href="/consumer/view/<?=$consumer->id?>">
+                <img src="/image/db/<?=$consumer->id?>/c" class="img-polaroid width70px" alt='<?=$consumer->fname?> <?=$consumer->lname?>'/>
+                </a>
+            </td>    
             <td><?=$consumer->type?></td>
             <td><a href="/consumer/view/<?=$consumer->id?>"><?=$consumer->fname?> <?=$consumer->lname?></a></td>
             <td><?=$consumer->phone?></td>

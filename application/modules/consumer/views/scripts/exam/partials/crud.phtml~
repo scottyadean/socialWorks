@@ -11,11 +11,10 @@
     data-target='js-exams-index'
     data-template='js-crud-edit-exam'
     data-callback='lightBox.dateFields'
-    data-onupdate='Exam.checkbox'
     data-template-path='consumers/exams'></div>
 
 
-<? $selectLabel = $this->selectBoxs == true ? "<a class='js-select-all-exams' data-status='n'>Select <i class=''></i></a>": "";?>
+<? $selectLabel = $this->selectBoxs == true ? "<a class='js-select-all' data-status='n'>Select <i class=''></i></a>": "";?>
  <?
    $header = array( "Physician Name",
                     "Address",
@@ -81,10 +80,10 @@
     <?if($this->selectBoxs == true):?>
     <td>
         <center>
-              <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>'  />
+              <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>' <%= checked %> />
 	    </center>
 	</td>
-   <?endif;?>
+	<?endif;?>
 	
 	<td>
     <center><a class='crud-create-update icon icon-edit' 
@@ -98,7 +97,7 @@
 	 <center><a class='crud-delete icon icon-remove' 
                 data-bind='exam-bind-crud'
                 data-action='delete' 
-                data-params='id:<%= values.id %>,cid:<%= values.consumer_id %>'></a></center>
+                data-params='id:<%= values.id %>,cid:<%= values.consumer_id %></a></center>
 	</td>
 	
 

@@ -60,7 +60,8 @@ class Tools_CrudController extends Zend_Controller_Action {
                                      $this->indexUrl.'/page/'.$this->page,
                                      $this->view->displayName." created.",
                                      $this->xhr);  
-      if($this->xhr && $this->post) {
+      
+      if($this->xhr && $this->post && !empty($res)) {
          $this->_asJson($res);
          return;
       }
@@ -89,16 +90,20 @@ class Tools_CrudController extends Zend_Controller_Action {
                                           $this->view->displayName." update successful.",
                                           $this->xhr);  
          
-         if($this->xhr && $this->post) {
+         if($this->xhr && $this->post && !empty($res)) {
             $this->_asJson($res);
             return;
          }
+        
+        if($this->xhr && $this->post) {
+            $this->_asJson(array( 'success'=>false, 'id'=>$this->id, 'action'=>'no change', 'message'=>'form not changed', 'errors'=>array() ));
+        }else{        
+            $this->view->form  = $this->form;
+        }
           
-        $this->view->form  = $this->form;
+        
         
     }
-    
-    
     
    public function deleteAction() {
     if($this->xhr && !is_null($this->id)) {    
@@ -110,6 +115,7 @@ class Tools_CrudController extends Zend_Controller_Action {
         
         $this->_helper->flashMessenger->addMessage(array('alert alert-error'=>"No Direct Access to Delete Action") );  
         $this->_redirect($this->indexUrl);
+      
       }
       
    }

@@ -11,12 +11,12 @@ class Application_Form_ConsumersMedication extends Main_Forms_Builder {
    public $_physicians;
    public $_pharmaceuticals;   
 
-   public function build( $action = "/pharmaceutical/new",
-                         $id = null,
-                         $consumer_Id,
-                         $physician_Id = null,
-                         $pharmaceutical_id = null,
-                         $method = "post" ) {
+   public function build(  $action = "/new",
+                            $id = null,
+                            $consumer_Id,
+                            $physician_Id = null,
+                            $pharmaceutical_id = null,
+                            $method = "post" ) {
        
        
       $this->row_id = $id;

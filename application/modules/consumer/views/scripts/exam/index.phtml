@@ -1,7 +1,5 @@
 <h2>Exams</h2>
-<?= $this->partial('/partials/button.phtml',
-                   'default',
-                   array('link'=>'/consumer/exam/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
+<?= $this->partial('/partials/button.phtml', 'default', array('link'=>'/exams/create/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
 <hr />
 <? if(isset( $this->physicians )): ?>
     <?= $this->TableHead( array("Physician Name",
@@ -16,19 +14,15 @@
     <?foreach($p['exams'] as $e):
               $strDate = strtotime( $e->date );?>
  
-        <?= $this->TableRow(array( "<a href='/consumer/exam/edit/cid/{$this->consumer_id}/id/{$e->id}'>".$p["name"]."</a>",
+        <?= $this->TableRow(array( "<a href='/exams/update/cid/{$this->consumer_id}/id/{$e->id}'>".$p["name"]."</a>",
                                    $p["address"],
                                    $p["phone"],
                                    $e->type,
                                    date('m/d/Y', $strDate ),
                                    $e->result,
-                                   "<a href='/consumer/exam/delete/id/{$e->id}/cid/{$this->consumer_id}'><i class='icon-remove'></i></a>")); ?>
+                                   "<a href='/exams/delete/id/{$e->id}/cid/{$this->consumer_id}'><i class='icon-remove'></i></a>")); ?>
     <?endforeach;?>
     <?endforeach;?>
     <?= $this->TableFoot() ?>
 
 <?endif;?>
-<hr />
-<?= $this->partial('/partials/button.phtml',
-                   'default',
-                   array('link'=>'/consumer/exam/new/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>

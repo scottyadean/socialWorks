@@ -1,13 +1,5 @@
-<? $this->headScript()->appendFile('/js/views/consumer/view.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/medication/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/hospitalized/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/allergies/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/insurance/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/exam/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/goals/crud.js'); ?>
-<? //$this->headScript()->appendFile('/js/views/consumer/medical/crud.js'); ?>
-<? $this->headLink()->appendStylesheet('/css/datepicker.css');?>
-<? $this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');?>
+<? $this->headScript()->appendFile('/js/views/consumer/index/view.js'); ?>
+
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#consumerinfo" data-toggle="tab">Info</a></li>
@@ -63,9 +55,6 @@
 <div class="tab-pane" id="medical">
 <div class="row-fluid">
     <div class="span4">
-        <?= $this->partial('/partials/consumer-nav.phtml',
-        array('links' =>array("Assign Physician"=> array("class"=>"pointer js-assign-physician",
-                                                         "attr"=>"consumer:id='".$this->consumer['id']."'") )));?>
     
     <ul class="rounded-corners module">
         <li class="module-header">Appointments:</li>

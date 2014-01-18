@@ -5,12 +5,11 @@ class Application_Form_ConsumerExams extends Main_Forms_Builder {
    public $customSubmitBtn = false;
    public $physicians;
    public $consumerId;
-   public $physicianId;
    public $formType = 'Add';
     
     public function build( $action = "/consumer/exams/new/",
-                           $consumer_id = null,
                            $id = null,
+                           $consumer_id = null,
                            $method= "post" ) {
        
        $this->_id = $id;
@@ -53,12 +52,12 @@ class Application_Form_ConsumerExams extends Main_Forms_Builder {
     public function getFields() {
 
          $fields = array("consumer_id" => array('default'=>$this->consumerId, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                         "physician_id" => array('default'=>$this->physicianId, 'label'=>'physician', 'type'=>'select', 'multiOptions'=>$this->physicians ),
+                         "physician_id" => array('label'=>'Physician', 'type'=>'select', 'multiOptions'=>$this->physicians ),
                          "type"=>array('label'=>'Exam Type'), 
-                         "date"=>array('label'=>'Date of Last Exam' ),
+                         "date"=>array('label'=>'Date of Last Exam', 'attributes'=>array('class'=>'date_widget') ),
                          "result"=>array('required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));
         
-           if( isset( $this->_id ) ) {
+           if( !empty( $this->_id ) ) {
               
               $fields['id'] = array('default'=>$this->_id, 'type'=>'hidden',
                                     'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'));       

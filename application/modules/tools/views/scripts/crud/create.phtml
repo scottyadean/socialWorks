@@ -1,16 +1,1 @@
-<?
-if($this->layout){
-    $this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
-    $this->headLink()->appendStylesheet('/css/datepicker.css');
-    $this->headScript()->appendFile('/js/views/tools/crud/form.js');
-}
-?>
-
 <?= $this->form?>
-
-<script id="date-template" type="text/plain">
-    <div data-date-format="dd-mm-yyyy" data-date="<%= start %>" id="<%= id %>" class="input-append date">
-    <%= field %>
-    <span class="add-on"><i class="icon-calendar"></i></span>
-    </div>
-</script>

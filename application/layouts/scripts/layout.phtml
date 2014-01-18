@@ -16,7 +16,8 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="/css/main.css">
-        
+        <link rel="stylesheet" href="/css/datepicker.css">
+
         <?= $this->headLink();?>
         
         <script src="/js/vendor/jquery-1.10.1.min.js"></script>
@@ -122,18 +123,20 @@
             
         </div>
         
-        
-              
-        <script src="/js/main.js"></script>
+
         <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <script src="/js/vendor/bootstrap.min.js"></script>
         <script src="/js/vendor/underscore.js"></script>
-        
-        <!---script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script--> 
-        <!--script src="/js/vendor/angular-1.2.6.js"></script--->
-        <!--script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script-->
-        
+        <script src="/js/vendor/bootstrap-datepicker.js"></script>
+        <script src="/js/main.js"></script>
         <?=$this->headScript();?>
         
+        <script id="date-template" type="text/plain">
+            <div data-date-format="dd-mm-yyyy" data-date="<%= start %>" id="<%= id %>" class="input-append date">
+            <%= field %>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+            </div>
+        </script>
+
     </body>
 </html>

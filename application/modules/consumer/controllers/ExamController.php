@@ -6,10 +6,13 @@ class Consumer_ExamController  extends Zend_Controller_Action {
    public $xhr;
    public $uri;
    public $post;
+   public $params;
    public $format;
    public $callback;
    public $consumer_id;
    public $physician_id;
+   
+   protected $_model;
    
    public function init() {
         $this->id = $this->getRequest()->getParam('id', null);
@@ -20,6 +23,7 @@ class Consumer_ExamController  extends Zend_Controller_Action {
         $this->uri = $this->getRequest()->getRequestUri();
         $this->sort = $this->getRequest()->getParam('sort', false);
         $this->post = $this->getRequest()->isPost();
+        $this->params = $this->getRequest()->getParams();
         $this->format = $this->getRequest()->getParam('format', false);
         $this->callback = $this->getRequest()->getParam('callback', null);
         $this->view->layout = true;
@@ -44,124 +48,119 @@ class Consumer_ExamController  extends Zend_Controller_Action {
     * @param $id
     * @return<array,json>
     */
-   public function newAction(){
+   public function createAction(){
     
-    $exams = new Consumer_Model_ConsumersExams;
+    $this->_model = new Consumer_Model_ConsumersExams;
     
     $form  = new Application_Form_ConsumerExams;
     $form->customSubmitBtn = $this->xhr;
     $form->build( $this->uri,
-                  $this->consumer_id,
-                  $this->physician_id,
-                  $this->id);
+                  $this->id,
+                  $this->consumer_id);
     
-   if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
+    
+      $res = Main_Forms_Handler::onPost($form,
+                                        $this->post,
+                                        $this->_model,
+                                        "createExam",
+                                        $this->params,
+                                        $this->_helper,
+                                        '/exams/index/cid/' . $this->consumer_id,
+                                        'New Exam added.',
+                                        $this->xhr);  
 
-           if( $lastid = $exams->createExam($form->getValues())){
-               
-               if( $this->xhr ) {
-                  
-                  $physician = new Default_Model_Physician;
-                  
-                  $this->_asJson(array( 'success'=>true,
-                                        'msg'=>'New Exam added.',
-                                        'id'=>$lastid,
-                                        'action'=>'new',
-                                        'consumer_id'=>$this->consumer_id,
-                                        'physician_id'=>$this->physician_id,
-                                        'values'=>$form->getValues(),
-                                        'physician'=>$physician->findById($this->physician_id)->toArray()));
-               
-                  return;
-               }
-               
-               $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New Exam added.") );  
-               $this->_redirect('/consumer/exam/index/cid/' . $this->consumer_id);
-                  
-           }
-       
-       }
-    
-     
-    $this->view->exams = $exams->findByConsumerId($this->consumer_id); 
+    if($this->xhr && $this->post && !empty($res)) {
+        
+        $fvalues = $form->getValues();
+        $physician = new Default_Model_Physician;
+        $this->consumer_id =  $fvalues['consumer_id'];
+        $this->physician_id = $fvalues['physician_id'];
+        
+        $res = array_merge($res, array('consumer_id'=>$this->consumer_id,
+                                       'physician_id'=>$this->physician_id,
+                                       'physician'=>$physician->findById($this->physician_id)->toArray()));  
+        
+        $this->_asJson($res);
+        return;
+     }
+      
     $this->view->form  = $form;
-    
  
    }
     
  
-   public function editAction() {
+   public function updateAction() {
     
-      $exams = new Consumer_Model_ConsumersExams;
+      $this->_model = new Consumer_Model_ConsumersExams;
+      
+      $data = $this->_model->readExam($this->id)->toArray();
+      
+      
       $form  = new Application_Form_ConsumerExams;
       $form->customSubmitBtn = $this->xhr;
       $form->build( $this->uri,
-                    $this->consumer_id,
-                    $this->physician_id,
-                    $this->id);
+                    $this->id,
+                    $this->consumer_id);
+     
+     $form->populate($data);
+      
+      $res = Main_Forms_Handler::onPost($form,
+                                        $this->post,
+                                        $this->_model,
+                                        "updateExam",
+                                        $this->params,
+                                        $this->_helper,
+                                        '/exams/index/cid/' . $this->consumer_id,
+                                        'New Exam updated.',
+                                        $this->xhr);  
 
-        $examData = $exams->readExam($this->id)->toArray();
-      
-        if(isset($examData['date']) && $examData['date'] !='') {
-            $strDate = strtotime( $examData['date'] );
-            $examData['date'] = date('m/d/Y', $strDate );
-        } 
-      
-        $form->populate($examData);
-      
-     if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-  
-             if($exams->updateExam($form->getValues())){
-              
-               if( $this->xhr ) {
-                  
-                  $physician = new Default_Model_Physician;
-                  
-                  $this->_asJson(array( 'success'=>true,
-                                        'msg'=>'Exam updated.',
-                                        'id'=>$this->id,
-                                        'action'=>'edit',
-                                        'consumer_id'=>$this->consumer_id,
-                                        'physician_id'=>$this->physician_id,
-                                        'values'=>$form->getValues(),
-                                        'physician'=>$physician->findById($this->physician_id)->toArray()));
-               
-                  return;
-               }
-              
-              
-              
-                 $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Exam updated.") );  
-                 $this->_redirect('/consumer/exam/index/cid/' . $this->consumer_id);
-             }
+    if($this->xhr && $this->post && !empty($res)) {
+        
+        $fvalues = $form->getValues();
+        $physician = new Default_Model_Physician;
+        $this->consumer_id =  $fvalues['consumer_id'];
+        $this->physician_id = $fvalues['physician_id'];
+        
+        $res = array_merge($res, array('consumer_id'=>$this->consumer_id,
+                                       'physician_id'=>$this->physician_id,
+                                       'physician'=>$physician->findById($this->physician_id)->toArray()));  
+        
+        $this->_asJson($res);
+        return;
+     }
+     
+     
+      if($this->xhr && $this->post) {
+        $this->_asJson(array( 'success'=>false, 'id'=>$this->id, 'action'=>'no change', 'message'=>'form not changed', 'errors'=>array() ));
+        
+      }else{
+        $this->view->form  = $form;
          
-         }
-      
-      $this->view->form  = $form;
+      }
     
    }
 
 
 
    public function deleteAction() {
-    
+      
+      if(is_null($this->id)) {
+        $this->_redirect('/exams/index/cid/' . $this->consumer_id."/success/false");
+      }
+      
       $exams   = new Consumer_Model_ConsumersExams;
       $success = $exams->deleteExam($this->id);
-   
-      if($this->xhr && !is_null($this->id)) {    
-        
-        $this->_asJson(array( 'success'=>$success, 'id'=>$this->id ));
+      
+      if($this->xhr ){
+        $this->_asJson(array( 'success'=>$success, 'id'=>$this->id, 'action'=>'delete' ));
         
       }else{
-        
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Exam Removed.") );  
-        $this->_redirect('/consumer/exam/index/cid/' . $this->consumer_id."/success/".$success);
-        
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+            $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Exam Removed.") );  
+            $this->_redirect('/exams/index/cid/' . $this->consumer_id."/success/".$success);
       }
-           
-    
+
    }
    
    
