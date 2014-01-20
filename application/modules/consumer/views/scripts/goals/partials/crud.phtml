@@ -29,7 +29,7 @@
                                    $this->escape($g['objective']),
                                    $this->escape($g['effective_start_date']),
                                    $this->escape($g['effective_complete_date']),
-                                   "<span class='js-goals-achieved' data-id='{$id}' data-ac='".$this->escape($g['achieved'])."'>".$this->escape($g['achieved'])."</span>",
+                                   "<span class='js-goals-achieved' data-id='{$id}' data-ac='".$this->escape($g['achieved'])."'>".$this->OnOff($this->escape($g['achieved']))."</span>",
                                    "<center>
                                     <a class='crud-create-update icon icon-edit'
                                       data-action='update'
@@ -61,7 +61,7 @@
     <td><%= helpers.escapeHtml(values.objective) %></td>
     <td><%= helpers.escapeHtml(values.effective_start_date) %></td>
     <td><%= helpers.escapeHtml(values.effective_complete_date) %></td>
-    <td><%= helpers.escapeHtml(values.achieved) %></td>
+    <td><%= helpers.onOff(helpers.escapeHtml(values.achieved)) %></td>
     <td>
         <center>
             <a class='crud-create-update icon icon-edit'

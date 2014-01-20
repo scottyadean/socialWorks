@@ -53,6 +53,13 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
                    'Consumer_Model_ConsumersCoordinators')->toArray();    
     }
     
+    public function getConsumerPersons() {
+        return $this->_current->findManyToManyRowset(
+                   'Default_Model_People',
+                   'Consumer_Model_ConsumersPersons')->toArray();    
+    }
+    
+
     public function getConsumerInsurance(){
         return $this->_current->findDependentRowset(
                'Consumer_Model_ConsumersInsurance')->toArray();
@@ -77,9 +84,6 @@ class Consumer_Model_Consumer extends Zend_Db_Table_Abstract {
                'Consumer_Model_ConsumersMedical')->toArray();
     }
 
-    
-    
-    
     public function getConsumerNotes(){
         
         return $this->_current->findDependentRowset(

@@ -1,29 +1,49 @@
 <ul class="rounded-corners tools">
 <li class="tools-header">Actons:</li>
 
-<li><a class="pointer js-edit-assignee" consumer:id="<?=$this->consumer->id?>" >Assign employee</a></li>
-
-<?if ( isset($this->users)): ?>
-<?foreach( $this->users as $u ):?>
-    <p class="consumer-user-<?=$u['id']?>">
-        <?=$u['username']?>
-    </p>
-<?endforeach?> 
-<?endif;?>
-
 <li>
-<a class="pointer js-assign-coordinator" consumer:id="<?=$this->consumer->id?>" >Assign Service Coordinator</a>
+    <div id="consumer-user-list">
+        <a class="pointer js-edit-assignee" consumer:id="<?=$this->consumer->id?>" >Assign an employee to <?=ucwords($this->consumer->fname)?></a>
+        <?if ( isset($this->users)): ?>
+        <?foreach( $this->users as $u ):?>
+            <p class="consumer-user-<?=$u['id']?>">
+                <?=$u['username']?>
+            </p>
+        <?endforeach?> 
+        <?endif;?>
+    </div>
+    <hr>
 </li>
 
-<?if ( isset($this->coordinators)): ?>
 
-<?foreach( $this->coordinators as $c ):?>
-    <p class="consumer-coordinator-<?=$c['id']?>">
-        <?=$c['fname']?> <?=$c['lname']?>
-    </p>
-<?endforeach?> 
+<li>
+    <a class="pointer js-assign-coordinator" consumer:id="<?=$this->consumer->id?>" >Assign Service Coordinator</a>
+    <div id="consumer-coordinator-list">
+        <?if ( isset($this->coordinators)): ?>
+        <?foreach( $this->coordinators as $c ):?>
+            <p class="consumer-coordinator-<?=$c['id']?>">
+                <?=$c['fname']?> <?=$c['lname']?>
+            </p>
+        <?endforeach?> 
+        <?endif;?>
+    </div>
+    <hr>
+</li>
 
-<?endif;?>
+
+
+<li>
+    <a class="pointer js-assign-person" person:id="<?=$this->consumer->id?>" person:type='payee'>Assign A Payee</a>
+    <div id="consumer-person-list">
+        <?if ( isset($this->persons)): ?>
+        <?foreach( $this->persons as $p ):?>
+            <p class="consumer-person-<?=$p['id']?>">
+                <?=$p['fname']?> <?=$p['lname']?>
+            </p>
+        <?endforeach?>     
+        <?endif;?>
+    </div>
+</li>
+
 
 </ul>
-                 

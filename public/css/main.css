@@ -114,6 +114,8 @@ button.btn {
 }
 
 
+
+
 .ico{
    width:14px;
    height: 14px;
@@ -124,11 +126,11 @@ button.btn {
    
    width:50px;
 }
-.ok {
+.ok, .Y {
    background-color:green;
 }
 
-.fail {   
+.fail, .N {   
    background-color:red;
 }
 

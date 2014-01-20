@@ -1,0 +1,48 @@
+<div id="js-consumer-person-info"> </div>
+
+<div id="js-consumer-person-btns">
+<? foreach( $this->people as $p ):?>
+
+    <?if( in_array( $p['id'], $this->assignedIds ) ): 
+        $status = "Assigned";
+        $style  = "btn-success";
+        $vis    = array( 'assign'=>'hidden', 'remove'=>'' );
+    else: 
+        $status = "Unassigned";
+        $style  = "btn-warning";
+        $vis    = array( 'assign'=>'', 'remove'=>'hidden' );
+    endif;?>
+    
+    <div id="person_<?=$p['id']?>"
+        person:name="<?=$p['fname']?> <?=$p['lname']?>"
+        person:type="<?=$p['type']?>"
+        person:phone="<?=$p['mg']?>"  class="btn-group" title="<?=$status?>">
+    
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> js-append-info-to pointer" 
+        person:id="<?=$p['id']?>"
+        append:id="<?=$p['id']?>"
+        append:url="/person/read/id/"                         
+        append:div="js-consumer-person-info">
+        <i class="icon-user icon-white"></i> <?=$p['fname']?> <?=$p['lname']?></a>
+   
+    <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> dropdown-toggle" 
+       data-toggle="dropdown" 
+       href="#"><span class="caret"></span></a>
+     
+    <ul class="dropdown-menu">
+        <li class="<?=$vis['remove']?> js-person-remove-link" 
+            consumer:id="<?=$this->id?>"
+            person:id="<?=$p['id']?>"><a class="pointer js-assign-to-consumer" 
+            person:action="remove"><i class="icon-trash"></i> Remove</a></li>
+
+        <li class="<?=$vis['assign']?> js-person-assign-link" 
+            consumer:id="<?=$this->id?>" 
+            person:id="<?=$p['id']?>"><a class="js-assign-to-consumer" 
+            person:action="assign"><i class="icon-thumbs-up"></i> Assign</a></li>    
+    </ul>
+    
+    </div>
+        
+    
+<?endforeach;?>
+</div>

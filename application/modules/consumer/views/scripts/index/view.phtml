@@ -6,6 +6,7 @@
     <li><a href="#caseNotes" data-toggle="tab">Case Notes</a></li>
     <li><a href="#medical" data-toggle="tab">Medical</a></li>
     <li><a href="#goals" data-toggle="tab">Goals</a></li>
+    <li><a href="#reports" data-toggle="tab">Reports</a></li>
 </ul>
 
 <div class="tab-content">
@@ -19,7 +20,8 @@
                     <?= $this->partial('partials/consumer-info-tab.phtml',
                             array('consumer'=>$this->consumer,
                                   'users'=>$this->users,
-                                  'coordinators'=>$this->coordinators));?>
+                                  'coordinators'=>$this->coordinators,
+                                  'persons'=>$this->persons));?>
                 </div>
                 
                 <div class="span8">
@@ -95,7 +97,14 @@
 </div>
 
 
+<div class="tab-pane" id="reports">
+<div class="row-fluid">
+    <div class="span12">
 
+    Reports
+    </div>
+</div>
+</div>
 
 
 <!-- end tab wrapper -->

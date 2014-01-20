@@ -349,15 +349,38 @@ $(function() {
         
 
         });
+      
+      
+      
+        //assign payee
+        $('.js-assign-person').click(function(){
+            var ele = $(this);
+            var id = ele.attr('person:id');
+            lightBox.show('mainModal', 'Assign Person', {'remote':'/consumer/assign/person/'+id+'/type/payee'});
+        });
+          
         
-        
-        
-        
-        
-        
-        
-        
-        
+        $("body").delegate("#js-consumer-person-btns a.js-assign-to-consumer", "click", function(event){         
+            
+            var ele = $(this);
+            var par = ele.parent();
+            var typ = par.attr('person:type');
+            var act = ele.attr('person:action');
+            var id = par.attr('consumer:id');
+            var pid = par.attr('person:id');
+
+            asyncAction.sendPost('/consumer/assign/person/'+id+'/type/'+typ, {'person':pid, 'do':act}, function(data){
+                    if( data.success ){
+                       var template = '<li class="consumer-<%= node %>-<%= id %>"> <%= name %></li>';
+                        assignTo.update('person', data, template);
+                         
+                    }          
+            });
         
 
+        });
+        
+        
+      
+        
     });

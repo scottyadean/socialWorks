@@ -7,7 +7,6 @@ consumers_id	int(11) PK
 coordinators_id	varchar(45)
 
 */
-
 class Consumer_Model_ConsumersCoordinators extends Zend_Db_Table_Abstract 
 {
     protected $_name = 'consumers_coordinators';

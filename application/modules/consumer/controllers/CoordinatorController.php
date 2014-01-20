@@ -6,6 +6,7 @@ class Consumer_CoordinatorController  extends Zend_Controller_Action {
    public $xhr;
    public $uri;
    public $post;
+   public $params;
    public $format;
    public $callback;
    
@@ -14,6 +15,7 @@ class Consumer_CoordinatorController  extends Zend_Controller_Action {
         $this->xhr = $this->getRequest()->isXmlHttpRequest();
         $this->uri = $this->getRequest()->getRequestUri();
         $this->post = $this->getRequest()->isPost();
+        $this->params = $this->getRequest()->getParams();
     }
     
   /**
@@ -54,39 +56,74 @@ class Consumer_CoordinatorController  extends Zend_Controller_Action {
     */
    public function newAction(){
     
-    $coords = new Default_Model_Coordinator;
-    $form  = new Application_Form_Coordinator; 
-    $form->build( $this->uri, $this->id);
-    
-    if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
+      $coords = new Default_Model_Coordinator;
+      $form  = new Application_Form_Coordinator; 
+      $form->build( $this->uri, $this->id);
+      $form->customSubmitBtn = $this->xhr; 
+      
+      $res = Main_Forms_Handler::onPost($form,
+                                 $this->post,
+                                 $coords,
+                                 "createCoordinator",
+                                 $this->params,
+                                 $this->_helper,
+                                 '/coordinator/index',
+                                 "Coordinator created successful.",
+                                 $this->xhr);
 
-           if( $lastid = $coords->createCoordinator($form->getValues())){
-               $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"New Coordinator added.") );  
-               $this->_redirect('/coordinator/index');
-           }
-       }
-     
-     $this->view->form  = $form;
+      if($this->xhr && $this->post && !empty($res)) {
+         $this->_asJson($res);
+         return;
+      }
+        
+        if($this->xhr && $this->post) {
+            $this->_asJson(array( 'success'=>false, '
+                                 id'=>$this->id, 'action'=>'no change',
+                                 'message'=>'form not changed', 'errors'=>array() ));
+        }else{
+         
+            $this->view->form  = $form;
+        }
+           
    }
     
  
    public function editAction() {
     
       $coords = new Default_Model_Coordinator;
-      $form   = new Application_Form_Coordinator; 
+      $form   = new Application_Form_Coordinator;
+      $form->customSubmitBtn = $this->xhr; 
       $form->build( $this->uri, $this->id);
 
       $coordsData = $coords->readCoordinator($this->id)->toArray();
       $form->populate($coordsData);
 
-     if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-             if( $lastid = $coords->updateCoordinator($form->getValues())){
-                 $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Coordinator updated.") );  
-                 $this->_redirect('/coordinator/index');
-             }
-         }
+      $res = Main_Forms_Handler::onPost($form,
+                                 $this->post,
+                                 $coords,
+                                 "updateCoordinator",
+                                 $this->params,
+                                 $this->_helper,
+                                 '/coordinator/index',
+                                 "Coordinator updated successful.",
+                                 $this->xhr);
+
+      if($this->xhr && $this->post && !empty($res)) {
+         $this->_asJson($res);
+         return;
+      }
+        
+        if($this->xhr && $this->post) {
+            $this->_asJson(array( 'success'=>false, '
+                                 id'=>$this->id, 'action'=>'no change',
+                                 'message'=>'form not changed', 'errors'=>array() ));
+        }else{
          
-      $this->view->form  = $form;
+            $this->view->form  = $form;
+        }
+
+
+
    }
 
 

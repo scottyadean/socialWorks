@@ -1,0 +1,110 @@
+<div class="crud-create-update crud-load-template hidden"
+            id="status-bind-crud"
+            data-id=''
+            data-path='/medical/status/'
+            data-form='consumers-medical-status'
+            data-title="Edit Health Status"
+            data-params='',
+            data-action='create'
+            data-target='js-status-index'
+            data-template='js-crud-edit-status'
+            data-callback='lightBox.dateFields'
+            data-template-path='consumers/medical/status'></div>
+
+ <?= $this->TableHead( array("Date",
+                             "Weight",
+                             "Height",
+                             "Blood Pressure",
+                             "Cholesterol",
+                                "",
+                                ""), "table table-striped small-txt js-status-index", "js-status-index" ) ?>
+                                
+<? if(isset( $this->medicalStatus )): ?>
+
+    <?foreach($this->medicalStatus as $ms):?>
+    <? $id = $ms['id']?>
+    <?= $this->TableRow(array("<a data-id='".$id."' class='crud-view-appointment'>".$this->escape($ms['date'])."</a>",
+                              $this->escape($ms['weight']),
+                              $this->escape($ms['height']),
+                              $this->escape($ms['blood_pressure']),
+                              $this->escape($ms['cholesterol']),
+                              "<center><a class='crud-create-update'
+                                                 data-params='id:{$id},cid:{$this->consumer_id}'
+                                                 data-action='update'
+                                                 data-bind='status-bind-crud'><i class='icon-edit'></i></a></center>",
+                              "<center><a class='crud-delete icon icon-remove'
+                                                data-params='id:{$id}'
+                                                data-bind='status-bind-crud'></a></center>"),
+                             "class='crud-row-{$id} highlight-child'"); ?>
+    <?endforeach;?>
+
+<?endif;?>
+
+<?= $this->TableFoot("<tr><td colspan='5'><a class='crud-create-update pull-right'
+                                                 data-action='create'
+                                                 data-bind='appointment-bind-crud'
+                                                 data-params='consumer_id:{$this->consumer_id}'>Add Appointment</a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-status">
+	<% if( action == '_create' ){%>
+	<tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<%}%>
+    <td>
+        <a data-id='<%= helpers.escapeHtml(id) %>' class='crud-view-appointment'><%= helpers.escapeHtml(date) %></a>,
+    </td>
+    <td>
+        <%= helpers.escapeHtml(values.weight) %>
+    </td>
+    <td>
+        <%= helpers.escapeHtml(values.height)%>
+    </td>
+    
+    <td>
+        <%= helpers.escapeHtml(values.blood_pressure)%>
+    </td>
+    
+    <td>
+        <%= helpers.escapeHtml(values.cholesterol)%>
+    </td>
+    
+    <td>
+    <center><a class='crud-create-update'
+              data-params='id:<%= id %>,cid:<%= values.consumer_id %>'
+              data-action='update'
+              data-bind='status-bind-crud'><i class='icon-edit'></i></a></center>
+    </td>
+    
+    <td>
+    <center><a class='crud-delete icon icon-remove'
+                      data-params='id:<%= id %>'
+                      data-bind='status-bind-crud'></a></center>
+    </td>
+    
+    
+    
+    
+    
+    
+    
+    
+    <td><%= helpers.escapeHtml(values.hospital.substr(0,30)) %></td>
+	<td><%= helpers.escapeHtml(values.date) %></td>
+        <td><%= helpers.escapeHtml(values.time) %> <%= helpers.escapeHtml(values.ampm) %></td>
+        <td>
+        <center><a  class='crud-create-update'
+                    data-params='id:<%= helpers.escapeHtml(id) %>,cid:<%= helpers.escapeHtml(values.consumer_id) %>'
+                    data-action='update'
+                    data-bind='appointment-bind-crud'><i class='icon-edit'></i></a>
+        </center>
+        </td>
+        
+        <td>
+        <center><a class='crud-delete icon icon-remove'
+                   data-params='id:<%= helpers.escapeHtml(id) %>'
+                   data-bind='appointment-bind-crud'></a></center>
+        </td>        
+        
+    <% if( action == '_create' ){ %>
+	</tr>
+	<% } %>
+</script>

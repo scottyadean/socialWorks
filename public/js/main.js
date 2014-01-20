@@ -473,6 +473,19 @@ var imgUpload = {
  
      var helpers = {
         
+		
+		 formatDate:function(date_str, format) {
+			
+			   var f = format === undefined ? "dddd, mmmm dS, yyyy" : format; 
+			   var d = new Date(date_str);
+                return dateFormat(d, f);
+            },
+			
+		popover:function(id){
+			
+			$('#popover-'+id).popover();
+			
+		},	
       
         editIcon:function(element){
             
@@ -516,13 +529,39 @@ var imgUpload = {
             var namespaces = functionName.split(".");
             var func = namespaces.pop();
             
-            for(var i = 0; i < namespaces.length; i++) {
-              context = context[namespaces[i]];
-            }
-            
-            return context[func].apply(this, args);
-        
-          }
+			
+			try{
+				if (typeof context === undefined) {
+					return false;
+				}
+				
+				for(var i = 0; i < namespaces.length; i++) {
+				  context = context[namespaces[i]];
+				}
+			   
+			   
+				if (typeof context[func] !== 'function') {
+					
+					console.log(functionName+" not found");
+					return false;
+				}
+				
+				return context[func].apply(this, args);
+			}catch(e){
+				
+				console.log(e);
+				return false;
+				
+			}
+          },
+		  
+		  
+		  onOff:function(v) {
+			
+			return "<i class='ico "+v+"' title='"+v+"'> </i>";
+			
+		  }
+		  
     }; 
 
 

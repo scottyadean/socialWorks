@@ -1,19 +1,23 @@
 <?php
-class Default_Model_Coordinator extends Zend_Db_Table_Abstract {
+class Default_Model_People extends Zend_Db_Table_Abstract {
 
-    protected $_name = '_not_set_';
+    protected $_name = 'people';
     protected $_primary = 'id';
 
-    public function setPrimary(  $primary ) {
-        $this->_primary = $primary;
-    }
-
-    public function setName(  $name ) {
-        $this->_name = $name;
-    }
     
-    public function _index() {
-      return $this->fetchAll($this->select());    
+    public function _index(array $where = array()) {
+        $select = $this->select();
+        if(  count($where) > 0  ){
+        
+            foreach( $where as $k=>$w) {
+                
+                $select->where( "{$k}", $w );
+                
+            }    
+            
+        }
+        
+      return $this->fetchAll($select);    
     }
     
     public function _create($data) {
@@ -49,8 +53,7 @@ class Default_Model_Coordinator extends Zend_Db_Table_Abstract {
        foreach( $find as $k=>$v ) {
         $select->where("{$k}", $v);
        }
-       
-       
+              
        return $this->fetchRow($select);
     }
     

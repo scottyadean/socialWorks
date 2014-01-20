@@ -1,7 +1,7 @@
 <?php
 class Consumer_Model_ConsumersMedical extends Zend_Db_Table_Abstract 
 {
-    protected $_name = 'consumers_medicals';
+    protected $_name = 'consumers_appointments';
     protected $_primary = 'id';
   
     protected $_referenceMap = array(
@@ -10,7 +10,22 @@ class Consumer_Model_ConsumersMedical extends Zend_Db_Table_Abstract
                      'refColumn' => 'id',
                      'refTableClass' => 'Consumer_Model_Consumer'));
  
+
+ 
+ //SELECT * FROM wp_posts WHERE post_modified > DATE_SUB(CURDATE(), INTERVAL 4 WEEK);
+ 
+   public function withInAWeek($ids, $week=1){
     
+       $select = $this->select()
+                     ->where('consumer_id IN(?)', implode(",",$ids))
+                     ->where('date > DATE_SUB(CURDATE(), INTERVAL ? WEEK)', $week);
+       
+       
+       return $this->fetchAll($select);
+    
+   }
+   
+ 
     public function createAppointment($data) {
        if(isset($data['id'])) {
             unset($data['id']);
@@ -28,7 +43,6 @@ class Consumer_Model_ConsumersMedical extends Zend_Db_Table_Abstract
        
        $where = array('id = ?' => (int)$data['id']);
        return $this->update($data, $where);
-    
     }
 
     public function deleteAppointment($id) {     

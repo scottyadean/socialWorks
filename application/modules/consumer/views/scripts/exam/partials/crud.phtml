@@ -50,7 +50,7 @@
                                                       data-action='update'></a></center>",
                                                      
                                    "<center><a id='med-{$e->id}'
-                                            class='crud-delete icon icon-remove' 
+                                            class='crud-delete icon on-check icon-remove' 
                                                   data-bind='exam-bind-crud'
                                                   data-action='delete' 
                                                   data-params='id:{$e->id},cid:{$this->consumer_id}'></a></center>",
@@ -78,14 +78,14 @@
 	<td><%= helpers.escapeHtml(values.date) %></td>
 	<td><div title="<%=helpers.escapeHtml(values.result)%>"><%=helpers.escapeHtml(values.result.substring(0, 30))  %></div></td>
     
-    <?if($this->selectBoxs == true):?>
     <td>
-        <center>
-              <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>'  />
-	    </center>
-	</td>
-   <?endif;?>
-	
+	<?if($selectLabel == true):?>				 
+       <center>
+           <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>'   />
+       </center>
+	<?endif;?>
+    </td>
+   
 	<td>
     <center><a class='crud-create-update icon icon-edit' 
               data-params='id:<%= values.id %>,cid:<%= values.consumer_id %>'
@@ -107,3 +107,4 @@
 	<% } %>
 
 </script>
+

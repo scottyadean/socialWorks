@@ -1,5 +1,5 @@
 <?php
-//$this->headScript()->appendFile('/js/vendor/bootstrap-datepicker.js');
+$this->headScript()->appendFile('/js/vendor/date-format.js');
 $this->headLink()->appendStylesheet('/css/views/default/index.css');
 ?>
 
@@ -11,6 +11,8 @@ $this->headLink()->appendStylesheet('/css/views/default/index.css');
         <li class="tools-header">Tools:</li>
         <li><a class="js-tool-click pointer" data:url="/tools/milesab" >A to B Milage</a></li>
     </ul>
+    
+    
 
     <hr />
 
@@ -19,6 +21,11 @@ $this->headLink()->appendStylesheet('/css/views/default/index.css');
     <?foreach( $this->consumers as $consumer ):?>
         <li> <img src="/img/src/<?=$consumer->id?>/c" width="50px" />
             <a class="pointer" href="/consumer/view/<?=$consumer->id?>" ><?=$consumer->fname?> <?=$consumer->lname?></a>
+            <div id="med-appointments-<?=$consumer->id?>">
+                
+            </div>
+            
+            
         </li>
     <?endforeach;?>
     </ul>
@@ -42,6 +49,8 @@ $this->headLink()->appendStylesheet('/css/views/default/index.css');
 
 
 <script>
+    
+    
     $(function(){
     $(".js-tool-click").click(function(){
         
@@ -51,6 +60,32 @@ $this->headLink()->appendStylesheet('/css/views/default/index.css');
  
         });
     
+    
+    content.load('/messages/appontments', {}, function(data){            
+        var template = _.template($("#appontments-this-week-template").html());
+        for (var key in data) {
+             var app = data[key];
+             $("#med-appointments-"+app.consumer_id).append(template(app)).promise().done(function() {
+                 helpers.popover(app.id); 
+             });
+        }}, 'json');
     });
     
+    
+    
+</script>
+
+
+<script id="appontments-this-week-template" type="text/plain">
+    <li class="pointer"
+        rel="popover"
+        data-html='true'
+        data-content="<%=hospital%><hr> <span class='alert alert-success'>
+        <%= helpers.formatDate(date, 'mmm, ddd dS') %> <%= time %> <%= ampm %></span> <hr> <%= description %> "
+        data-original-title="Medical Appointment"
+        id="popover-<%= id %>">
+        <small>
+        <%= hospital.substring(0, 10) %> <%= helpers.formatDate(date, 'mmm, ddd dS') %> <%= time %> <%= ampm %>
+        </small>
+   </li>
 </script>

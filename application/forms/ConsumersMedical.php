@@ -19,7 +19,7 @@ class Application_Form_ConsumersMedical extends Main_Forms_Builder {
        $this->setMethod($method);
        $this->setAction($action);
        $this->getData();
-       $this->formElementsFromTable('consumers_medicals', $this->getFields());
+       $this->formElementsFromTable('consumers_appointments', $this->getFields());
        $this->formElementsFromArray($this->getCustomFields());
        $this->createElements();
     }
