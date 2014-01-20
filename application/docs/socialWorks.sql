@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 17, 2014 at 11:41 AM
+-- Generation Time: Jan 20, 2014 at 09:51 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -105,6 +105,40 @@ INSERT INTO `consumers_allergies` (`id`, `consumer_id`, `allergy`, `info`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `consumers_appointments`
+--
+
+CREATE TABLE IF NOT EXISTS `consumers_appointments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `hospital` varchar(50) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `time` varchar(20) NOT NULL,
+  `ampm` varchar(2) NOT NULL,
+  `next` date NOT NULL,
+  `location_id` int(11) DEFAULT NULL,
+  `consumer_id` int(11) DEFAULT NULL,
+  `physician_id` bigint(20) DEFAULT NULL,
+  `accompanying` varchar(100) NOT NULL,
+  `description` text,
+  `info` text NOT NULL,
+  `special` text NOT NULL,
+  `medications` text NOT NULL,
+  `referrals` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `consumers_appointments`
+--
+
+INSERT INTO `consumers_appointments` (`id`, `date`, `hospital`, `user_id`, `time`, `ampm`, `next`, `location_id`, `consumer_id`, `physician_id`, `accompanying`, `description`, `info`, `special`, `medications`, `referrals`) VALUES
+(12, '2014-01-21', 'Mercy Mercy Mercy Mercy', 0, '2:00', 'pm', '2014-01-04', NULL, 1, 1, 'none', 'test', 'test', 'test', 'test', ''),
+(13, '2014-01-23', 'Mercy', 0, '2:00', 'am', '2014-01-08', NULL, 1, 5, '', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `consumers_checkins`
 --
 
@@ -154,18 +188,20 @@ CREATE TABLE IF NOT EXISTS `consumers_exams` (
   `consumer_id` int(11) NOT NULL,
   `physician_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
-  `date` datetime NOT NULL,
+  `date` date NOT NULL,
   `result` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `consumers_exams`
 --
 
 INSERT INTO `consumers_exams` (`id`, `consumer_id`, `physician_id`, `type`, `date`, `result`) VALUES
-(20, 1, 26, 'token', '2014-01-08 00:00:00', 'test'),
-(21, 1, 1, 'this is a type', '2014-01-16 00:00:00', 'test');
+(20, 1, 26, 'token', '2014-01-08', 'test'),
+(21, 1, 1, 'this is a types', '2014-01-03', 'testinging info'),
+(22, 1, 5, 'this is a type', '2013-12-31', 'test'),
+(23, 1, 1, 'this is a type', '2014-01-31', 'test');
 
 -- --------------------------------------------------------
 
@@ -182,14 +218,15 @@ CREATE TABLE IF NOT EXISTS `consumers_goals` (
   `effective_complete_date` date NOT NULL,
   `achieved` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `consumers_goals`
 --
 
 INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
-(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'Y');
+(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'Y'),
+(9, 1, 'test', 'test', '2014-01-08', '2014-01-02', 'Y');
 
 -- --------------------------------------------------------
 
@@ -241,44 +278,14 @@ INSERT INTO `consumers_insurance` (`id`, `consumer_id`, `type`, `medical_number`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `consumers_medicals`
---
-
-CREATE TABLE IF NOT EXISTS `consumers_medicals` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `hospital` varchar(50) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `time` varchar(20) NOT NULL,
-  `ampm` varchar(2) NOT NULL,
-  `next` date NOT NULL,
-  `location_id` int(11) DEFAULT NULL,
-  `consumer_id` int(11) DEFAULT NULL,
-  `physician_id` bigint(20) DEFAULT NULL,
-  `accompanying` varchar(100) NOT NULL,
-  `description` text,
-  `info` text NOT NULL,
-  `special` text NOT NULL,
-  `medications` text NOT NULL,
-  `referrals` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
-
---
--- Dumping data for table `consumers_medicals`
---
-
-INSERT INTO `consumers_medicals` (`id`, `date`, `hospital`, `user_id`, `time`, `ampm`, `next`, `location_id`, `consumer_id`, `physician_id`, `accompanying`, `description`, `info`, `special`, `medications`, `referrals`) VALUES
-(12, '2014-01-06', 'Mercy Mercy Mercy Mercy', 0, '2:00', 'pm', '2014-01-04', NULL, 1, 1, 'none', 'test', 'test', 'test', 'test', '');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `consumers_medical_status`
 --
 
 CREATE TABLE IF NOT EXISTS `consumers_medical_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `consumer_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
   `weight` float NOT NULL,
   `height` varchar(10) NOT NULL,
   `seizure_info` text NOT NULL,
@@ -339,9 +346,16 @@ INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `note`, `created`
 
 CREATE TABLE IF NOT EXISTS `consumers_persons` (
   `consumer_id` int(11) NOT NULL,
-  `people_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   PRIMARY KEY (`consumer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `consumers_persons`
+--
+
+INSERT INTO `consumers_persons` (`consumer_id`, `person_id`) VALUES
+(1, 6);
 
 -- --------------------------------------------------------
 
@@ -507,7 +521,6 @@ INSERT INTO `images` (`relation_id`, `img`, `type`, `ext`) VALUES
 
 CREATE TABLE IF NOT EXISTS `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `consumer_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
@@ -520,17 +533,14 @@ CREATE TABLE IF NOT EXISTS `people` (
   `zip` int(11) NOT NULL,
   `info` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`id`, `consumer_id`, `type`, `fname`, `lname`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`, `info`) VALUES
-(6, 1, 'aunt', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'testing a really long info field can you dig it man its crazy dawg I should have been doing this all a long'),
-(7, 1, 'bother', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'dfasdfasd', 'Ca', 75757, 'test'),
-(9, 1, 'payee', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'test'),
-(10, 1, 'bother', 'Suzanne', 'Guzman', 's.guzman@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'test', 'Ca', 75757, 'test');
+INSERT INTO `people` (`id`, `type`, `fname`, `lname`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`, `info`) VALUES
+(6, 'payee', 'Guy', 'Pay', 'g.pay@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'testing a really long info field can you dig it man its crazy dawg I should have been doing this all a long');
 
 -- --------------------------------------------------------
 
