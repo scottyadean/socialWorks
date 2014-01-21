@@ -5,7 +5,9 @@
     <li class="active"><a href="#consumerinfo" data-toggle="tab">Info</a></li>
     <li><a href="#caseNotes" data-toggle="tab">Case Notes</a></li>
     <li><a href="#medical" data-toggle="tab">Medical</a></li>
+    <li><a href="#health" data-toggle="tab">Health</a></li>
     <li><a href="#goals" data-toggle="tab">Goals</a></li>
+    <li><a href="#programs" data-toggle="tab">Programs</a></li>
     <li><a href="#reports" data-toggle="tab">Reports</a></li>
 </ul>
 
@@ -84,6 +86,24 @@
 </div>
 </div>
 
+<div class="tab-pane" id="health">
+<div class="row-fluid">
+    <div class="span4">
+    
+    <ul class="rounded-corners module">
+        Medical Health Carts will be populated when the Consumer has at least 3 months of data
+    </ul>
+
+    </div>
+    
+    <div class="span8">  
+        <?= $this->partial('/medical/partials/status-crud.phtml',
+                           array("medicalStatus"=>$this->medicalStatus,
+                                 "consumer_id"=>$this->consumer->id));?>
+    </div>
+</div>
+</div>
+
 
 <div class="tab-pane" id="goals">
 <div class="row-fluid">
@@ -96,11 +116,19 @@
 </div>
 </div>
 
+<div class="tab-pane" id="programs">
+<div class="row-fluid">
+    <div class="span12">
+
+     programs
+    </div>
+</div>
+</div>
+
 
 <div class="tab-pane" id="reports">
 <div class="row-fluid">
     <div class="span12">
-
     Reports
     </div>
 </div>

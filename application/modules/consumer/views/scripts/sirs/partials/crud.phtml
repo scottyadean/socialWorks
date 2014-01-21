@@ -1,0 +1,86 @@
+ 
+ 
+ 
+    <?if(isset($this->title)):?> <h4>Serious Incident Reports</h4> <?endif;?>
+
+    <div class="crud-create-update crud-load-template hidden"
+     id="sir-bind-crud"
+     data-id=''
+     data-path='/sir'
+     data-form='consumersirform'
+     data-title="Serious Incident Report"
+     data-params='',
+     data-action='create'
+     data-target='js-sir-index'
+     data-template='js-crud-edit-sir'
+     data-callback='lightBox.dateFields'
+     data-template-path='consumers/sir'></div>
+        
+    <?= $this->TableHead( array("Date",
+                                "Description",
+                                "Result",
+                                "Edit",
+                                "Delete" ), "table table-bordered js-sir-index", "js-sir-index" ) ?>
+	   
+    
+           
+    <?if(isset($this->sirs)):?>
+       <?foreach($this->sirs as $k=>$sir):
+       $id = $sir['id'];
+       ?>
+        <?= $this->TableRow(array( $this->escape($sir['date']),
+                                   $this->escape($sir['description']),
+                                   $this->escape($sir['result']),
+                                   "<center>
+                                    <a class='crud-create-update icon icon-edit'
+                                      data-action='update'
+                                      data-bind='sir-bind-crud'
+                                      data-params='id:{$id},consumer_id:{$this->consumer_id}'</a>
+                                      </center>",
+                                   "<center>
+                                        <a class='crud-delete icon icon-remove'
+                                        data-bind='sir-bind-crud'
+                                        data-action='delete'
+                                        data-params='id:{$id}'></a>
+                                   </center>"
+                                   ), "class='crud-row-{$id} highlight-child'"); ?>
+       
+       <?endforeach;?>
+   <?endif;?>
+	   
+    <?= $this->TableFoot("<tr><td colspan='5'><a class='crud-create-update pull-right'
+                                                        data-action='create'
+                                                        data-bind='sir-bind-crud'
+                                                        data-params='consumer_id:{$this->consumer_id}'>Add Sir</a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-sir">
+    <% if( action == '_create' ){%>
+    <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
+    <%}%>
+    
+    <td><%= helpers.escapeHtml(values.date) %></td>
+    <td><%= helpers.escapeHtml(values.description) %></td>
+    <td><%= helpers.escapeHtml(values.result) %></td>
+
+    <td>
+        <center>
+            <a class='crud-create-update icon icon-edit'
+               data-action='update'
+               data-bind='sir-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>,consumer_id:<%= helpers.escapeHtml(values.consumer_id) %>'></a>
+            </center>
+    </td>
+    
+    <td>
+        <center>
+            <a class='crud-delete icon icon-remove'
+               data-bind='sir-bind-crud'
+               data-action='delete'
+               data-params='id:<%= helpers.escapeHtml(id) %>'> </a>
+        </center>
+    </td>
+    
+    <% if( action == '_create' ){ %>
+        </tr>
+    <% } %>
+</script>

@@ -1,5 +1,5 @@
 <h4>Current Health Status</h4>
-	
+
 <table class="table table-bordered">
     <tbody>
         <tr>
@@ -10,7 +10,7 @@
                 </label>    
             </td>    
             <td colspan="3">
-                <textarea cols="8" rows="4" id="current_health_status" name="current_health_status" class="textarea-standard-size"></textarea>
+                <textarea cols="8" rows="4" id="current_health_status" name="current_health_status" class="textarea-standard-size"><?=$this->current_health_status?></textarea>
             </td>
         </tr>
         <tr>            
@@ -20,7 +20,7 @@
                 </label>
             </td>
             <td>
-                <input type="text" id="next_appointment" name="next_appointment" />
+                <input type="text" id="next_appointment" name="next_appointment" value="<?=$this->next_appointment?>" />
             </td>
             <td>
                 <label for="next_appointment_contact">
@@ -28,7 +28,7 @@
                 </label>
             </td>
             <td>
-                <input type="text" id="next_appointment_contact" name="next_appointment_contact" />
+                <input type="text" id="next_appointment_contact" name="next_appointment_contact" value="<?=$this->next_appointment_contact?>" />
             </td>
         </tr>
         <tr>
@@ -39,7 +39,7 @@
                 </label>    
             </td>
             <td colspan="3">
-                <textarea id="next_appointment_info" name="next_appointment_info" class="textarea-standard-size"></textarea>
+                <textarea id="next_appointment_info" name="next_appointment_info" class="textarea-standard-size"><?=$this->next_appointment_info?></textarea>
             </td>
         </tr>
     </tbody>
@@ -47,4 +47,5 @@
 
 
 
-<h4>(Medical Information will be updated when consumer is established with ILS Instructor)</h4>
+
+

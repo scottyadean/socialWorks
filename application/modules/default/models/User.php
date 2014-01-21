@@ -76,9 +76,9 @@ class Default_Model_User extends Zend_Db_Table_Abstract {
 
     }
 
-    public function updateUser($id, $data) {
+    public function updateUser($data) {
         $data['last_log'] = new Zend_Db_Expr('NOW()');
-        $where = array('id = ?' => (int)$id);
+        $where = array('id = ?' => (int)$data['id']);
         return parent::update($data, $where) ? true : false;
     }
 

@@ -1,1 +1,77 @@
-<? var_dump($this->user) ?>
+
+<div class="row">
+    
+    <div class="span10">
+        <div class="pull-right">
+
+    </div>
+</div>   
+    
+</div>
+
+
+<div class="row-fluid">
+ 
+
+    
+<div class="span2">
+<img class="img-polaroid pointer js-update-img margin-10px"
+     id="js-update-img"
+     usr:type="u"
+     usr:id="<?=$this->user['id']?>" src="/image/db/<?=$this->user['id']?>/u" />
+     <br />
+
+</div>
+
+<div class="span9">
+<?
+$dontshow = array('id','account_id', 'password', 'salt', 'status', 'position', 'role', 'bio', 'date_created', 'last_log');
+foreach( $this->user as $k=>$u){
+    
+        if(!in_array($k, $dontshow)){
+            echo "<strong>".str_replace("_", " ", ucwords($k)). "</strong> : $u <br />";
+        }
+}?>
+
+
+
+</div>
+
+</div>
+
+<div class="row-fluid">
+    
+    <div class="span10 pad-10px" >
+        
+      <div class="pull-right">          
+     <a href="#" class="js-update-img" id="js-update-img" usr:type="u" usr:id="<?=$this->user['id']?>">Update Image</a> |
+     <a href='/account/edit/'>Edit Account</a>
+      </div>
+        <blockquote>
+            
+            <p>
+                
+                <?=$this->user['bio']?>
+                <small><? $date = strtotime($this->user['date_created']); echo "Account Created: ".date("m-d-Y", $date);  ?></small>
+                <small><? $date = strtotime($this->user['last_log']); echo "Last Login: ".date("m-d-Y", $date);  ?></small>
+            </p>
+            
+        </blockquote>
+        
+    </div>
+    
+</div>
+
+<script>
+    
+     $( ".js-update-img" ).click( function(){
+
+            var ele = $(this);
+            var id = ele.attr('usr:id');
+            var tp = ele.attr('usr:type');            
+            lightBox.show('mainModal', 'Add Image', {'remote':'/image/db/create/'+id+'/'+tp+'/callback/imgUpload.complete'});
+           
+         });
+
+    
+</script>

@@ -35,7 +35,7 @@ class Media_IndexController extends Zend_Controller_Action {
         $res = $img->findbyIdAndType( $this->id, $this->type );
         
         if($res == null){
-            $res = $img->findbyIdAndType( 0, $this->type );
+            $res = $img->findbyIdAndType( 0, 'c');
         }
         
         header("Content-type: image/jpg");
@@ -75,7 +75,6 @@ class Media_IndexController extends Zend_Controller_Action {
             if($upload->isValid()) {   
                 
                     
-                
                     $output = Base_Functions_Assets::saveImageTo($upload, 'img', 'db', 200);
                     $img = new Media_Model_Image;
                     $img->create($this->id, $this->type , $output, 'jpg' , true );

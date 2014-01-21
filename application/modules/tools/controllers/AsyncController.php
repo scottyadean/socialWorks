@@ -76,6 +76,7 @@ class Tools_AsyncController extends Zend_Controller_Action {
         
         $data = array( "pointer"    => $this->_user->username,
                        "account_id" => $this->_user->account_id,
+                       "user_id"    => $this->_user->id,
                        "status"     => 'public',
                        "action"     => 'chat',
                        "data"       => $txt);

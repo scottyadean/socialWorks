@@ -1,8 +1,8 @@
 
-<form action="/isp/summary" method="post" id="isp-gen-goals" >
+<form action="/isp/goals" method="post" id="isp-gen-sirs" >
 
     <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
-                                                             'back'=>'/isp/sirs',
+                                                             'back'=>'/isp/medical',
                                                              'id' => $this->consumer->id,
                                                              'next'=>true,
                                                              'formName'=>$this->formName,
@@ -13,11 +13,11 @@
         <div class="span12">
            <div class="well">
                 
-                <strong>Update Goals Info for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong>
-                        <?= $this->partial( "/goals/partials/crud.phtml", 'consumer',
-                            array( "goals"=>$this->goals,
-                                   "consumer_id"=>$this->consumer->id) );?>    
-                
+                   <strong>Serious Incident Report's for<?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong><br />
+                   <small>(Please list all SIR's written since last meeting)</small>
+                        <?= $this->partial( "/sirs/partials/crud.phtml", 'consumer',
+                            array( "sirs"=>$this->sirs,
+                                   "consumer_id"=>$this->consumer->id) );?>  
                 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
            </div>
         </div>

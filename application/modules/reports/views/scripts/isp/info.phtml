@@ -47,7 +47,7 @@ $this->headScript()->appendFile('/js/views/reports/isp/info.js');
                    <tr>
                     <td>Consumer Name:</td>
                     <td>
-                    <?=$this->consumer['fname']?> <?=$this->consumer['lname']?>
+                    <?=$this->consumer->fname?> <?=$this->consumer->lname?>
                     <input type="hidden" name="consumer_name" value="<?=$this->consumer->fname?> <?=$this->consumer->lname?>" />
                     </td>
                    </tr>

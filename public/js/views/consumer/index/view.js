@@ -381,6 +381,19 @@ $(function() {
         });
         
         
+        
+        
+        //health
+        
+        Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
+          {'month':_month,'year':_year},
+          false,
+          'js-case-note-data',
+          $("#js-notes-template").html(),
+          Notes.MapToCal,
+          'json');
+        
+        
       
         
     });

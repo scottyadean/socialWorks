@@ -26,7 +26,8 @@ class Application_Form_Consumer extends Main_Forms_Builder {
 
        return  array( "type"=>array('required'=> true, 
                                     'type'=>'select',
-                                    'multiOptions' => array('ils'=>'ils', 'pa'=>'pa'), 'default'=>'ils'),       
+                                    'multiOptions' => array('ils'=>'ILS', 'pa'=>'PA'), 'default'=>'ils'),       
+                      "uci"=>array('label'=>"UCI #"),
                       "fname"=>array('label'=>'First Name', 'required'=> true ), 
                       "lname" => array('label'=>'Last Name', 'required'=> true), 
                       "address" => array('required'=> true),
@@ -38,6 +39,7 @@ class Application_Form_Consumer extends Main_Forms_Builder {
                       "zip"  => array('required'=> true), 
                       "phone"  => array('required'=> true), 
                       "email"  => array('required'=> true),
+                      
                       "birth_date"=>array( 'required' => true, 'attributes'=>array('class'=>'date_widget') ),
                       "bio"  => array('label'=>'Notes', 'attributes'=>array('rows'=>'4', 'cols'=>'8')),
                       );

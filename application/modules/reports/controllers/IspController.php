@@ -1,8 +1,8 @@
 <?php
 class Reports_IspController extends Zend_Controller_Action {
 
-    public $steps = array('Start', 'Info', 'Medical', 'Goals', 'Summary', 'Finalize');
-    public $formName = 'Isp Report Progress';
+    public $steps = array('Start', 'Info', 'Medical', 'SIRs', 'Goals', 'Summary', 'Finalize');
+    public $formName = 'Isp Report';
     public $id;
     public $userId;
     public $progressStep = 0;
@@ -85,32 +85,57 @@ class Reports_IspController extends Zend_Controller_Action {
         $hospitalized = new Consumer_Model_ConsumersHospitalized;
         $this->view->hospitalized = $hospitalized->getByConsumerId($this->id);
         
+        $crudModel = new Default_Model_Crud; 
+        $crudModel->setDbName('consumers_medical_status');
+        $this->view->medicalStatus = $crudModel->_index(array('consumer_id = ?' => $this->id));
+         
+         $this->view->appointments = $consumer->getConsumerAppointments();
          
         $this->view->activeStep = 2;
         $this->view->percentComplete = $this->progressStep * 3;
         
     }
 
+    
+   /*
+    * Step 3 SIRs
+    * getSerious Incident Reports 
+    */
+    public function sirsAction() {
+        
+        if( $this->getRequest()->isPost() ) {
+           $this->_setInSession( $this->getRequest()->getPost(), 'medical'); 
+        }
+        
+        $crudModel = new Default_Model_Crud; 
+        $crudModel->setDbName('consumers_sirs');
+        $this->view->sirs = $crudModel->_index(array('consumer_id = ?' => $this->id));
+        
+        $this->view->activeStep = 3;
+        $this->view->percentComplete = $this->progressStep * 4;
+    }
+
+    
     /*
-    * Step 3 Goals
+    * Step 5 Goals
     * get goal info needed for the client
     */
     public function goalsAction() {
         
         if( $this->getRequest()->isPost() ) {
-           $this->_setInSession( $this->getRequest()->getPost(), 'medical'); 
+           $this->_setInSession( $this->getRequest()->getPost(), 'sirs'); 
         }
         
         $consumer = new Consumer_Model_Consumer;
         $this->view->consumer = $consumer->findById($this->id);
         $this->view->goals = $consumer->getConsumerGoals();
         
-        $this->view->activeStep = 3;
-        $this->view->percentComplete = $this->progressStep * 4;
+        $this->view->activeStep = 4;
+        $this->view->percentComplete = $this->progressStep * 5;
     }
 
     /*
-    * Step 5 Summary
+    * Step 6 Summary
     * get any medical info needed for the client
     */
     public function summaryAction() {
@@ -119,8 +144,8 @@ class Reports_IspController extends Zend_Controller_Action {
            $this->_setInSession( $this->getRequest()->getPost(), 'goals'); 
         }
         
-        $this->view->activeStep = 4;
-        $this->view->percentComplete = $this->progressStep * 5;
+        $this->view->activeStep = 5;
+        $this->view->percentComplete = $this->progressStep * 6;
     }
 
 
@@ -129,7 +154,6 @@ class Reports_IspController extends Zend_Controller_Action {
     * get any medical info needed for the client
     */
     public function finalizeAction() {
-        /*
         if( $this->getRequest()->isPost() ) {
            $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
@@ -137,7 +161,7 @@ class Reports_IspController extends Zend_Controller_Action {
         $this->view->activeStep = 5;
         $this->view->percentComplete = $this->progressStep * 6;
         
-        */
+        
          $this->_helper->viewRenderer->setNoRender(true);
          $this->_helper->layout->disableLayout();
         
@@ -162,10 +186,12 @@ echo "</html>";
         $this->view->id = (int)$this->id;
         $this->view->consumer = $this->_consumerModel->findByConsumerIdAndUserId($this->id, $this->userId);
         
+        
         $storedData = $this->_getInSession($namespace);
+        
         if(is_array($storedData)){
             foreach( $storedData as $k=>$v) {
-                $this->view->$k = strip_tags($v);        
+                $this->view->$k = is_array($v) ? $v :  strip_tags($v);        
             }
         }
     }

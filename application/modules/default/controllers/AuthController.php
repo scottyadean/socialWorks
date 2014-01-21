@@ -82,7 +82,7 @@ class Default_AuthController extends Zend_Controller_Action
                 //create a hash to be saved to the user status feild we will find this user 
                 //later when they click on the link. the link will be good for a day
                 $hash = Main_Salt::getResetPasswordHash( $person->username , date("D") );
-                $user->updateUser($person->id,array('status'=>$hash));
+                $user->updateUser(array('status'=>$hash, 'id'=>$person->id));
 
                 //build the return link with the params in place. 
                 $link = SITE_URL."/reset/password/h/{$hash}/u/{$id}";
@@ -137,9 +137,10 @@ class Default_AuthController extends Zend_Controller_Action
             $user = new Default_Model_User();
             $person = $user->findbyHash($hash);
 
-            $user->updateUser($person['id'], array('password'=>$pass,
-                                                 'salt'=> $salt,
-                                                 'status'=>'_')); 
+            $user->updateUser(array('password'=>$pass,
+                                    'salt'=> $salt,
+                                    'id'=>$person['id'],
+                                    'status'=>'_')); 
 
             //redirect to the log-in page. 
             $this->_helper->redirector->gotoUrl('/login');

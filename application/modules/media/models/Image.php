@@ -13,16 +13,16 @@ class Media_Model_Image extends Zend_Db_Table_Abstract {
 
 
     public function create( $id, $type, $blob, $ext, $overwrite = false ) {
-    
+   
             $data = array( 'relation_id' => $id,
                            'img' => base64_encode($blob),
                            'type'=> $type,
                            'ext'=>$ext
                          );
    
-           if( $overwrite == false && $this->countByIdAndType($id, $type) == 0 ){  
-                return $this->insert($data);
-            
+   
+           if(  $this->countByIdAndType($id, $type) == 0 ){  
+                $this->insert($data);
            }
            
            

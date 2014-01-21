@@ -36,6 +36,12 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $this->view->appointments = $consumer->getConsumerAppointments();
             $this->view->persons = $consumer->getConsumerPersons();            
            
+            
+            
+            $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
+            $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->consumer_id);
+            
+            
             //$hospitalized = new Consumer_Model_ConsumersHospitalized;
             //$this->view->hospitalized = $hospitalized->getByConsumerId($this->consumer_id);
             
@@ -44,8 +50,10 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $this->view->hospitalized = $hospitalizedModel->_index(array('consumer_id = ?' => $this->consumer_id));
             
             
-            $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
-            $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->consumer_id);
+            $hospitalizedModel->setDbName('consumers_medical_status');
+            $this->view->medicalStatus = $hospitalizedModel->_index(array('consumer_id = ?' => $this->consumer_id));
+            
+            
             
             $allergiesModel = new Default_Model_Crud; 
             $allergiesModel->setDbName('consumers_allergies');

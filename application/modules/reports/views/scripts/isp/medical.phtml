@@ -3,7 +3,7 @@ $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
 $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
 ?>
 
-<form action="/isp/goals" method="post" id="isp-gen-medical" >
+<form action="/isp/sirs" method="post" id="isp-gen-medical" >
 
 <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
                                                          'back'=>'/isp/info',
@@ -47,9 +47,24 @@ $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
         
         <hr />
         <?= $this->partial( "/isp/partials/medical-health.phtml",
-                        array( "consumer_id"=>$this->consumer->id) );?>
+                        array( "consumer_id"=>$this->consumer->id,
+                               "current_health_status"=>$this->current_health_status,
+                               "next_appointment"=>$this->next_appointment,
+                               "appointments"=>$this->appointments,
+                               "next_appointment_contact"=>$this->next_appointment_contact,
+                               "next_appointment_info"=>$this->next_appointment_info,
+                              ) );?>
 	
 
+        <hr />
+        <?= $this->partial('/medical/partials/status-crud.phtml', 'consumer',
+                   array("title"=>"(Medical Information will be updated when consumer is established with ILS Instructor)",
+                         "medicalStatus"=>$this->medicalStatus,
+                         "consumer_id"=>$this->consumer->id));?>
+        
+
+
+        
 	
 </div>
 </div> 

@@ -610,7 +610,7 @@ var Chat = {
         
         inputOk:function(rsp) {
             if (rsp.success == 1) {
-                Chat.template(rsp.data.pointer, rsp.data.data);
+                Chat.template(rsp.data.user_id, rsp.data.pointer, rsp.data.data);
                 $("#chat-msg").val("").focus();    
             }
         },
@@ -637,7 +637,7 @@ var Chat = {
                 var id = Chat.offset;
                 
                 for ( var i in mg ) {
-                  Chat.template(mg[i].pointer, mg[i].data);
+                  Chat.template(mg[i].user_id, mg[i].pointer, mg[i].data);
                   id = mg[i].id;
                 }
                 
@@ -646,8 +646,11 @@ var Chat = {
         },
 
 
-        template:function(name, message) {
-          Chat.el.append(name + " "+ message+ "<br/>");
+        template:function(id, name, message) {
+          Chat.el.append("<img width='40px' src='/img/src/"+ id +"/u'> "
+                         + "<span class='pointer js-message-user' data-id='<?="+ id +"'>"
+                         + name + "</span> "
+                         + message+ "<br/>");
           Chat.scroller();  
         },        
         
