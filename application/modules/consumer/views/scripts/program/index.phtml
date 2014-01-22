@@ -1,0 +1,45 @@
+
+<h2>Consumer Programs</h2>
+<?= $this->partial('/partials/button.phtml', 'default',
+                   array('link'=>'/consumer/programs/create/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
+<hr />
+
+    <?= $this->TableHead( array("Program",
+                                "Dates Attended",
+                                "Info",
+								"Delete" ), "table table-striped table-bordered" ) ?>
+
+<? if(isset( $this->programs )): ?>
+  
+    <?foreach($this->programs as $p):?>
+        <?= $this->TableRow(array( "<a href='/consumer/programs/update/id/".$p['id']."'>".$p["title"]."</a>",
+                                   $p["dates_attended"],
+                                   $p["program_info"],
+                                   "<a data-id='".$p['id']."' class='del-pro icon icon-remove'> </a>"),
+									  "id='pro-".$p['id']."'"); ?>
+    <?endforeach;?>
+
+<?endif;?>
+    <?= $this->TableFoot() ?>
+<script>
+    
+    
+    $(function(){
+        $(".del-pro").click(function(){
+      var id = $(this).attr('data-id'); 
+      
+      Crud.Confirm({
+	url: '/consumer/programs/delete/',
+	params: {id: id},
+	title: 'Please confirm deleting of Consumer Program.',
+	text:  'The record will be completelly removed! Is it ok?',
+	ok: 'Remove',
+	cancel: 'Cancel'
+		}).done(function(data) {
+			$("#pro-"+data.id).parent().parent().remove();
+		}).fail(function() {
+		});
+        });
+    });
+    
+</script>

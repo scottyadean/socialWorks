@@ -1,0 +1,93 @@
+<h4>consumer programs</h4>
+
+<div class="crud-create-update crud-load-template pointer hidden"
+    id="program-bind-crud"
+    data-id=''
+    data-path='/consumer/programs'
+    data-form='consumersprogramsform'
+    data-title="Edit Program"
+    data-params='',
+    data-action='create'
+    data-target='js-program-index'
+    data-template='js-crud-edit-program'
+    data-callback='lightBox.dateFields'
+    data-template-path='consumers/program'></div>
+
+<?= $this->TableHead( array("Program",
+                            "Dates Attended",
+                            "Info",
+                            "Edit",
+                            "Delete" ), "table table-bordered js-program-index", "js-program-index" ) ?>
+	   
+    <?if(isset($this->programs)):?>
+       <?foreach($this->programs as $k=>$p):?>
+        <?= $this->TableRow(array( $this->escape($p['title']),
+                                   $this->escape($p['dates_attended']),
+                                   $this->escape($p['program_info']),
+                                   "<center>
+                                   <a class='crud-create-update icon icon-edit'
+                                      data-action='update'
+                                      data-bind='program-bind-crud'
+                                      data-params='id:".$p[id].",consumer_id:".$this->consumer_id."'></a>
+                                   </center>",
+                                   "<center>
+                                   <a class='crud-delete icon icon-remove' data-bind='program-bind-crud' data-params='id:".$p[id]."'></a>
+                                   </center>"), "class='crud-row-".$p[id]." highlight-child'"); ?>
+       
+       <?endforeach;?>
+   <?endif;?>
+	   
+    <?= $this->TableFoot("<tr><td colspan='5'><a class='crud-create-update pull-right'
+                                                        data-action='create'
+                                                        data-bind='program-bind-crud'
+                                                        data-params='consumer_id:{$this->consumer_id}'>Add Consumer to Program
+                                                     </a></td></tr>" ) ?>
+
+<script type="text/plain" id="js-crud-edit-program">
+	<% if( action == '_create' ){%>
+            <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
+	<%}%>
+	
+        <td><%= helpers.escapeHtml(program.title) %></td>
+        <td><%= helpers.escapeHtml(values.dates_attended) %></td>
+        <td><%= helpers.escapeHtml(values.program_info) %></td>
+        <td>
+            <center>
+            <a class='crud-create-update icon icon-edit'
+               data-action='update'
+               data-bind='program-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>,consumer_id:<%= helpers.escapeHtml(consumer_id) %>'></a>
+            </center>
+        </td>
+
+        <td>
+            <center>
+            <a class='crud-delete icon icon-remove'
+               data-bind='program-bind-crud'
+               data-params='id:<%= helpers.escapeHtml(id) %>'></a>
+            </center>            
+        </td>
+        
+        <% if( action == '_create' ){ %>
+            </tr>
+	<% } %>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
