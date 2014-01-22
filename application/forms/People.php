@@ -43,6 +43,7 @@ class Application_Form_People extends Main_Forms_Builder {
                                   'aunt'=>'Aunt',
                                   'relative'=>'Relative',
                                   'gardian'=>'Gardian',
+                                  'conservator'=>'Conservator',
                                   'significant_other'=>'Significant other',
                                   'friend'=>'Friend');     
     }

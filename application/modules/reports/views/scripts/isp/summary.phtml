@@ -2,7 +2,7 @@
 <form action="/isp/finalize" method="post" id="isp-gen-summary" >
 
     <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
-                                                             'back'=>'/isp/goals',
+                                                             'back'=>'/isp/programs',
                                                              'id' => $this->consumer->id,
                                                              'next'=>true,
                                                              'formName'=>$this->formName,
@@ -13,7 +13,23 @@
         <div class="span12">
            <div class="well">
                 
+                Summary:
+
+Total Hours:
+
+
+                
                 <strong>Isp Summary for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong>
+                Please print name of person who completed this report:
+
+Date: 
+Signature
+
+
+Date:
+
+                
+                
                 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
            </div>
         </div>

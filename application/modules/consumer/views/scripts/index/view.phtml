@@ -119,8 +119,10 @@
 <div class="tab-pane" id="programs">
 <div class="row-fluid">
     <div class="span12">
-
-     programs
+        <?= $this->partial( "/program/partials/crud.phtml", 'consumer',
+                array( "programs"=>$this->programs,
+                       "consumer_id"=>$this->consumer->id) );?>   
+     
     </div>
 </div>
 </div>

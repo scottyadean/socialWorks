@@ -10,10 +10,14 @@
 
 <script id="js-notes-edit-template" type="text/plain">
         <form id="update-note-<%= id %>">
+            <label for="goal-to-notes">Objective/Goal:</label>
+            <input type="text" name="goal-to-notes"  id="goal-to-notes" class="" value="<%if(typeof goal == 'string'){%> <%= goal %> <%}%>"/><br />
+            <label for="note">Note:</label>
             <textarea name="note" class="textarea-standard-size"><%= note %></textarea><br />
             <input name="id" type="hidden" value="<%= id %>" />
             <input name="consumer_id" type="hidden" value="<%= consumer_id %>" />
             <input name="user_id" type="hidden" value="<%= user_id %>" />
+            <input name="goal_id" type="hidden" value="<%= goal_id %>" />
             <input type="button" class="btn btn-primary update-note-sub" data-id="<%= id %>" value="Update Note" />
             <pre   id="note-undo-<%= id %>" class="hidden"><%= note %></pre>
             <input id="update-note-cancel-<%= id %>" data-id="<%= id %>" type="button" class="btn update-note-cancel" value="Cancel" />
@@ -29,9 +33,13 @@
 <div class="well">
     <label id="js-add-note-info" for="note"><strong>Create a note for todays date: <?=date('m-d-Y')?></strong></label>
     <form id="js-add-new-note">
+        <label for="goal-to-notes">Objective/Goal:</label>
+        <input type="text" name="goal-to-notes" id="goal-to-notes" class="" value=""/><br />
+        <label for="note">Note:</label>
         <textarea id="note" name="note" class="textarea-standard-size"></textarea><br />
         <input id="consumer_id" name="consumer_id" type="hidden" value="<?=$this->consumer->id?>" />
         <input id="user_id" name="user_id" type="hidden" value="<?=$this->user_id?>" />
+        <input name="goal_id" type="hidden" value="<%= goal_id %>" />
         <input id="created" name="created" type="hidden" value="<?=date('Y-m-d')?>">
         <input id="new-note-sub" type="button" class="btn btn-primary" value="Add Note" />
     </form>

@@ -381,19 +381,54 @@ $(function() {
         });
         
         
+         //append the maker helper selector.   
+    var makerhtml = '<div class="dropdown">'
+                   +'<ul id="js-goals-suggestions-select" class="dropdown-menu" role="menu" aria-labelledby="dLabel"> </ul>'
+                   +'</div>';
+      $("#goal-to-notes").append( makerhtml );
+    
+    $('body').delegate('.js-goals-suggestions-select', 'click', function(){
+        
+            var ele = $(this);
+            $("#maker").val( ele.html() )
+            $("#js-goals-suggestions-select").html("").hide();
+            $("#site").val(ele.attr('maker:url'));
         
         
-        //health
-        
-        Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
-          {'month':_month,'year':_year},
-          false,
-          'js-case-note-data',
-          $("#js-notes-template").html(),
-          Notes.MapToCal,
-          'json');
+    });
         
         
-      
+        
+        $("#goal-to-notes").on( "keyup",  function() {
+            var val = $(this).val().trim();
+            var pattern = new RegExp(val,'gi');
+            var appendTo = $("#js-goals-suggestions-select");
+             if (val != '') {
+                appendTo.html("").show();
+                asyncAction.sendPost( '/goals', {'consumer_id': 1 }, function(data){
+                   var found = false;
+                   for (var i = 0; i<data.results.length; i++) {
+                     var name = data.results[i].goal;
+                     if (name.search(pattern) != -1) {
+                         found = true; 
+                         appendTo.append('<li><a class="pointer js-manufactureres-select" maker:url="'+data.results[i].id+'">'+name+'</a></li>');
+                      }
+                    
+                   }
+               
+                if (!found) {
+                     appendTo.hide();
+                }
+               
+              }, 'json');
+            
+            }else{
+                appendTo.html("").hide();
+            }
+            
+        });
+
+    
+    $('.dropdown-toggle').dropdown();
         
     });

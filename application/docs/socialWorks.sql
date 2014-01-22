@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 20, 2014 at 10:24 PM
+-- Generation Time: Jan 22, 2014 at 08:46 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `consumers_allergies` (
 
 INSERT INTO `consumers_allergies` (`id`, `consumer_id`, `allergy`, `info`) VALUES
 (4, 4, 'sneezing from pet dander', 'update screen test too'),
-(6, 1, 'sneezing from pet dander', 'tmp upd again updaet'),
+(6, 1, 'sneezing from pet dander', 'tmp upd again update'),
 (11, 1, 'test', 'testing update'),
 (13, 1, 'sneezing from pet dander', 'test');
 
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `consumers_goals` (
 --
 
 INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
-(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'Y'),
+(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'N'),
 (9, 1, 'test', 'test', '2014-01-08', '2014-01-02', 'Y');
 
 -- --------------------------------------------------------
@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `consumers_hospitalized` (
 --
 
 INSERT INTO `consumers_hospitalized` (`id`, `consumer_id`, `hospital`, `reason`, `duration_of_stay`, `date`) VALUES
-(8, 1, 'Mercy', 'test', '4 days', '2013-12-19');
+(8, 1, 'Mercy', 'testing', '4 days', '2013-12-19');
 
 -- --------------------------------------------------------
 
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `consumers_insurance` (
 --
 
 INSERT INTO `consumers_insurance` (`id`, `consumer_id`, `type`, `medical_number`, `medicare_number`, `insurance_info`) VALUES
-(3, 1, 'medical', '1232221', '123431', 'testing this stuff and updating'),
+(3, 1, 'vision', '1232221', '123431', 'testing this stuff and updating'),
 (4, 1, 'vision', '1232221', 'test', 'test');
 
 -- --------------------------------------------------------
@@ -304,15 +304,14 @@ CREATE TABLE IF NOT EXISTS `consumers_medical_status` (
   `mammogram` varchar(255) NOT NULL,
   `summary` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `consumers_medical_status`
 --
 
 INSERT INTO `consumers_medical_status` (`id`, `date`, `consumer_id`, `exam_id`, `weight`, `height`, `seizure_info`, `seizure_type`, `blood_pressure`, `cholesterol`, `colon_exam`, `prostate_exam`, `osteoporosis_exam`, `flu_shot`, `tetanus_booster`, `pneumococcal_shot`, `hepatitis_b_series`, `hepatitis_a`, `pap_smear`, `mammogram`, `summary`) VALUES
-(1, '2014-01-09', 1, 0, 240, '6', '', '', '200/80', 'normal', '', '', '', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', ''),
-(2, '2014-01-30', 1, 0, 240, '6', '', '', '200/80', 'normal', '', '', '', '', '', '', '', '', '', '', '');
+(1, '2014-01-09', 1, 0, 240, '6', '', '', '200/80', 'normal', '', '', '', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', '');
 
 -- --------------------------------------------------------
 
@@ -324,6 +323,7 @@ CREATE TABLE IF NOT EXISTS `consumers_notes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `consumer_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `goal_id` int(11) NOT NULL,
   `note` text,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -333,15 +333,15 @@ CREATE TABLE IF NOT EXISTS `consumers_notes` (
 -- Dumping data for table `consumers_notes`
 --
 
-INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `note`, `created`) VALUES
-(23, 1, 1, 'this is a test', '2013-12-30 17:54:20'),
-(24, 1, 1, 'this is a testing the test', '2013-12-30 17:55:40'),
-(25, 1, 1, 'test', '2013-12-31 06:49:52'),
-(34, 1, 1, 'testing againint', '2013-12-31 06:49:52'),
-(40, 1, 1, 'testing', '2014-01-24 20:14:40'),
-(42, 1, 1, 'this is the 9th', '2014-01-09 21:42:06'),
-(44, 1, 1, 'this is a case not', '2014-01-10 22:48:05'),
-(45, 1, 1, 'this is a case note for the 15th', '2014-01-15 22:48:17');
+INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `goal_id`, `note`, `created`) VALUES
+(23, 1, 1, 0, 'this is a test', '2013-12-30 17:54:20'),
+(24, 1, 1, 0, 'this is a testing the test', '2013-12-30 17:55:40'),
+(25, 1, 1, 0, 'test', '2013-12-31 06:49:52'),
+(34, 1, 1, 0, 'testing againint', '2013-12-31 06:49:52'),
+(40, 1, 1, 0, 'testing', '2014-01-24 20:14:40'),
+(42, 1, 1, 0, 'this is the 9th', '2014-01-09 21:42:06'),
+(44, 1, 1, 0, 'this is a case not', '2014-01-10 22:48:05'),
+(45, 1, 1, 0, 'this is a case note for the 15th', '2014-01-15 22:48:17');
 
 -- --------------------------------------------------------
 
@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
 --
 
 INSERT INTO `consumers_pharmaceuticals` (`id`, `consumer_id`, `pharmaceutical_id`, `physician_id`, `frequency`, `unit`, `strength`, `side_effects`) VALUES
-(16, 1, '1', 5, '6 times', 'daily', 'test', 'testing update'),
+(16, 1, '1', 1, '6 times', 'daily', 'test', 'testing update'),
 (17, 1, '1', 5, '6 times', 'daily', 'test', 'testing again');
 
 -- --------------------------------------------------------
@@ -422,9 +422,20 @@ INSERT INTO `consumers_physicians` (`consumer_id`, `physician_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `consumers_programs` (
-  `consumers_id` int(11) NOT NULL,
-  `programs_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `consumer_id` int(11) NOT NULL,
+  `program_id` int(11) NOT NULL,
+  `dates_attended` varchar(255) NOT NULL,
+  `program_info` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `consumers_programs`
+--
+
+INSERT INTO `consumers_programs` (`id`, `consumer_id`, `program_id`, `dates_attended`, `program_info`) VALUES
+(3, 1, 2, 'wed 10 - friady 12:30', 'testing update agai');
 
 -- --------------------------------------------------------
 
@@ -439,14 +450,14 @@ CREATE TABLE IF NOT EXISTS `consumers_sirs` (
   `description` varchar(255) NOT NULL,
   `result` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `consumers_sirs`
 --
 
 INSERT INTO `consumers_sirs` (`id`, `consumer_id`, `date`, `description`, `result`) VALUES
-(1, 1, '2014-01-15', 'hit with bottle', 'bandaged head');
+(1, 1, '2014-01-16', 'hit with bottle', 'bandaged head');
 
 -- --------------------------------------------------------
 
@@ -575,7 +586,7 @@ CREATE TABLE IF NOT EXISTS `people` (
 
 INSERT INTO `people` (`id`, `type`, `fname`, `lname`, `email`, `phone`, `cell`, `address`, `city`, `state`, `zip`, `info`) VALUES
 (6, 'payee', 'Guy', 'Pay', 'g.pay@sampleagency.com', '530 675 2785', '530 675 2785', '123 main St.', 'Placerville', 'Ca', 75757, 'testing a really long info field can you dig it man its crazy dawg I should have been doing this all a long'),
-(7, 'program_director', 'Scotty', 'Dean', 'dev@marketingevolution.com', '530-957-582', '', '2955 Coloma St. Placerville Ca 95667', 'Pasadena', 'Ca', 95667, ''),
+(7, 'program_director', 'Scotty', 'Dean', 'dev@marketingevolution.com', '530-957-582', '530 675 2785', '2955 Coloma St. Placerville Ca 95667', 'Pasadena', 'Ca', 95667, ''),
 (8, 'program_director', 'Kevin', 'Harvey', 'dev@marketingevolution.com', '530-957-582', '', '2955 Coloma St. Placerville Ca 95667', 'Pasadena', 'Ca', 95667, 'test');
 
 -- --------------------------------------------------------
@@ -644,15 +655,25 @@ CREATE TABLE IF NOT EXISTS `programs` (
   `director_id` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `web_site` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `fax` varchar(30) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `county` varchar(100) NOT NULL,
+  `state` varchar(3) NOT NULL,
+  `zip` varchar(14) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `programs`
 --
 
-INSERT INTO `programs` (`id`, `director_id`, `title`, `description`) VALUES
-(1, 7, 'Wizard', 'Staycation!!');
+INSERT INTO `programs` (`id`, `director_id`, `title`, `description`, `email`, `web_site`, `phone`, `fax`, `address`, `city`, `county`, `state`, `zip`) VALUES
+(1, 8, 'Food Bank of El Dorado County', 'Food Bank', 'info@foodbankedc.org', 'http://foodbankedc.org/', '(530) 621-9950', '(530) 621-4370', '4550 Business Drive', 'Cameron Park', 'CA', '', '95682'),
+(2, 8, 'some other program', 'Food Bank', 'g.pay@sampleagency.com', 'http://foodbankedc.org', '530 675 2785', '(530) 621-4370', '123 main St.', 'Placerville', 'CA', '', '75757');
 
 -- --------------------------------------------------------
 

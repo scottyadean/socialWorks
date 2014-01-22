@@ -1,5 +1,4 @@
 <?php
-
 /*
 array(14) { ["SCHEMA_NAME"]=> NULL
             ["TABLE_NAME"]=> string(7) "clients"
@@ -8,7 +7,6 @@ array(14) { ["SCHEMA_NAME"]=> NULL
             ["DATA_TYPE"]=> string(7) "varchar" ["DEFAULT"]=> NULL ["NULLABLE"]=> bool(false) ["LENGTH"]=> string(2) "70" ["SCALE"]=> NULL ["PRECISION"]=> NULL ["UNSIGNED"]=> NULL ["PRIMARY"]=> bool(false) ["PRIMARY_POSITION"]=> NULL ["IDENTITY"]=> bool(false) } 
 
 */
-
 class Main_Forms_Builder extends Zend_Form {
 
     public $field;

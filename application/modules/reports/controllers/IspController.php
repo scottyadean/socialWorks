@@ -1,7 +1,7 @@
 <?php
 class Reports_IspController extends Zend_Controller_Action {
 
-    public $steps = array('Start', 'Info', 'Medical', 'SIRs', 'Goals', 'Summary', 'Finalize');
+    public $steps = array('Start', 'Info', 'Medical', 'SIRs', 'Goals', 'Programs', 'Summary', 'Finalize');
     public $formName = 'Isp Report';
     public $id;
     public $userId;
@@ -98,7 +98,7 @@ class Reports_IspController extends Zend_Controller_Action {
 
     
    /*
-    * Step 3 SIRs
+    * Step 4 SIRs
     * getSerious Incident Reports 
     */
     public function sirsAction() {
@@ -115,8 +115,7 @@ class Reports_IspController extends Zend_Controller_Action {
         $this->view->percentComplete = $this->progressStep * 4;
     }
 
-    
-    /*
+  /*
     * Step 5 Goals
     * get goal info needed for the client
     */
@@ -133,24 +132,42 @@ class Reports_IspController extends Zend_Controller_Action {
         $this->view->activeStep = 4;
         $this->view->percentComplete = $this->progressStep * 5;
     }
-
-    /*
-    * Step 6 Summary
-    * get any medical info needed for the client
+    
+ /*
+    * Step 5 products
+    * get programs 
     */
-    public function summaryAction() {
+    public function programsAction() {
         
         if( $this->getRequest()->isPost() ) {
            $this->_setInSession( $this->getRequest()->getPost(), 'goals'); 
         }
         
+        $programModel = new Consumer_Model_ConsumerPrograms;
+        $this->view->programs = $programModel->_index(array("consumer_id = ?" => $this->id));
+      
         $this->view->activeStep = 5;
         $this->view->percentComplete = $this->progressStep * 6;
+    }    
+        
+
+    /*
+    * Step 7 Summary
+    * get any medical info needed for the client
+    */
+    public function summaryAction() {
+        
+        if( $this->getRequest()->isPost() ) {
+           $this->_setInSession( $this->getRequest()->getPost(), 'programs'); 
+        }
+        
+        $this->view->activeStep = 6;
+        $this->view->percentComplete = $this->progressStep * 7;
     }
 
 
   /*
-    * Step 6 Finalize
+    * Step 8 Finalize
     * get any medical info needed for the client
     */
     public function finalizeAction() {
@@ -158,8 +175,8 @@ class Reports_IspController extends Zend_Controller_Action {
            $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
         
-        $this->view->activeStep = 5;
-        $this->view->percentComplete = $this->progressStep * 6;
+        $this->view->activeStep = 7;
+        $this->view->percentComplete = $this->progressStep * 8;
         
         
          $this->_helper->viewRenderer->setNoRender(true);

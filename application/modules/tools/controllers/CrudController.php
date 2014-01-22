@@ -27,8 +27,7 @@ class Tools_CrudController extends Zend_Controller_Action {
         $this->post = $this->getRequest()->isPost();   
         $this->page = $this->getRequest()->getParam('page', 1);
         $this->params = $this->getRequest()->getParams();
-        $this->dbname = $this->getRequest()->getParam("crudDb" , "error"); 
-
+        
         $this->_setViewParams();
        
     }
@@ -37,13 +36,24 @@ class Tools_CrudController extends Zend_Controller_Action {
       
         $this->view->crud = $this->_curd;
         $count = $this->_model->_count($this->_colRef);
-        $paginate = new Base_Template_Paginate(3, $count, $this->page);
+        $paginate = new Base_Template_Paginate(50, $count, $this->page);
         $this->_model->page_limit = $paginate->get_limit();
         $this->_model->page_offset = $paginate->get_offset();
         $this->view->count = $count;
         $this->view->paginate = $paginate->links($this->indexUrl.'/page');
-        
         $this->view->results = $this->_model->_index($this->_colRef);
+    
+         if($this->xhr) {
+         $this->_asJson(array('results'=> $this->view->results,
+                              'count'=>$this->view->count,
+                              'limit'=>$this->_model->page_limit,
+                              'offset'=>$this->_model->page_offset,
+                              'paginate'=>$this->view->paginate,
+                              'link'=>$this->indexUrl.'/page'));
+         return;
+      }
+    
+    
     }
     
     
@@ -130,67 +140,70 @@ class Tools_CrudController extends Zend_Controller_Action {
    
     
     protected function _setViewParams() {
-              
-        $model  = "Default_Model_Crud";
-        $from   = "Application_Form_".$this->getRequest()->getParam("crudFrom" , ucwords($this->dbname));
-        $fields = $this->getRequest()->getParam("crudExcluded" , array());
-        $rurl   = $this->getRequest()->getParam("crudRedirect" ,$this->uri);
-        $name   = $this->getRequest()->getParam("crudDisplayName" , "");
-        $colref = $this->getRequest()->getParam("crudRef" , false);
-        $paging = $this->getRequest()->getParam("crudPaging" , null);
-        
-        foreach( $this->params as $k=>$p ) {
-            $rurl = str_replace(":{$k}",$p, $rurl);
-            $colref = str_replace(":{$k}",$p, $colref);
-        }
-        
-        $this->indexUrl    = str_replace(":curd", "index",  $rurl);
-        $this->updateUrl   = str_replace(":curd", "update", $rurl);
-        $this->createUrl   = str_replace(":curd", "create", $rurl);
-        $this->deleteUrl   = str_replace(":curd", "delete", $rurl);
-        $this->templateUrl = str_replace(":curd", "template", $rurl);
-        
-               
-        $this->_model = new $model;
-        $this->_db = $this->_model->setDbName($this->dbname);
-        $this->_curd = $this->_model->crudData($fields);
-        $this->_form = $from;
-        $this->_colRef = $colref;
-        
-        $this->form  = new $this->_form;
-        $this->form->customSubmitBtn = $this->xhr; 
-        
-        $this->view->layout = true;
-        $this->view->indexUrl  = $this->indexUrl;
-        $this->view->updateUrl = $this->updateUrl;
-        $this->view->createUrl = $this->createUrl;
-        $this->view->deleteUrl = $this->deleteUrl;
-        $this->view->templateUrl  = $this->templateUrl;
-        $this->view->page      = $this->page;
-        $this->view->paging    = empty($paging) ? true : false;
-        
-        $this->view->displayName = $name;        
-        
-        if($this->xhr) {
-            $this->_helper->layout->disableLayout();
-            $this->view->layout = false;
-        }
-        
-         $wheres = array();
-         if($this->_colRef) {
-            
-            $where = explode(",",$this->_colRef);  
-            
-            foreach($where as $k=>$v) {
-             $cols = explode("=>",$v);
-             $wheres["{$cols[0]} = ?"] = $cols[1]; 
-            }
          
-        }
+      $ref =  $this->getRequest()->getParam("crudRef" , false);
+      
+      //get the values for this curd ref.
+      $crud = new Main_Forms_Crud;
+      $c = $crud->getProperty($ref);
+      
+      //set the db name
+      $this->dbname = isset($c['db']) ? $c['db'] : null;
+      
+      //create a instance of the model.
+      $model  = isset($c['model']) ? $c['model'] : "Default_Model_Crud";
+      $this->_model = new $model;
+      $this->_db = $this->_model->setDbName($this->dbname);
+      $fields = isset($c['excluded_from_list']) ? $c['excluded_from_list'] :  array();
+      $this->_curd = $this->_model->crudData($fields);
+      $this->_form = $c['form'];
+      $rurl   = isset($c['url']) ? $c['url'] : $this->uri;
+      $name   = isset($c['title']) ? $c['title'] :  "";
+      $colref = isset($c['where']) ? $c['where'] : false;
+      $paging = isset($c['paging']) ? $c['paging'] : null;
+ 
+      foreach( $this->params as $k=>$p ) {
+         $rurl = str_replace(":{$k}",$p, $rurl);
+         $colref = str_replace(":{$k}",$p, $colref);
+      }
+      
+      $this->_colRef = $colref;
+      $this->indexUrl    = str_replace(":crud", "index",  $rurl);
+      $this->updateUrl   = str_replace(":crud", "update", $rurl);
+      $this->createUrl   = str_replace(":crud", "create", $rurl);
+      $this->deleteUrl   = str_replace(":crud", "delete", $rurl);
+      $this->templateUrl = str_replace(":crud", "template", $rurl);
+      
+      $this->form  = new $this->_form;
+      $this->form->customSubmitBtn = $this->xhr;
+      
+      $this->view->displayName = $name;        
+      $this->view->layout = true;
+      $this->view->indexUrl  = $this->indexUrl;
+      $this->view->updateUrl = $this->updateUrl;
+      $this->view->createUrl = $this->createUrl;
+      $this->view->deleteUrl = $this->deleteUrl;
+      $this->view->templateUrl  = $this->templateUrl;
+      $this->view->page      = $this->page;
+      $this->view->paging    = empty($paging) ? true : false;
         
-        $this->_colRef = $wheres;
-        
-        
+      if($this->xhr) {
+         $this->_helper->layout->disableLayout();
+         $this->view->layout = false;
+      }
+      
+      $wheres = array();
+      if($this->_colRef) {
+         $where = explode(",",$this->_colRef);  
+      
+         foreach($where as $k=>$v) {
+            $cols = explode("=>",$v);
+            $wheres["{$cols[0]} = ?"] = $cols[1]; 
+         }
+      
+      }
+      
+      $this->_colRef = $wheres; 
     }
     
     

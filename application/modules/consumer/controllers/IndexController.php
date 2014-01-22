@@ -36,8 +36,6 @@ class Consumer_IndexController extends Zend_Controller_Action {
             $this->view->appointments = $consumer->getConsumerAppointments();
             $this->view->persons = $consumer->getConsumerPersons();            
            
-            
-            
             $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
             $this->view->medications = $medsModel->findByConsumerIdAndMapPhysician($this->consumer_id);
             
@@ -64,6 +62,11 @@ class Consumer_IndexController extends Zend_Controller_Action {
             
             $examsModel = new Consumer_Model_ConsumersExams;
             $this->view->physiciansExams = $examsModel->findByConsumerIdAndMapPhysician($this->consumer_id); 
+           
+           
+           $programModel = new Consumer_Model_ConsumerPrograms;
+           $this->view->programs = $programModel->_index(array("consumer_id = ?" => $this->consumer_id));
+      
             
         }
     

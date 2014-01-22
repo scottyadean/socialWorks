@@ -30,16 +30,16 @@
     <hr>
 </li>
 
-
-
 <li>
     <a class="pointer js-assign-person" person:id="<?=$this->consumer->id?>" person:type='payee'>Assign A Payee</a>
     <div id="consumer-person-list">
         <?if ( isset($this->persons)): ?>
         <?foreach( $this->persons as $p ):?>
+        <?if( $p['type'] == 'payee' ):?>
             <p class="consumer-person-<?=$p['id']?>">
                 <?=$p['fname']?> <?=$p['lname']?>
             </p>
+         <?endif;?>   
         <?endforeach?>     
         <?endif;?>
     </div>

@@ -52,6 +52,24 @@ $this->headScript()->appendFile('/js/views/reports/isp/info.js');
                     </td>
                    </tr>
                    
+                    <tr>
+                    <td>Payee</td>
+                    <td>
+                                                         
+                    <?if ( isset($this->persons)): ?>
+                    <?foreach( $this->persons as $p ):?>
+                    <?if( $p['type'] == 'payee' ):?>
+                        <?=$p['fname']?> <?=$p['lname']?>
+                        <input type="hidden" name="payee[]" value="<?=$p['id']?>" /><br/>
+                        
+                     <?endif;?>   
+                    <?endforeach?>     
+                    <?endif;?>                                     
+                    
+                    </td>
+                   </tr>  
+                  
+                   
                    <tr>
                     <td>UCI #:</td>
                     <td>
@@ -69,6 +87,8 @@ $this->headScript()->appendFile('/js/views/reports/isp/info.js');
                         <input type="hidden" name="consumer_dob" value="<?=$date->format('m/d/Y')?>" />
                         </td>
                    </tr>
+                   
+                   
                    
                 </tbody>
             </table>

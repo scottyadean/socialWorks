@@ -50,7 +50,20 @@ class Application_Form_Programs extends Main_Forms_Builder {
 
          $fields = array("title" => array('label'=>'Title', 'required'=> true ),
                          "director_id"=>array('label'=>'Contact Person', 'required'=> true, 'type'=>'select', 'multiOptions'=>$this->_peeps), 
-                         "description"=>array('label'=>'Description', 'required'=> true ));
+                         "description"=>array('label'=>'Description', 'required'=> true ),
+                         'email'=>array(),
+                         'web_site'=>array('label'=>'Web Site'),
+                         'phone'=>array('label'=>'Phone'),
+                         'fax'=>array(),
+                         'address'=>array(),
+                         'city'=>array(),
+                         'county'=>array(),
+                          'zip'=>array()
+                         /*
+                         `phone`, `address`, `city`, `county`, `state`, `zip`
+                         */
+                         
+                         );
         
            if( isset( $this->_id ) ) {
               

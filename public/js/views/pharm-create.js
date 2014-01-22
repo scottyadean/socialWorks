@@ -88,7 +88,7 @@ $(function(){
             var appendTo = $("#js-manufacture-suggestions");
              if (val != '') {
                 appendTo.html("").show();
-                asyncAction.sendPost( '/pharamchicals/manufacturers/', {'sort': val[0] }, function(data){
+                asyncAction.sendPost( '/goals/index/consumer_id/1', {'sort': val[0] }, function(data){
                    var found = false;
                    for (var i = 0; i<data.length; i++) {
                      var name = data[i].name;
