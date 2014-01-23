@@ -11,8 +11,7 @@ Columns:
 
 */
 
-class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract 
-{
+class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
     protected $_name = 'consumers_exams';
     protected $_primary = 'id';    
     protected $_referenceMap = array(
@@ -80,9 +79,13 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract
         
         $m = $month ? $month : date('m');
         $y = $year ? $year : date('Y');
-        
-        $exams = $this->findByConsumerId($consumer_id,
-                                         array('date LIKE ?'=> date("{$y}-{$m}")."%" ));
+        if($month || $year){
+            $exams = $this->findByConsumerId($consumer_id,
+                                             array('date LIKE ?'=> date("{$y}-{$m}")."%" ));
+             
+         }else{
+            $exams = $this->findByConsumerId($consumer_id);
+         }
          
          foreach( $physicians as $key=>$p ) {
             $ex = array();

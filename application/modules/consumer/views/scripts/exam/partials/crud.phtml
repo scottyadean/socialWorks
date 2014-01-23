@@ -11,10 +11,8 @@
     data-target='js-exams-index'
     data-template='js-crud-edit-exam'
     data-callback='lightBox.dateFields'
-    data-onupdate='Exam.checkbox'
+	data-onCreate='DragData.addEvent'
     data-template-path='consumers/exams'></div>
-
-
 <?
    $header = array( "Physician Name",
                     "Address",
@@ -28,7 +26,7 @@
 
    <div class="max-height-450px overflow-auto">
 			<? if(isset( $this->physiciansExams )): ?>
-			<?= $this->TableHead( $header , "table table-bordered js-exams-index", "js-exams-index" ) ?>
+			<?= $this->TableHead( $header , "table table-bordered js-exams-table data-table small-txt", "js-exams-table", "id='js-exams-index'" ) ?>
 			<? ksort($this->physiciansExams) ?>
 			<?foreach($this->physiciansExams as $p):?>
 			<?foreach($p['exams'] as $e):?>
@@ -56,7 +54,7 @@
     <?= $this->TableFoot("<tr><td colspan='9'><a class='crud-create-update pull-right' 
                                                         data-params='cid:{$this->consumer_id}' 
                                                         data-action='create' 
-                                                        data-bind='exam-bind-crud'>Add Exam</a></tr></td>") ?>
+                                                        data-bind='exam-bind-crud'>Add Exam</a></td></tr>") ?>
 	<?endif;?>
 	</div>
 
@@ -65,8 +63,10 @@
 <script type="text/plain" id="js-crud-edit-exam">
 	
 	<%if(action == 'createExam') {%>
-	 <tr class='crud-row-<%= helpers.escapeHtml(values.id) %> highlight-child'>
+	 <tr class='crud-row-<%= helpers.escapeHtml(id) %> highlight-child'>
 	<% } %>	
+	
+	
 	<td><%= helpers.escapeHtml(physician.name.substring(0, 30))%></td>
 	<td><%= helpers.escapeHtml(physician.address.substring(0, 30))%></td>
 	<td><%= helpers.escapeHtml(physician.phone) %></td>
@@ -76,7 +76,7 @@
 
 	<td>
     <center><a class='crud-create-update icon icon-edit' 
-              data-params='id:<%= values.id %>,cid:<%= values.consumer_id %>'
+              data-params='id:<%= id %>,cid:<%= values.consumer_id %>'
               data-bind='exam-bind-crud' 
               data-action='update'></a></center>
     </td>
@@ -86,7 +86,7 @@
 	 <center><a class='crud-delete icon icon-remove' 
                 data-bind='exam-bind-crud'
                 data-action='delete' 
-                data-params='id:<%= values.id %>,cid:<%= values.consumer_id %>'></a></center>
+                data-params='id:<%= id %>,cid:<%= values.consumer_id %>'></a></center>
 	</td>
 	
 

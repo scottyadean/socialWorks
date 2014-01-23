@@ -64,16 +64,11 @@ var lightBox = {
 };
 
 
-
-
 var Crud =  {
-      
       scope:null,
       template:"",
       callback:false,
-    
-      Events:function(  ) {
-        
+      Events:function(  ) {        
         //////////////////////////////////////////////
        //Crud New/Edit Events
        /////////////////////////////////////////////
@@ -100,11 +95,26 @@ var Crud =  {
               if (data.success != false) {
               
                 var template = _.template($("#"+crud.template).html());
-                $("#"+crud.target).prepend(template(data));
+                $("#"+crud.target).prepend(template(data)).promise(
+				
+				function(){
+					
+					$("#"+crud.target+" .crud-row-"+data.id).css({'display':'none'}).fadeIn(1000,function() {
+					
+					});
                 
-                $("#"+crud.target+" .crud-row-"+data.id).css({'display':'none'}).fadeIn(1000,function() {});
-                lightBox.close('mainModal');
+				if (crud.onCreate != undefined) {
+					helpers.jsFunction(crud.onCreate, window, crud);
+				}
+				
+					}												   
+																   
+				);
+				
+				
+				lightBox.close('mainModal');
                 
+				
               }else{
               
                 Crud.FormErrors(crud.form, data.errors);
@@ -173,18 +183,13 @@ var Crud =  {
                 }else{
                     
                     alert('Error deleting item');
-                }
-
-                
+                }            
             }
        
        }).fail(function() {
       });
     });
-    
-        
-        
-        
+            
     } ,
       
       Info:function(el, act) {
@@ -202,6 +207,7 @@ var Crud =  {
                    element: element.attr('id'),
                    template: element.attr('data-template'),
                    onUpdate:element.attr('data-onupdate'),
+				   onCreate:element.attr('data-oncreate'),
                    request:Math.round(new Date().getTime() / 1000),
                    params:Crud.paramsString(params)};  
 
@@ -213,14 +219,14 @@ var Crud =  {
                         
         },
       
-      Create:function(path, data, callback, format) {	
-	var params = Crud.params(data);
-	$.post(path,
-	       params,
-	       callback,format).error(Crud.error);
+	Create:function(path, data, callback, format) {	
+		var params = Crud.params(data);
+		$.post(path,
+			   params,
+			   callback,format).error(Crud.error);
       },
 
-      Read:function(path, params, scope, el, template, callback, format ) {
+    Read:function(path, params, scope, el, template, callback, format ) {
 	Crud.attr = scope;
 	Crud.template = template;
 	Crud.el = $("#"+el);
@@ -538,10 +544,8 @@ var imgUpload = {
         
         jsFunction:function(functionName, context, args) {
            
-            var namespaces = functionName.split(".");
-            var func = namespaces.pop();
-            
-			
+		   var namespaces = functionName.split(".");
+           var func = namespaces.pop();
 			try{
 				if (typeof context === undefined) {
 					return false;
@@ -774,7 +778,37 @@ var Chat = {
 	}
 	
     };
-    
+ 
+ 
+var DragData = {
+
+	prefix:'js-drag-selected-',
+	exams:[],
+
+	add:function(scope, id) {
+	   this[scope].push(id);
+	   this.update(scope);           
+	},
+	
+	update:function(scope) {
+		$('#'+this.prefix+scope).val(this[scope].join(","));
+	},
+	
+	remove:function(scope, id) {
+		this.exams = _.without(this[scope], id);
+		$("#drag-"+scope+"-"+id).parent().remove();
+		this.update(scope);
+	},
+	
+	 addEvent:function(id) {
+		$( "#js-exams-index tr:first-child").draggable({
+		cursor: "move",
+		scope:"exams",
+		cursorAt: { top: 0, left: 1 },
+		helper: 'clone',
+		});     
+		}
+};    
     
     
     /*

@@ -69,9 +69,7 @@ button.btn {
 .
 
 .small-txt {
-   
-   font-size: 80%;
-   
+   font-size:80%!important;
 }
 
 .pointer{
@@ -269,7 +267,7 @@ button.btn {
 
 /* padding */
 .pos-rel {
-   position: absolute;
+   position:relative;
 }
 
 .pos-abs {
@@ -355,7 +353,6 @@ button.btn {
 }
 
 .highlight{
-   
    background-color: #FFFF00!important;
    border-bottom: 1px dotted #999;
 }
@@ -369,3 +366,17 @@ button.btn {
 .modal-body { overflow-y: auto; max-height:450px; }
 
 #achieved-element{ margin-bottom: 10px;}
+
+
+.drag-down-array
+{
+   background: url('/img/drag-down.jpg')  center -10px #F5F5F5 no-repeat;
+   
+}
+
+.drag-target{
+   display: block;
+   border: 1px solid #DDDDDD;
+   background: #fff;
+   min-height: 80px;
+}

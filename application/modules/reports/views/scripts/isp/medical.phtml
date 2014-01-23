@@ -1,13 +1,14 @@
 <?
 $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
 $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
-$this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js')
-
+$this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js');
+$this->headScript()->appendFile('/js/vendor/jquery.dataTables.min.js');
+$this->headScript()->appendFile('/js/vendor/bootstrap-datatable.js');
+$this->headScript()->appendFile('/js/vendor/jquery.dataTable.tools.js');
+$this->headLink()->appendStylesheet('/css/bootstrap-datatable.css');
 ?>
 
 <form action="/isp/sirs" method="post" id="isp-gen-medical" >
-
-        
 <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
                                                          'back'=>'/isp/info',
                                                          'id' => $this->consumer->id,
@@ -15,29 +16,31 @@ $this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js')
                                                          'formName'=>$this->formName,
                                                          'steps'=>$this->steps,
                                                          'activeStep'=>$this->activeStep)); ?>
-<div class="row">
-<div class="span12">
-<div class="well pos-rel">
 
 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
-		
+
+<div class="row">
+<div class="span12 pos-rel">
+
+        <input type="hidden" name="js-drag-selected-exams" id="js-drag-selected-exams" value="" />																							  											  		        
         <?= $this->partial( "/exam/partials/crud.phtml", 'consumer',
-                        array( "physiciansExams"=>$this->physicians,
-                              "selectBoxs"=>true,
-                               "consumer_id"=>$this->consumer->id) );?>
-     
-        <center>Drag Exams Here</center>
-        <div id="selected-exams-drop" style="display: block; border: 1px solid #333; background: #fff; min-height: 40px;">
-          <table class="table ">
-            <tbody id="exams-drop-target">
-                
-                
-                
-            </tbody>
-            </table>
-       
+        array("physiciansExams"=>$this->physicians,
+              "callback"=>'DragData.addEvent',
+              "consumer_id"=>$this->consumer->id) );?>
+    
+    
+        <center><strong>Drag Exams you would like to include here</strong></center>            
+        <div id="selected-exams-drop" class="drag-target rounded-corners">
+            <table class="table ">
+                <tbody id="exams-drop-target"> </tbody>
+            </table>       
         </div>
-            <hr />
+    
+    
+<hr />
+
+
+        
         <?= $this->partial('/insurance/partials/crud.phtml', 'consumer',
                         array( "insurance"=>$this->insurance,
                               "consumer_id"=>$this->consumer->id));?>           
@@ -80,64 +83,28 @@ $this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js')
         
         
        
+</div>
+</div>
 
 
         
 <script>
     
-    $(function(){
+$(function(){
         
-        $("body").delegate(".remove_from_drag_traget", "click", function(){
-            
-            var ele = $(this);
-            var scope = ele.attr('data-scope');
-            var id = ele.attr('data-id');
-            
-            DragData.removeFrom(scope, id);
-            
-        });
-        
-        /*
-        $("body").delegate("#js-exams-index tr", "mousedown", function(event) {
-        $(this).draggable({
-                //helper: "clone",
-                helper: function( event ) {
-    return $( "<div class='perview-drop tasks' data='somedata'>I'm a custom helper</div>" );
-},
-                scope:"exams",
-                //cursorAt: { left: 5, top: -5 },
-                cursor: "move",
-                stop: function() {
-                        $(this).draggable("destroy");
-                }
-        });
+$("body").delegate(".remove_drag_item", "click", function(){
+    var ele = $(this);
+    DragData.remove(ele.attr('data-scope'), ele.attr('data-id'));
 });
 
 
-function( event ) {
-    return $( "<div class='perview-drop tasks' data='somedata'>I'm a custom helper</div>" );
-}
-    
+$("#highlight-child").delegate(".remove_drag_item", "click", function(){
+    var ele = $(this);
+    DragData.remove(ele.attr('data-scope'), ele.attr('data-id'));
+});
 
-        */
+//highlight-child ui-draggable
 
-var DragData = {
-    
-        exams:[],
- 
-        removeFrom:function(scope, id) {
-            
-            
-            if (scope == 'exams') {
-                DragData.exams =  _.without( DragData.exams, id);
-                $("#drag-exam-"+id).parent().remove();
-            }
-            
-        }
- 
-    };
-
-        
 $( "#js-exams-index tr").draggable({
     cursor: "move",
     scope:"exams",
@@ -153,17 +120,13 @@ drop: function(event, ui) {
    var params = Crud.paramsString(data);
    
    if(_.indexOf(DragData.exams, params.id) == -1){
-   
-     DragData.exams.push(params.id);
-   
-    console.log(DragData.exams);
-   
-    row.find("td:last-child").remove();
-    row.find("td:last-child").remove();
-    row.find("td:last-child").remove();
-    
-    var html = "<td id='drag-exam-"
-                +params.id+"'><i class='pointer icon icon-remove remove_from_drag_traget' data-scope='exams' data-id='"
+        DragData.add('exams', params.id);
+        row.find("td:last-child").remove();
+        row.find("td:last-child").remove();
+        row.find("td:last-child").remove();
+        
+    var html = "<td id='drag-exams-"
+                +params.id+"'><i class='pointer icon-minus-sign remove_drag_item' data-scope='exams' data-id='"
                 +params.id+"'></i></td>";
     
     row.append( html );
@@ -174,12 +137,39 @@ drop: function(event, ui) {
 });
 
 
+
+
+$('.data-table').dataTable(
+                           
+
+{
+		"sDom": "<'row-fluid'<'span6'T><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+		"oTableTools": {
+			"aButtons": [
+				//"copy",
+				//"print",
+				//{
+				//	"sExtends":    "collection",
+				//	"sButtonText": 'Save <span class="caret" />',
+				//	"aButtons":    [ "csv", "xls", "pdf" ]
+				//}
+			]
+		}
+	}                           
+                           
+);
+
+
+
+
 });
 
 </script>
         
 	
+
+
 </div>
-</div> 
 </div>
+
 </form>
