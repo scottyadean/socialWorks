@@ -1,0 +1,16 @@
+<? $doNotShow = array('id');?>
+
+
+
+<?if(isset($this->person) ):?>
+
+    <?foreach($this->person as $k=>$p):?>
+        
+        <?if(!in_array($k, $doNotShow)):?>
+            <strong><?= ucwords(str_replace("_", " ", $k)) ?></strong> : <?=$this->escape($p)?><br />
+        <?endif;?>
+        
+    <?endforeach;?>
+
+
+<?endif;?>

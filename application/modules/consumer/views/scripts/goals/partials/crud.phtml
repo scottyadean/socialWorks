@@ -57,7 +57,7 @@
     <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">
     <%}%>
     
-    <td><%= helpers.escapeHtml(values.goal) %></td>
+    <td><%= helpers.escapeHtml(helpers.noSpecialChars(values.goal)) %></td>
     <td><%= helpers.escapeHtml(values.objective) %></td>
     <td><%= helpers.escapeHtml(values.effective_start_date) %></td>
     <td><%= helpers.escapeHtml(values.effective_complete_date) %></td>

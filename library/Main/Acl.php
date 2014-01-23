@@ -5,6 +5,7 @@ class Main_Acl extends Zend_Acl {
     
     public $resources = array('default'=> array('index','error', 'auth', 'user'),
                               'consumer'=> array('index',
+                                                 'async',
                                                  'medical',
                                                  'physician',
                                                  'person',
@@ -30,6 +31,7 @@ class Main_Acl extends Zend_Acl {
     public $users = array('default-index', 
                           'default-user',                                
                           'consumer-note',
+                          'consumer-async',
                           'consumer-exam',
                           'consumer-index',
                           'consumer-person',

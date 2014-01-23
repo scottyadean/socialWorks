@@ -40,6 +40,8 @@ class Main_Forms_Crud {
                             "url" => "/goals/:crud/consumer_id/:consumer_id",
                             "form" => "Application_Form_ConsumerGoals",
                             "title" => "Goals",
+                            "onCreate"=>"Consumer_Model_ConsumersGoals::ClearData",
+                            "onUpdate"=>"Consumer_Model_ConsumersGoals::ClearData",
                             "where" => "consumer_id=>:consumer_id",
                             "excluded_from_list" => "id,consumer_id",
                             "excluded_from_view"=> array('id'));

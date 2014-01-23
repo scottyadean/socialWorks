@@ -15,15 +15,13 @@
     data-template-path='consumers/exams'></div>
 
 
-<? $selectLabel = $this->selectBoxs == true ? "<a class='js-select-all-exams' data-status='n'>Select <i class=''></i></a>": "";?>
- <?
+<?
    $header = array( "Physician Name",
                     "Address",
                     "Phone",
                     "Exam Type",
                     "Date of Last Exam",
                     "Result of Exam",
-                    $selectLabel,
                     "Edit",
                     "Delete"); ?>
 
@@ -42,8 +40,6 @@
                                    date('m/d/Y', $strDate ),
                                    "<div class='show-tooltip' title='".$this->escape($e->result)."' data-toggle='tooltip' >"
 								   .$this->Truncate($this->escape($e->result), 30)."</div>",
-                                    $this->selectBoxs ? "<center><input type='checkbox' name='exams[]' value='{$e->id}' /></center>" : "",
-                                   
                                    "<center><a class='crud-create-update icon icon-edit' 
                                                       data-params='id:{$e->id},cid:{$this->consumer_id}'
                                                       data-bind='exam-bind-crud' 
@@ -77,15 +73,7 @@
 	<td><%= helpers.escapeHtml(values.type) %></td>
 	<td><%= helpers.escapeHtml(values.date) %></td>
 	<td><div title="<%=helpers.escapeHtml(values.result)%>"><%=helpers.escapeHtml(values.result.substring(0, 30))  %></div></td>
-    
-    <td>
-	<?if($selectLabel == true):?>				 
-       <center>
-           <input type='checkbox' name='exams[]' value='<%= helpers.escapeHtml(values.id) %>'   />
-       </center>
-	<?endif;?>
-    </td>
-   
+
 	<td>
     <center><a class='crud-create-update icon icon-edit' 
               data-params='id:<%= values.id %>,cid:<%= values.consumer_id %>'

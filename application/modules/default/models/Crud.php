@@ -1,11 +1,17 @@
 <?php
 class Default_Model_Crud extends Zend_Db_Table_Abstract {
 
+    public $onCreate;
+    public $onUpdate;
+    
     public $page_limit = null;
     public $page_offset;
 
     protected $_name = '_not_set_';
     protected $_primary = 'id';
+    
+    
+    
     
     public function setPrimary(  $primary ) {
         $this->_primary = $primary;
@@ -75,8 +81,13 @@ class Default_Model_Crud extends Zend_Db_Table_Abstract {
     public function _create($data) {
         if( isset($data['id']) ) {
             unset($data['id']);     
-       }
+        }
        
+        if(!empty($this->onCreate)) {
+          
+            $funct = explode("::",$this->onCreate);
+            $data = call_user_func(array($funct[0], $funct[1]), $data);
+        } 
 
        return $this->insert($this->cleanData($data));
     }
@@ -87,6 +98,13 @@ class Default_Model_Crud extends Zend_Db_Table_Abstract {
 
     
     public function _update($data) {
+        
+        if(!empty($this->onUpdate)) {
+          
+            $funct = explode("::",$this->onUpdate);
+            $data = call_user_func(array($funct[0], $funct[1]), $data);
+        }
+        
         $where = array('id = ?' => (int)$data['id']);
         return $this->update($this->cleanData($data), $where);
     }

@@ -161,6 +161,10 @@ class Tools_CrudController extends Zend_Controller_Action {
       $name   = isset($c['title']) ? $c['title'] :  "";
       $colref = isset($c['where']) ? $c['where'] : false;
       $paging = isset($c['paging']) ? $c['paging'] : null;
+        
+      $this->_model->onCreate = isset($c['onCreate']) ? $c['onCreate'] : null;
+      $this->_model->onUpdate = isset($c['onUpdate']) ? $c['onUpdate'] : null;  
+ 
  
       foreach( $this->params as $k=>$p ) {
          $rurl = str_replace(":{$k}",$p, $rurl);

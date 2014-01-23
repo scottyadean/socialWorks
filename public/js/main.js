@@ -524,6 +524,18 @@ var imgUpload = {
           return '';
 	},
         
+        noSpecialChars:function(str) {
+            
+           if(typeof str == undefined )
+           {
+            return '';
+           } 
+            
+           return str.replace(/[^\w\s]/gi, '').trim();    
+            
+        },
+        
+        
         jsFunction:function(functionName, context, args) {
            
             var namespaces = functionName.split(".");

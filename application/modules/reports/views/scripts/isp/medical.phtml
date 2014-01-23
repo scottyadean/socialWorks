@@ -1,10 +1,13 @@
 <?
 $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
 $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
+$this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js')
+
 ?>
 
 <form action="/isp/sirs" method="post" id="isp-gen-medical" >
 
+        
 <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
                                                          'back'=>'/isp/info',
                                                          'id' => $this->consumer->id,
@@ -14,7 +17,7 @@ $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
                                                          'activeStep'=>$this->activeStep)); ?>
 <div class="row">
 <div class="span12">
-<div class="well">
+<div class="well pos-rel">
 
 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />
 		
@@ -22,8 +25,19 @@ $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
                         array( "physiciansExams"=>$this->physicians,
                               "selectBoxs"=>true,
                                "consumer_id"=>$this->consumer->id) );?>
-        <hr />
-        
+     
+        <center>Drag Exams Here</center>
+        <div id="selected-exams-drop" style="display: block; border: 1px solid #333; background: #fff; min-height: 40px;">
+          <table class="table ">
+            <tbody id="exams-drop-target">
+                
+                
+                
+            </tbody>
+            </table>
+       
+        </div>
+            <hr />
         <?= $this->partial('/insurance/partials/crud.phtml', 'consumer',
                         array( "insurance"=>$this->insurance,
                               "consumer_id"=>$this->consumer->id));?>           
@@ -44,7 +58,7 @@ $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
                         array( "hospitalized"=>$this->hospitalized,
                               "consumer_id"=>$this->consumer->id) );?>
         
-        
+
         <hr />
         <?= $this->partial( "/isp/partials/medical-health.phtml",
                         array( "consumer_id"=>$this->consumer->id,
@@ -56,14 +70,113 @@ $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
                               ) );?>
 	
 
+        
+        
         <hr />
         <?= $this->partial('/medical/partials/status-crud.phtml', 'consumer',
                    array("title"=>"(Medical Information will be updated when consumer is established with ILS Instructor)",
                          "medicalStatus"=>$this->medicalStatus,
                          "consumer_id"=>$this->consumer->id));?>
         
+        
+       
 
 
+        
+<script>
+    
+    $(function(){
+        
+        $("body").delegate(".remove_from_drag_traget", "click", function(){
+            
+            var ele = $(this);
+            var scope = ele.attr('data-scope');
+            var id = ele.attr('data-id');
+            
+            DragData.removeFrom(scope, id);
+            
+        });
+        
+        /*
+        $("body").delegate("#js-exams-index tr", "mousedown", function(event) {
+        $(this).draggable({
+                //helper: "clone",
+                helper: function( event ) {
+    return $( "<div class='perview-drop tasks' data='somedata'>I'm a custom helper</div>" );
+},
+                scope:"exams",
+                //cursorAt: { left: 5, top: -5 },
+                cursor: "move",
+                stop: function() {
+                        $(this).draggable("destroy");
+                }
+        });
+});
+
+
+function( event ) {
+    return $( "<div class='perview-drop tasks' data='somedata'>I'm a custom helper</div>" );
+}
+    
+
+        */
+
+var DragData = {
+    
+        exams:[],
+ 
+        removeFrom:function(scope, id) {
+            
+            
+            if (scope == 'exams') {
+                DragData.exams =  _.without( DragData.exams, id);
+                $("#drag-exam-"+id).parent().remove();
+            }
+            
+        }
+ 
+    };
+
+        
+$( "#js-exams-index tr").draggable({
+    cursor: "move",
+    scope:"exams",
+    cursorAt: { top: 0, left: 1 },
+    helper: 'clone',
+    });
+
+$( "#selected-exams-drop" ).droppable({
+drop: function(event, ui) {
+ 
+   var row = $($.parseHTML("<tr>"+ui.helper.html()+"</tr>"));
+   var data = row.find('td a.crud-delete').attr('data-params');
+   var params = Crud.paramsString(data);
+   
+   if(_.indexOf(DragData.exams, params.id) == -1){
+   
+     DragData.exams.push(params.id);
+   
+    console.log(DragData.exams);
+   
+    row.find("td:last-child").remove();
+    row.find("td:last-child").remove();
+    row.find("td:last-child").remove();
+    
+    var html = "<td id='drag-exam-"
+                +params.id+"'><i class='pointer icon icon-remove remove_from_drag_traget' data-scope='exams' data-id='"
+                +params.id+"'></i></td>";
+    
+    row.append( html );
+    $("#exams-drop-target").append(row);
+   
+    }
+},scope: "exams"
+});
+
+
+});
+
+</script>
         
 	
 </div>

@@ -4,6 +4,7 @@ class Consumer_NoteController  extends Zend_Controller_Action {
    public $xhr;
    public $uri;
    public $post;
+   public $params;
    public $format;
    public $callback;
    public $consumer_id;
@@ -19,6 +20,7 @@ class Consumer_NoteController  extends Zend_Controller_Action {
         $this->uri = $this->getRequest()->getRequestUri();
         $this->sort = $this->getRequest()->getParam('sort', false);
         $this->post = $this->getRequest()->isPost();
+        $this->params = $this->getRequest()->getParams();
         $this->format = $this->getRequest()->getParam('format', false);
         $this->callback = $this->getRequest()->getParam('callback', null);
     
@@ -98,10 +100,14 @@ class Consumer_NoteController  extends Zend_Controller_Action {
         $form  = new Application_Form_ConsumerNotes;
         
         $note = new Consumer_Model_ConsumersNotes;
+       
+        
         $form->build( $this->uri,
                       $this->consumer_id,
                       $this->user_id,
                       $this->id);
+        
+        
         if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
          
             if( $lastid = $note->createNote($form->getValues())){
@@ -111,9 +117,11 @@ class Consumer_NoteController  extends Zend_Controller_Action {
                   $values = $form->getValues();
                   $values['id'] = $lastid;
                   $values['created'] = isset($values['created']) ? $values['created'] : 'just now';
+                  $values['goal'] =  $this->getRequest()->getParam('goal-to-notes', null);
                   $this->_asJson(array('success'=>true,
                                        'msg'=>'New Note added.',
                                        'values'=>$values,
+                                       'goal'=>$values['goal'],
                                        'id'=>$lastid));   
                
                }else{
@@ -139,42 +147,45 @@ class Consumer_NoteController  extends Zend_Controller_Action {
     $form  = new Application_Form_ConsumerNotes;
     $note = new Consumer_Model_ConsumersNotes;
       
-      $form->build( $this->uri,
-                    $this->consumer_id,
-                    $this->user_id,
-                    $this->id);
+    $form->build( $this->uri,
+                  $this->consumer_id,
+                  $this->user_id,
+                  $this->id);
 
     $notesData = $note->readNote($this->id)->toArray();
     $form->populate($notesData);
-      
-     if( $this->post && $form->isValid($this->getRequest()->getPost())  ) {
-  
-             if( $lastid = $note->updateNote($form->getValues())){
-               
-               
-                 if( $this->xhr ) {
-               
-                  $values = $form->getValues();
-                  $values['created'] = isset($values['created']) ? $values['created'] : 'updated';
-                  $this->_asJson(array('success'=>true,
-                                       'msg'=>'Note updated.',
-                                       'values'=>$values,
-                                       'id'=>$this->id));   
-               
-               }else{
-                 
-                 $this->_helper->flashMessenger->addMessage(array('alert alert-success'=>"Note updated.") );  
-                 $this->_redirect($this->indexAction . $this->consumer_id);
-                 
-               } 
-               
-               
-               
-               
-             }
-         }
-      
-         $this->view->form  = $form;
+    
+    $res = Main_Forms_Handler::onPost($form ,
+                                      $this->post,
+                                      $note,
+                                      "updateNote",
+                                      $this->params,
+                                      $this->_helper,
+                                      $this->indexAction . $this->consumer_id,
+                                      "Note updated.",
+                                      $this->xhr);  
+    
+    
+    
+    if($this->xhr && $this->post && !empty($res)) {
+        
+        
+        $res['values']['created'] = isset($values['created']) ? $values['created'] : 'updated';
+        $res['values']['goal'] = $this->getRequest()->getParam('goal-to-notes', null);
+        $res['goal'] =  $res['values']['goal'];
+         
+        $this->_asJson($res);
+        return;
+    }
+    
+    if($this->xhr && $this->post) {
+        $this->_asJson(array( 'success'=>false, 'id'=>$this->id, 'action'=>'no change', 'message'=>'form not changed', 'errors'=>array() ));
+    }else{        
+        $this->view->form  = $form;
+    }
+
+    
+    
     
    }
 

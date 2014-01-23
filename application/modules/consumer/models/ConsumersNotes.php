@@ -39,16 +39,25 @@ class Consumer_Model_ConsumersNotes extends Zend_Db_Table_Abstract
    
     public function findByConsumerId($consumer_id) {
         
-          $select = $this->select()->where( 'consumer_id = ?', (int)$consumer_id );
+           $select = $this->select()->from('consumers_notes')
+                 ->setIntegrityCheck(false)
+                  ->joinLeft(array('g'=>'consumers_goals'),
+                             'consumers_notes.goal_id = g.id', array('goal'));
+          $select->where( 'consumers_notes.consumer_id = ?', (int)$consumer_id );
+          
           return $this->fetchAll($select);
     }
 
     public function findByConsumerIdAndUserId($consumer_id, $user_id, $searchDate=false) {
         
-        $select = $this->select()->where( 'consumer_id = ?', (int)$consumer_id );
+        $select = $this->select()->from('consumers_notes')
+                                 ->setIntegrityCheck(false)
+                                 ->joinLeft(array('g'=>'consumers_goals'), 'consumers_notes.goal_id = g.id', array('goal'));
+        
+        $select->where( 'consumers_notes.consumer_id = ?', (int)$consumer_id );
         
         if($searchDate) {
-            $select->where('created LIKE ?', "{$searchDate}%");
+            $select->where('consumers_notes.created LIKE ?', "{$searchDate}%");
         }
         
         
@@ -79,8 +88,12 @@ class Consumer_Model_ConsumersNotes extends Zend_Db_Table_Abstract
             unset($data['created']);
         }
         
-    return $data;
+        $info = $this->info();
+        return array_intersect_key($data, $info['metadata']); 
+        
   }
   
+  
+      
   
 }

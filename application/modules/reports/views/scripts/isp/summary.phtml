@@ -12,22 +12,23 @@
     <div class="row">
         <div class="span12">
            <div class="well">
+            
+               <p>
+               <strong>Isp Summary for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong>
+               </p>
+               
+               <label for="isp-summary">Summary:</label>
+               <textarea id='isp-summary' name="isp-summary"></textarea><br />
+
+                <label for="total-hours">Total Hours:</label>
+                <input type="text" name="total-hours" value="" id="total-hours"/>
+                    
+                <label for="print-name">Please print name of person who completed this report:</label>
+                <input type="text" name="print-name" value="<?=$this->user->fname?> <?=$this->user->lname?>" id="print-name"/>
                 
-                Summary:
-
-Total Hours:
-
-
+                <label for="isp-date">Date:</label>
+                <input type="text" name="isp-date" value="<?=date("m-d-Y")?>" id="isp-date"/>
                 
-                <strong>Isp Summary for <?=$this->consumer->fname?> <?=$this->consumer->lname?> </strong>
-                Please print name of person who completed this report:
-
-Date: 
-Signature
-
-
-Date:
-
                 
                 
                 <input type="hidden" name="id" value="<?=$this->consumer->id?>" />

@@ -28,11 +28,11 @@
                                    <a class='crud-create-update icon icon-edit'
                                       data-action='update'
                                       data-bind='program-bind-crud'
-                                      data-params='id:".$p[id].",consumer_id:".$this->consumer_id."'></a>
+                                      data-params='id:".$p['id'].",consumer_id:".$this->consumer_id."'></a>
                                    </center>",
                                    "<center>
-                                   <a class='crud-delete icon icon-remove' data-bind='program-bind-crud' data-params='id:".$p[id]."'></a>
-                                   </center>"), "class='crud-row-".$p[id]." highlight-child'"); ?>
+                                   <a class='crud-delete icon icon-remove' data-bind='program-bind-crud' data-params='id:".$p['id']."'></a>
+                                   </center>"), "class='crud-row-".$p['id']." highlight-child'"); ?>
        
        <?endforeach;?>
    <?endif;?>

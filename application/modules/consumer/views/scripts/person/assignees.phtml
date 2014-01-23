@@ -1,3 +1,8 @@
+
+<p>
+    <a class="js-add-new-person">Add New Payee</a><br/>
+</p>
+
 <div id="js-consumer-person-info"> </div>
 
 <div id="js-consumer-person-btns">
@@ -21,7 +26,7 @@
     <a class="js-assign-to-consumer-btn btn btn-primary <?=$style?> js-append-info-to pointer" 
         person:id="<?=$p['id']?>"
         append:id="<?=$p['id']?>"
-        append:url="/person/read/id/"                         
+        append:url="/consumer/async/person-info/id/"                         
         append:div="js-consumer-person-info">
         <i class="icon-user icon-white"></i> <?=$p['fname']?> <?=$p['lname']?></a>
    

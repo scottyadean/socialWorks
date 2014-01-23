@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2014 at 08:46 AM
+-- Generation Time: Jan 22, 2014 at 09:57 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -218,15 +218,16 @@ CREATE TABLE IF NOT EXISTS `consumers_goals` (
   `effective_complete_date` date NOT NULL,
   `achieved` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `consumers_goals`
 --
 
 INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
-(8, 1, 'test', 'test', '2014-01-01', '2014-01-15', 'N'),
-(9, 1, 'test', 'test', '2014-01-08', '2014-01-02', 'Y');
+(8, 1, 'goal_1', 'test', '2014-01-01', '2014-01-15', 'N'),
+(9, 1, 'messed up names', 'testing', '2014-01-08', '2013-11-27', 'N'),
+(10, 1, 'test s', 'fart', '2014-01-23', '2014-01-17', 'N');
 
 -- --------------------------------------------------------
 
@@ -327,21 +328,18 @@ CREATE TABLE IF NOT EXISTS `consumers_notes` (
   `note` text,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `consumers_notes`
 --
 
 INSERT INTO `consumers_notes` (`id`, `consumer_id`, `user_id`, `goal_id`, `note`, `created`) VALUES
-(23, 1, 1, 0, 'this is a test', '2013-12-30 17:54:20'),
-(24, 1, 1, 0, 'this is a testing the test', '2013-12-30 17:55:40'),
-(25, 1, 1, 0, 'test', '2013-12-31 06:49:52'),
-(34, 1, 1, 0, 'testing againint', '2013-12-31 06:49:52'),
-(40, 1, 1, 0, 'testing', '2014-01-24 20:14:40'),
-(42, 1, 1, 0, 'this is the 9th', '2014-01-09 21:42:06'),
-(44, 1, 1, 0, 'this is a case not', '2014-01-10 22:48:05'),
-(45, 1, 1, 0, 'this is a case note for the 15th', '2014-01-15 22:48:17');
+(23, 1, 1, 8, 'this is a test', '2013-12-30 17:54:20'),
+(24, 1, 1, 8, 'this is a testing the test', '2013-12-30 17:55:40'),
+(25, 1, 1, 8, 'test', '2013-12-31 06:49:52'),
+(34, 1, 1, 8, 'testing againint', '2013-12-31 06:49:52'),
+(52, 1, 1, 8, 'testing', '2014-01-22 20:35:27');
 
 -- --------------------------------------------------------
 
@@ -435,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `consumers_programs` (
 --
 
 INSERT INTO `consumers_programs` (`id`, `consumer_id`, `program_id`, `dates_attended`, `program_info`) VALUES
-(3, 1, 2, 'wed 10 - friady 12:30', 'testing update agai');
+(3, 1, 1, 'wed 10 - friady 12:30', 'testing update agai');
 
 -- --------------------------------------------------------
 

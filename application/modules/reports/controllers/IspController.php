@@ -160,6 +160,9 @@ class Reports_IspController extends Zend_Controller_Action {
         if( $this->getRequest()->isPost() ) {
            $this->_setInSession( $this->getRequest()->getPost(), 'programs'); 
         }
+       
+        $userModel = new Default_Model_User;
+        $this->view->user = $userModel->findById($this->userId);
         
         $this->view->activeStep = 6;
         $this->view->percentComplete = $this->progressStep * 7;
@@ -171,18 +174,37 @@ class Reports_IspController extends Zend_Controller_Action {
     * get any medical info needed for the client
     */
     public function finalizeAction() {
+        
         if( $this->getRequest()->isPost() ) {
-           $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
+            $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
         
+        
+        
+        
+        $keys = array('summary', 'programs','goals','sirs', 'medical', 'info');
+        $data = array();
+        foreach($keys as $namespace) {
+            
+            
+            $data["_{$namespace}_"] = $this->_getInSession($namespace);
+            
+            
+        }
+        
+        $this->view->data = $data;
         $this->view->activeStep = 7;
         $this->view->percentComplete = $this->progressStep * 8;
         
         
-         $this->_helper->viewRenderer->setNoRender(true);
-         $this->_helper->layout->disableLayout();
         
-      header("Content-type: application/vnd.ms-word");
+    }
+
+    public function wordAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        
+              header("Content-type: application/vnd.ms-word");
        header("Content-Disposition: attachment;Filename=document_name.doc");
 
 echo "<html>";

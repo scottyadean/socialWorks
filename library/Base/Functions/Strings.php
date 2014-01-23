@@ -11,8 +11,13 @@ class Base_Functions_Strings
     
     } 
     
+    public static function NoSpecialChar($str ='') {
+        
+        return trim(preg_replace('/[^A-Za-z0-9\s]/', '', $str));
+        
+    }
     
-    public static function truncate($str, $limit = 50, $appendix = '...') {
+    public static function truncate($str='', $limit = 50, $appendix = '...') {
 	
 	return mb_strimwidth($str, 0, $limit, $appendix);	
     }
