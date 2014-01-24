@@ -42,9 +42,19 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
         return $this->delete(array('id = ?' => (int)$id));
     }
    
-    public function findByConsumerId($consumer_id, $where=array()) {
+    public function findByConsumerId($consumer_id, $where=array(), $ids = false) {
         
-          $select = $this->select()->where( 'consumer_id = ?', (int)$consumer_id );
+          $select = $this->select()->from($this)->where( 'consumer_id = ?', (int)$consumer_id );
+          
+          
+          if( $ids && !is_array($ids) ){
+             $ids = explode(",",$ids);
+          }
+          
+          if($ids){
+           $select->where('id IN (?)',  $ids);
+          }
+          
           
           if(is_array($where)) {
             
@@ -54,9 +64,38 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
             
           }
           
+          print $select->__toString();
+          exit;
+          
           return $this->fetchAll($select);
     }
 
+    
+    public function findByIds($ids, array $where = array()) {
+    
+      if( $ids && !is_array($ids) ){
+             $ids = explode(",",$ids);
+        }
+    
+          $select = $this->select()->from('consumers_exams')
+                 ->setIntegrityCheck(false)
+                 ->joinLeft(array('p'=>'physicians'),
+                                  'p.id = consumers_exams.physician_id', array('p.name', 'p.phone', 'p.address', 'p.city', 'p.state', 'p.zip'))
+                 ->where('consumers_exams.id IN (?)',  $ids)
+                 ->order('consumers_exams.date DESC');
+             
+        if( $where && is_array($where) ) {
+            
+            foreach($where as $k=>$v) {
+                $select->where("consumers_exams.{$k}", $v);
+            }
+        }
+        
+        return $this->fetchAll($select);
+        
+        
+    }
+    
     public function findByPhysicianId($physician_id) {
           $select = $this->select();
           $select->where( 'physician_id = ?', $physician_id );
@@ -70,7 +109,11 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
     }
     
     
-    public function findByConsumerIdAndMapPhysician($consumer_id, $month=false, $year=false) {
+    public function findByConsumerIdAndMapPhysician($consumer_id,
+                                                    $month=false,
+                                                    $year=false,
+                                                    $ids = false
+                                                    ) {
         
         $consumer = new Consumer_Model_Consumer;
         $consumerInfo = $consumer->findById($consumer_id);
@@ -81,15 +124,16 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
         $y = $year ? $year : date('Y');
         if($month || $year){
             $exams = $this->findByConsumerId($consumer_id,
-                                             array('date LIKE ?'=> date("{$y}-{$m}")."%" ));
+                                             array('date LIKE ?'=> date("{$y}-{$m}")."%" ), $ids);
              
          }else{
-            $exams = $this->findByConsumerId($consumer_id);
+            $exams = $this->findByConsumerId($consumer_id, false, $ids);
          }
          
          foreach( $physicians as $key=>$p ) {
             $ex = array();
             foreach($exams as $k=>$e) {
+                
                if( $e->physician_id == $p['id'] ) {   
                   $ex[] =  $e;                 
                }

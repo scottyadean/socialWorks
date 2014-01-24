@@ -68,6 +68,20 @@ class Consumer_Model_ConsumerPrograms extends Zend_Db_Table_Abstract {
     }
 
     
+    public function mapDirectorTitle($id) {
+        
+        $select = $this->select()->from('consumers_programs')
+                 ->setIntegrityCheck(false)
+                  ->joinLeft(array('p'=>'programs'), 'consumers_programs.program_id = p.id', array('title', 'phone'))
+                  ->joinLeft(array('pe'=>'people'),'p.director_id = pe.id',array('lname','fname', 'phone AS dphone'));
+        
+       $select->where('consumers_programs.consumer_id 	 = ?', $id);
+         
+      return $this->fetchAll($select);    
+    }    
+    
+    
+    
     public function _update($data) {
         $where = array('id = ?' => (int)$data['id']);
         return $this->update($this->cleanData($data), $where);

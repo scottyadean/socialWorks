@@ -3,8 +3,8 @@ $this->headScript()->appendFile('/js/views/reports/isp/medical.js');
 $this->headScript()->appendFile('/js/views/consumer/exam/crud.js');
 $this->headScript()->appendFile('/js/vendor/jquery-ui-1.10.4.custom.min.js');
 $this->headScript()->appendFile('/js/vendor/jquery.dataTables.min.js');
-$this->headScript()->appendFile('/js/vendor/bootstrap-datatable.js');
-$this->headScript()->appendFile('/js/vendor/jquery.dataTable.tools.js');
+//$this->headScript()->appendFile('/js/vendor/bootstrap-datatable.js');
+//$this->headScript()->appendFile('/js/vendor/jquery.dataTable.tools.js');
 $this->headLink()->appendStylesheet('/css/bootstrap-datatable.css');
 ?>
 
@@ -21,6 +21,7 @@ $this->headLink()->appendStylesheet('/css/bootstrap-datatable.css');
 
 <div class="row">
 <div class="span12 pos-rel">
+    <div class="well">
 
         <input type="hidden" name="js-drag-selected-exams" id="js-drag-selected-exams" value="" />																							  											  		        
         <?= $this->partial( "/exam/partials/crud.phtml", 'consumer',
@@ -29,7 +30,7 @@ $this->headLink()->appendStylesheet('/css/bootstrap-datatable.css');
               "consumer_id"=>$this->consumer->id) );?>
     
     
-        <center><strong>Drag Exams you would like to include here</strong></center>            
+        <center><strong>Drag Exams you would like to include in the Isp Report here</strong></center>            
         <div id="selected-exams-drop" class="drag-target rounded-corners">
             <table class="table ">
                 <tbody id="exams-drop-target"> </tbody>
@@ -82,7 +83,7 @@ $this->headLink()->appendStylesheet('/css/bootstrap-datatable.css');
                          "consumer_id"=>$this->consumer->id));?>
         
         
-       
+</div>       
 </div>
 </div>
 
@@ -139,7 +140,9 @@ drop: function(event, ui) {
 
 
 
-$('.data-table').dataTable(
+$('.data-table').dataTable();
+/*
+
                            
 
 {
@@ -155,11 +158,8 @@ $('.data-table').dataTable(
 				//}
 			]
 		}
-	}                           
-                           
-);
-
-
+	} 
+*/
 
 
 });

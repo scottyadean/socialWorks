@@ -1,0 +1,977 @@
+
+<?if($this->header):?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<!--META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8"--->
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=Windows-1252">    
+	<TITLE>ISP REPORT</TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 3.5  (Linux)">
+	<META NAME="AUTHOR" CONTENT="<?=$this->user['fname']?> <?=$this->user['lname']?>">
+	<META NAME="CREATED" CONTENT="20130910;21060000">
+	<META NAME="CHANGEDBY" CONTENT="<?=$this->user['fname']?> ">
+	<META NAME="CHANGED" CONTENT="20130915;21040000">
+        <META NAME="Info 1" CONTENT="">
+	<META NAME="Info 2" CONTENT="">
+	<META NAME="Info 3" CONTENT="">
+	<META NAME="Info 4" CONTENT="">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin-right: 1in; margin-top: 0.5in; margin-bottom: 0.6in }
+		P { margin-bottom: 0.08in; direction: ltr; color: #000000; widows: 0; orphans: 0 }
+		P.western { font-family: "Times New Roman", serif; font-size: 10pt; so-language: en-US }
+		P.cjk { font-family: "Times New Roman", serif; font-size: 10pt }
+		P.ctl { font-family: "Times New Roman", serif; font-size: 10pt; so-language: ar-SA }
+                TD.standard{border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; border-right: 1px solid #ccc; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in;}
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" DIR="LTR">
+ <?endif;?>
+    
+<DIV TYPE=HEADER>
+	<P CLASS="western" STYLE="margin-bottom: 0.21in">Consumer Name:  <?=$this->consumer->fname?> <?=$this->consumer->lname?>
+         <BR><FONT SIZE=3><U><B>ISP REPORT</B></U></FONT>
+         </P>
+</DIV>
+
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in">
+    <FONT SIZE=3><B>ILS Agency</B></FONT><FONT SIZE=3>: </FONT><?= SITE_NAME ?><BR>
+    <FONT SIZE=3><B>Person Completing Report</B></FONT><FONT SIZE=3>: </FONT><?=$this->user->fname?> <?=$this->user->lname?><BR>
+    <FONT SIZE=3><B>Service Coordinator</B></FONT><FONT SIZE=3>: </FONT>
+    
+    <?if(isset($this->coordinator) && is_array($this->coordinator)):
+                        foreach($this->coordinator as $coordinator):?>
+    <?=$coordinator['fname']?> <?=$coordinator['lname']?> 
+                        
+    <?endforeach;?>
+    <?endif;?>
+    
+
+</P>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=152>
+	<COL WIDTH=126>
+	<COL WIDTH=96>
+	<COL WIDTH=206>
+	<TR VALIGN=TOP>
+		<TD WIDTH=152 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Consumer Name:</B></FONT></P>
+		</TD>
+		<TD WIDTH=126 CLASS="standard">
+			<P CLASS="western"><?=$this->consumer->fname?> <?=$this->consumer->lname?></P>
+		</TD>
+		<TD WIDTH=96 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>UCI #:</B></FONT></P>
+		</TD>
+		<TD WIDTH=206 CLASS="standard">
+			<P CLASS="western"><?= $this->consumer->uci?></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=152 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date of Birth:</B></FONT></P>
+		</TD>
+		<TD WIDTH=126 CLASS="standard">
+                    <?$bd = strtotime($this->consumer->birth_date);?>
+			<P CLASS="western"><?= date("m/d/Y", $bd);?></P>
+		</TD>
+		<TD WIDTH=96 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date:</B></FONT></P>
+		</TD>
+		<TD WIDTH=206 CLASS="standard">
+			<P CLASS="western"><?= date('m/d/Y')?></P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=104>
+	<COL WIDTH=505>
+	<TR VALIGN=TOP>
+		<TD WIDTH=104 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Current Status of Consumer:</B></FONT></P>
+		</TD>
+		<TD WIDTH=505 CLASS="standard">
+			<P CLASS="western"> <?=$this->data['_info_']['consumer_status']?></P>
+		</TD>
+	</TR>
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=104>
+	<COL WIDTH=505>
+	<TR VALIGN=TOP>
+		<TD WIDTH=104 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=2><B>Needs of the consumer and Reason for ISP:</B></FONT></P>
+		</TD>
+		<TD WIDTH=505 CLASS="standard">
+			<P CLASS="western"> <?=$this->data['_info_']['consumer_needs']?></P>
+		</TD>
+	</TR>
+</TABLE>
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=137>
+	<COL WIDTH=74>
+	<COL WIDTH=90>
+	<COL WIDTH=76>
+	<COL WIDTH=88>
+	<COL WIDTH=90>
+	<TR>
+		<TD COLSPAN=6 WIDTH=625 HEIGHT=10 VALIGN=TOP STYLE="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding: 0in">
+			<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+			</P>
+			<P CLASS="western"><FONT SIZE=3><B>Medical Information</B></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=137 HEIGHT=21 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Physician</B></FONT></P>
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Name</B></FONT></P>
+		</TD>
+		<TD WIDTH=74 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Address</B></FONT></P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Telephone #</B></FONT></P>
+		</TD>
+		<TD WIDTH=76 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Type
+			of</B></FONT></P>
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Exam</B></FONT></P>
+		</TD>
+		<TD WIDTH=88 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Date of Last Exam</B></FONT></P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Result of Exam</B></FONT></P>
+		</TD>
+	</TR>
+        
+        
+        
+        <?if(isset($this->exams)):?>
+        <?foreach($this->exams as $e):?>
+	<TR VALIGN=TOP>
+		<TD WIDTH=137 HEIGHT=2 CLASS="standard">
+			<P CLASS="western">
+                        <?=$e->name?>
+			</P>
+		</TD>
+		<TD WIDTH=74 CLASS="standard">
+			<P CLASS="western">
+                        <FONT SIZE=2><?=$e->address?> <?=$e->city?>, <?=$e->state?>. <?=$e->zip?></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western">
+                            <?=$e->phone?>
+			</P>
+		</TD>
+		<TD WIDTH=76 CLASS="standard">
+			<P CLASS="western">
+                            <?=$e->type?>
+			</P>
+		</TD>
+		<TD WIDTH=88 CLASS="standard">
+			<P CLASS="western">
+                            <? $d = strtotime($e->date);?>
+                            <?=date("m/d/Y", $d)?>
+			</P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western">
+                            <?=$e->result?>
+			</P>
+		</TD>
+	</TR>
+        <?endforeach;?>
+        <?endif;?>
+
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+
+
+<?if(isset($this->insurance)):?>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=271>
+	<COL WIDTH=339>
+            
+        <?foreach($this->insurance as $i):?>    
+	<TR VALIGN=TOP>
+		<TD WIDTH=271 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Medical Number</B>: <?=$i['medical_number']?></FONT></P>	
+		</TD>
+		<TD WIDTH=339 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Medicare Number</B>: <?=$i['medicare_number']?></FONT></P>
+		</TD>
+                </TR>
+                <TR>
+		<TD COLSPAN=2 WIDTH=623 HEIGHT=1 VALIGN=TOP CLASS="standard">
+			<P LANG="" CLASS="western"><FONT SIZE=3><B> <?=$i['type']?> Insurance
+			Information </B>: <?=$i['insurance_info']?></FONT>
+			</P>
+		</TD>
+	</TR>
+        <?endforeach;?>
+        
+</TABLE>
+ <?endif;?>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=24>
+	<COL WIDTH=234>
+	<COL WIDTH=66>
+	<COL WIDTH=82>
+	<COL WIDTH=57>
+	<COL WIDTH=90>
+	<TR VALIGN=TOP>
+		<TD WIDTH=24 HEIGHT=19 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>#</B></FONT></P>
+		</TD>
+		<TD WIDTH=234 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Name
+			of Medications/</B></FONT></P>
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Prescriptions</B></FONT></P>
+		</TD>
+		<TD WIDTH=66 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Strength</B></FONT></P>
+		</TD>
+		<TD WIDTH=82 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Frequency/Dosage</B></FONT></P>
+		</TD>
+		<TD WIDTH=57 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Reason</B></FONT></P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Physician</B></FONT></P>
+		</TD>
+	</TR>
+        
+        
+        <?if(isset($this->medications)):
+            $i = 0;
+        ?>
+        <?foreach( $this->medications as $m ):
+        
+            $i++;
+        ?>
+	<TR VALIGN=TOP>
+		<TD WIDTH=24 HEIGHT=3 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><?=$i?></FONT></P>
+		</TD>
+		<TD WIDTH=234 CLASS="standard">
+			<P CLASS="western"><?=$m->phname?></P>
+		</TD>
+		<TD WIDTH=66 CLASS="standard">
+			<P CLASS="western"><?=$m->strength?></P>
+		</TD>
+		<TD WIDTH=82 CLASS="standard">
+			<P CLASS="western"><?=$m->frequency?> <?=$m->unit?></P>
+		</TD>
+		<TD WIDTH=57 CLASS="standard">
+			<P CLASS="western"><?=$m->reason?></P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western"><?=$m->name?></P>
+		</TD>
+	</TR>
+        <?endforeach;?>
+        <?endif;?>
+        
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Describe OBSERVED side effects from each medication(s) that is applicable:</B></FONT></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=80>
+	<COL WIDTH=134>
+	<COL WIDTH=381>
+	<TR VALIGN=TOP>
+		<TD WIDTH=80 HEIGHT=11 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Medication</B></FONT></P>
+		</TD>
+		<TD WIDTH=134 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Dosage</B></FONT></P>
+		</TD>
+		<TD WIDTH=381 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Side Effect(s)</B></FONT></P>
+		</TD>
+	</TR>
+
+        <?if(isset($this->medications)):?>
+        <?foreach( $this->medications as $m ):?>
+
+        <?if(isset($m->side_effects) && trim($m->side_effects) != ''):?>
+        
+	<TR VALIGN=TOP>
+		<TD WIDTH=80 CLASS="standard">
+			<P CLASS="western"><?=$m->phname?></P>
+		</TD>
+		<TD WIDTH=134 CLASS="standard">
+			<P CLASS="western"><?=$m->frequency?> <?=$m->unit?></P>
+		</TD>
+		<TD WIDTH=381 CLASS="standard">
+			<P CLASS="western"><?=$m->side_effects?></P>
+		</TD>
+	</TR>
+        <?endif;?>
+         <?endforeach;?>
+        <?endif;?>
+
+</TABLE>
+
+
+<P CLASS="western"><FONT SIZE=3><B>Allergies, i.e., Medication, Food, Environment, etc.</B>:</FONT></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=623>
+	<TR>
+		<TD WIDTH=623 HEIGHT=7 VALIGN=TOP CLASS="standard">
+			
+                        <?if(isset($this->allergies)):?>
+                        <?foreach($this->allergies as $a):?>
+                        
+                            <P>
+                            <FONT SIZE=2>
+                            <?= $a->allergy ?><BR>
+                             <?=$a->info;?>
+                            </FONT>
+                            </P>
+                             
+                        <?endforeach;?>      
+                        <?endif;?>
+
+		</TD>
+	</TR>
+</TABLE>
+
+<P CLASS="western"><FONT SIZE=3><B>Name medications that require periodic blood level monitoring</B>: </FONT></P>
+
+<TABLE WIDTH=639  CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=623>
+	<TR>
+            <TD WIDTH=623 HEIGHT=7 VALIGN=TOP CLASS="standard">                        
+                          <?if(isset($this->medications)):?>
+                            <?foreach( $this->medications as $m ):?>
+                            
+                                    <?if($m->blood_level_monitoring):?>
+                                        <?= $m->phname?>, 
+                                    <?endif;?>
+                            
+                            <?endforeach;?>      
+                        <?endif;?>
+            </TD>
+	</TR>
+</TABLE>
+    
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+<P CLASS="western" STYLE="margin-bottom: 0in">
+    <FONT SIZE=3><B>If consumer was hospitalized or taken to the Emergency Room:</B></FONT>
+</P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=160>
+	<COL WIDTH=300>
+	<COL WIDTH=100>
+        <COL WIDTH=35>
+	<TR VALIGN=TOP>
+		<TD WIDTH=161 HEIGHT=7 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Hospital Name</B></FONT></P>
+		</TD>
+		<TD WIDTH=321 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Reason</B></FONT></P>
+		</TD>
+		<TD WIDTH=113 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Date(s) of stay</B></FONT></P>
+		</TD>
+                <TD WIDTH=113 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Date</B></FONT></P>
+		</TD>
+	</TR>
+        
+        <?if( isset($this->hospitalized)):?>
+            <?foreach($this->hospitalized as $h):?>                                 
+	<TR VALIGN=TOP>
+		<TD WIDTH=161 CLASS="standard">
+			<P CLASS="western"><?=$this->escape($h->hospital)?></P>
+		</TD>
+		<TD WIDTH=321 CLASS="standard">
+			<P CLASS="western"><?=$this->escape($h->reason)?></P>
+		</TD>
+		<TD WIDTH=113 CLASS="standard">
+			<P CLASS="western"><?=$this->escape($h->duration_of_stay)?></P>
+		</TD>
+                <TD WIDTH=113 CLASS="standard">
+			<P CLASS="western"><?=$this->escape($h->date)?></P>
+		</TD>
+                
+               
+	</TR>                
+            
+            <?endforeach;?>
+        <?endif;?>
+        
+
+
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+
+
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=623>
+	<TR>
+		<TD WIDTH=623 HEIGHT=7 VALIGN=TOP CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Current Health
+			Status/Hospital/Surgeries/E.R. visits </B>(Name of hospital,
+			reason &amp; dates of stay)<B>: </B>
+                        </FONT>
+                        <FONT SIZE=3><?=$this->data["_medical_"]["current_health_status"]?></FONT>
+                        </P>
+		</TD>
+	</TR>
+</TABLE>
+
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+
+
+
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=184>
+	<COL WIDTH=34>
+	<COL WIDTH=138>
+	<COL WIDTH=90>
+	<COL WIDTH=121>
+	<TR VALIGN=TOP>
+		<TD WIDTH=184 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Next Doctors Appointment </B>(date
+			&amp; time)<B>:</B></FONT></P>
+		</TD>
+		<TD COLSPAN=2 WIDTH=186 CLASS="standard">
+			<P CLASS="western"><BR><?=$this->data["_medical_"]["next_appointment"]?></P>
+		</TD>
+		<TD WIDTH=90 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Address and Phone #:</B></FONT> </P>
+		</TD>
+		<TD WIDTH=121 CLASS="standard">
+			<P CLASS="western">
+                        <?=$this->data["_medical_"]["next_appointment_contact"]?> 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD COLSPAN=2 WIDTH=232 CLASS="standard">
+			<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Appointment
+			Information</B></FONT></P>
+			<P CLASS="western"><FONT SIZE=3>(attach medical notes if
+			necessary)<B>:</B></FONT></P>
+		</TD>
+		<TD COLSPAN=3 WIDTH=377 CLASS="standard">
+			<P CLASS="western"><?=$this->data["_medical_"]["next_appointment_contact"]?></P>
+		</TD>
+	</TR>
+</TABLE>
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>(Medical Information will be updated when consumer is established with ILS Instructor)</B></FONT></P>
+
+<?if(isset($this->medicalStatus)):?>
+<?foreach($this->medicalStatus as $med):?>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=136>
+	<COL WIDTH=153>
+	<COL WIDTH=52>
+	<COL WIDTH=240>
+	<TR VALIGN=TOP>
+		<TD WIDTH=136 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Current Weight: </B></FONT></P>
+		</TD>
+		<TD WIDTH=153 CLASS="standard">
+			<P CLASS="western"><?=$med->weight?>
+			</P>
+		</TD>
+		<TD WIDTH=52 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Height:</B></FONT></P>
+		</TD>
+		<TD WIDTH=240 CLASS="standard">
+			<P CLASS="western"><?=$med->height?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"> </P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=136>
+	<COL WIDTH=107>
+	<COL WIDTH=110>
+	<COL WIDTH=227>
+	<TR VALIGN=TOP>
+		<TD WIDTH=136 CLASS="standard">
+			<P LANG="" CLASS="western"><FONT SIZE=3><B>Last Seizure Date:</B></FONT></P>
+		</TD>
+		<TD WIDTH=107 CLASS="standard">
+			<P LANG="" CLASS="western"><?=$med->seizure_info?>
+			</P>
+		</TD>
+		<TD WIDTH=110 CLASS="standard">
+			<P LANG="" CLASS="western"><FONT SIZE=3><B>Seizure Type:</B></FONT></P>
+		</TD>
+		<TD WIDTH=227 CLASS="standard">
+			<P LANG="" CLASS="western"><?=$med->seizure_type?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=264>
+	<COL WIDTH=345>
+	<TR VALIGN=TOP>
+		<TD WIDTH=264 HEIGHT=3 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Blood Pressure Date (2 years)</B>:
+			</FONT>
+			</P>
+		</TD>
+		<TD WIDTH=345 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Results</B>: <?=$med->blood_pressure ?></FONT>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=160>
+	<COL WIDTH=126>
+	<COL WIDTH=62>
+	<COL WIDTH=233>
+	<TR VALIGN=TOP>
+		<TD WIDTH=160 HEIGHT=2 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date of Cholesterol:</B></FONT></P>
+		</TD>
+		<TD WIDTH=126 CLASS="standard">
+			<P CLASS="western"><?=$med->cholesterol ?>
+			</P>
+		</TD>
+		<TD WIDTH=62 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Results:</B></FONT></P>
+		</TD>
+		<TD WIDTH=233 CLASS="standard">
+			<P CLASS="western">~
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=160>
+	<COL WIDTH=122>
+	<COL WIDTH=162>
+	<COL WIDTH=137>
+	<TR VALIGN=TOP>
+		<TD WIDTH=160 HEIGHT=1 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date of Colon Exam:</B></FONT></P>
+		</TD>
+		<TD WIDTH=122 CLASS="standard">
+			<P CLASS="western"><?=$med->colon_exam ?>
+			</P>
+		</TD>
+		<TD WIDTH=162 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date of Prostate Exam:</B></FONT></P>
+		</TD>
+		<TD WIDTH=137 CLASS="standard">
+			<P CLASS="western"><?=$med->prostate_exam?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<TABLE WIDTH=640 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=200>
+	<COL WIDTH=134>
+	<COL WIDTH=118>
+	<COL WIDTH=130>
+	<TR VALIGN=TOP>
+		<TD WIDTH=200 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date of Osteoporosis Exam:</B></FONT></P>
+		</TD>
+		<TD WIDTH=134 CLASS="standard">
+			<P CLASS="western"><?=$med->osteoporosis_exam ?>
+			</P>
+		</TD>
+		<TD WIDTH=118 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Flu Shot Yearly:</B></FONT></P>
+		</TD>
+		<TD WIDTH=130 CLASS="standard">
+			<P CLASS="western"><?=$med->flu_shot ?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=144>
+	<COL WIDTH=170>
+	<COL WIDTH=154>
+	<COL WIDTH=114>
+	<TR VALIGN=TOP>
+		<TD WIDTH=144 HEIGHT=7 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Tetanus Booster:</B></FONT></P>
+		</TD>
+		<TD WIDTH=170 CLASS="standard">
+			<P CLASS="western"><?=$med->tetanus_booster?>
+			</P>
+		</TD>
+		<TD WIDTH=154 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Pneumococcal Shot:</B></FONT></P>
+		</TD>
+		<TD WIDTH=114 CLASS="standard">
+			<P CLASS="western"><?=$med->pneumococcal_shot?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"> </P>
+
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=130>
+	<COL WIDTH=154>
+	<COL WIDTH=145>
+	<COL WIDTH=153>
+	<TR VALIGN=TOP>
+		<TD WIDTH=130 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Hepatitis B Series:</B></FONT></P>
+		</TD>
+		<TD WIDTH=154 CLASS="standard">
+			<P CLASS="western"><?=$med->hepatitis_b_series?>
+			</P>
+		</TD>
+		<TD WIDTH=145 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Hepatitis A:</B></FONT></P>
+		</TD>
+		<TD WIDTH=153 CLASS="standard">
+			<P CLASS="western"><?=$med->hepatitis_a ?>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=272>
+	<COL WIDTH=129>
+	<COL WIDTH=194>
+	<TR VALIGN=TOP>
+		<TD WIDTH=272 HEIGHT=11 CLASS="standard">
+			<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Pap
+			Smear </B>(if sexually active  yearly):</FONT></P>
+			<P CLASS="western"><?=$med->pap_smear ?>
+			</P>
+		</TD>
+		<TD WIDTH=129 CLASS="standard">
+			<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Last
+			completed</B>:</FONT></P>
+			<P CLASS="western">~
+			</P>
+		</TD>
+		<TD WIDTH=194 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Mammogram</B>: </FONT>
+			</P>
+                        <P CLASS="western"><?=$med->mammogram?>
+			</P>
+                        
+		</TD>
+	</TR>
+</TABLE>
+
+<?endforeach;?>      
+<?endif;?>
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Serious Incident Reports </B>(Please list all SIR’s written since last meeting)</FONT></P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=195>
+	<COL WIDTH=204>
+	<COL WIDTH=197>
+	<TR VALIGN=TOP>
+		<TD WIDTH=195 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Dates: </B></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=204 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Short Description:</B></FONT></P>
+		</TD>
+		<TD WIDTH=197 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Result:</B></FONT></P>
+		</TD>
+	</TR>
+        
+        <?if(isset($this->sirs)):?>
+        <?foreach($this->sirs as $sir):?>
+        
+	<TR VALIGN=TOP>
+		<TD WIDTH=195 CLASS="standard">
+			<P CLASS="western">
+                            <?=$sir->date?> 		 
+			</P>
+		</TD>
+		<TD WIDTH=204 CLASS="standard">
+			<P CLASS="western"><?=$sir->description ?>
+			</P>
+		</TD>
+		<TD WIDTH=197 CLASS="standard">
+			<P CLASS="western"><?=$sir->result ?>
+			</P>
+		</TD>
+	</TR>
+        
+    <?endforeach;?>      
+    <?endif;?>
+        
+</TABLE>
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR>
+</P>
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Other Information about Consumer</B></FONT></P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=142>
+	<COL WIDTH=467>
+	<TR VALIGN=TOP>
+		<TD WIDTH=142 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Conservator Name:</B></FONT></P>
+		</TD>
+		<TD WIDTH=467 CLASS="standard">
+			<P CLASS="western">~
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"></P>
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=137>
+	<COL WIDTH=473>
+	<TR VALIGN=TOP>
+		<TD WIDTH=137 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Payee Name:</B></FONT></P>
+		</TD>
+		<TD WIDTH=473 CLASS="standard">
+			<P CLASS="western">
+                            
+                        <?if ( isset($this->persons)): ?>
+                        <?foreach( $this->persons as $p ):?>
+                        <?if( $p['type'] == 'payee' ):?>
+                        <?=$p['fname']?> <?=$p['lname']?><BR>
+                        <?endif;?>   
+                        <?endforeach?>     
+                        <?endif;?>   
+                            
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR> </P>
+
+
+<TABLE WIDTH=640 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=176>
+	<COL WIDTH=115>
+	<COL WIDTH=153>
+	<COL WIDTH=138>
+	<TR VALIGN=TOP>
+		<TD WIDTH=176 HEIGHT=19 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Name of other
+			program consumer attends:</B></FONT></P>
+		</TD>
+		<TD WIDTH=115 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Contact Person:</B></FONT></P>
+		</TD>
+		<TD WIDTH=153 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Contact
+			Information</B></FONT></P>
+		</TD>
+		<TD WIDTH=138 CLASS="standard">
+			<P CLASS="western" ALIGN=CENTER><FONT SIZE=3><B>Days the consumer
+			attends program:</B></FONT></P>
+		</TD>
+	</TR>
+        
+        <?if(isset($this->programs)):?>
+         <?foreach( $this->programs as $p ):?>
+	<TR VALIGN=TOP>
+		<TD WIDTH=176 HEIGHT=12 CLASS="standard">
+			<P CLASS="western"><?=$p->title?>
+			</P>
+		</TD>
+		<TD WIDTH=115 CLASS="standard">
+			<P CLASS="western"><?=$p->fname?> <?=$p->lname?>
+			</P>
+		</TD>
+		<TD WIDTH=153 CLASS="standard">
+			<P CLASS="western"><?=$p->phone?>
+			</P>
+		</TD>
+		<TD WIDTH=138 CLASS="standard">
+			<P CLASS="western"><?=$p->dates_attended?>
+			</P>
+		</TD>
+	</TR>
+        
+        <?endforeach?>     
+        <?endif;?>   
+</TABLE>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><U><B>Goals &amp; Objectives</B></U></FONT></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=80>
+	<COL WIDTH=529>
+
+
+        <?if(isset($this->goals )):
+        $i = 0;
+        ?>
+        <?foreach( $this->goals  as $g ):
+         $i++;
+        ?>
+	<TR VALIGN=TOP>
+		<TD WIDTH=80 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Summary</B></FONT></P>
+		</TD>
+		<TD WIDTH=529 CLASS="standard">
+			<P CLASS="western"><?=$g['summary']?></P>
+		</TD>
+	</TR>
+
+	<TR VALIGN=TOP>
+		<TD WIDTH=80 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Goal <?=$i?></B></FONT></P>
+		</TD>
+		<TD WIDTH=529 CLASS="standard">
+			<P CLASS="western"><?=$g['goal']?></P>
+		</TD>
+	</TR>
+        
+        	<TR VALIGN=TOP>
+		<TD WIDTH=80 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3>Objective</FONT></P>
+		</TD>
+		<TD WIDTH=529 CLASS="standard">
+			<P CLASS="western"><?=$g['objective']?></P>
+		</TD>
+	</TR>
+        <?endforeach?>     
+        <?endif;?>  
+
+</TABLE>
+
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=100>
+	<COL WIDTH=539>
+	<TR VALIGN=TOP>
+		<TD WIDTH=100 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Summary: </B></FONT></P>
+		</TD>
+		<TD WIDTH=539 CLASS="standard">
+			<P CLASS="western"><?=$this->data["_summary_"]["isp-summary"]?></P>
+		</TD>
+          </TR>      
+           <TR VALIGN=TOP>     
+		<TD WIDTH=100 CLASS="standard">
+                    <P CLASS="western"><FONT SIZE=3><B>Total Hours:</B></P>
+		</TD>
+                <TD WIDTH=193 CLASS="standard">
+                    <P CLASS="western"><?=$this->data["_summary_"]["total-hours"]?></P>
+		</TD>
+	</TR>
+	
+</TABLE>
+
+
+
+<P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
+
+<TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
+	<COL WIDTH=203>
+	<COL WIDTH=193>
+	<COL WIDTH=199>
+	<TR VALIGN=TOP>
+		<TD WIDTH=203 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Please print name of person who
+			completed this report:</B></FONT></P>
+		</TD>
+		<TD WIDTH=193 CLASS="standard">
+			<P CLASS="western"><?=$this->data["_summary_"]["print-name"]?>
+			</P>
+		</TD>
+		<TD WIDTH=199 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date: </B> <?=$this->data["_summary_"]["isp-date"]?></FONT>
+			
+                        </P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=203 CLASS="standard">
+			<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Signature</B></FONT></P>
+			<P CLASS="western"><BR>
+			</P>
+		</TD>
+		<TD WIDTH=193 CLASS="standard">
+			<P CLASS="western">~
+			</P>
+		</TD>
+		<TD WIDTH=199 CLASS="standard">
+			<P CLASS="western"><FONT SIZE=3><B>Date: </B><?=$this->data["_summary_"]["isp-date"]?></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+
+<?if($this->header):?>
+<DIV TYPE=FOOTER>
+	<P CLASS="western" ALIGN=CENTER STYLE="margin-top: 0.16in; margin-bottom: 0in">
+	Page <SDFIELD TYPE=PAGE SUBTYPE=RANDOM FORMAT=PAGE>3</SDFIELD></P>
+</DIV>
+
+
+</BODY>
+</HTML>
+<?endif;?>

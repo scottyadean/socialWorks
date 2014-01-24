@@ -125,6 +125,24 @@ class Consumer_Model_ConsumersPharmaceuticals extends Zend_Db_Table_Abstract {
     }
     
     
+    
+    public function joinOnPharmaId( $consumer_id  ) {
+     
+     $select = $this->select()->from('consumers_pharmaceuticals')
+                 ->setIntegrityCheck(false)
+                 ->joinLeft(array('p'=>'physicians'),
+                                  'p.id = consumers_pharmaceuticals.physician_id', array('p.name', 'p.phone', 'p.address', 'p.city', 'p.state', 'p.zip'))
+                 ->joinLeft(array('ph'=>'pharmaceuticals'),
+                                  'ph.id = consumers_pharmaceuticals.pharmaceutical_id', array('ph.name AS phname', 'ph.maker', 'ph.blood_level_monitoring', 'ph.site'))
+                 
+                 ->where('consumers_pharmaceuticals.consumer_id = ? ',  $consumer_id);
+                 
+                 return $this->fetchAll($select);
+     
+        
+     }
+    
+    
     public function findByConsumerIdAndMapPhysician($consumer_id) {
         
         $consumer = new Consumer_Model_Consumer;

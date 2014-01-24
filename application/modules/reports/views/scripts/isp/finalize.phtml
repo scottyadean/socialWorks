@@ -1,35 +1,34 @@
-<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-<?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
+
+<?if(!$this->word):?>
+
+<? $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
                                                          'back'=>'/isp/summary',
                                                          'id' => $this->consumer->id,
                                                          'next'=>false,
                                                          'formName'=>$this->formName,
                                                          'steps'=>$this->steps,
-                                                         'activeStep'=>$this->activeStep)); ?>
+                                                         'activeStep'=>$this->activeStep));
+                                                         ?>
 
 
-<?var_dump($this->data);?>
+<a href="/isp/finalize/id/<?=$this->consumer->id?>/word/true" class="btn"> Export as Word Doc</a>
 
+<?endif;?>
 
-<div id="droppable">Drop here</div>
-<div id="draggable" data-link='test'>Drag me</div>
-<script>
-$( "#draggable" ).draggable({
-    cursor: "move",
-     scope:"tasks",
-    cursorAt: { top: -0, left: -1 },
-    helper: function( event ) {
-    return $( "<div class='perview-drop tasks' data='somedata'>I'm a custom helper</div>" );
-}
-    
-    });
-$( "#droppable" ).droppable({
-drop: function(event, ui) {
-    scope: "tasks",
-   console.log($(ui.helper).attr('data'));
-    
-alert( "dropped" );
-}
-});
-</script>
+<?= $this->partial("/isp/partials/isp-report-template.phtml", array('header'=>true,
+                                                                    'consumer'=>$this->consumer,
+                                                                    'user'=>$this->user,
+                                                                    'persons'=>$this->persons,
+                                                                    'coordinator'=>$this->coordinator,
+                                                                    'exams'=>$this->exams,
+                                                                    'insurance'=>$this->insurance,
+                                                                    'medications'=>$this->medications,
+                                                                    'allergies'=>$this->allergies,
+                                                                    'hospitalized'=>$this->hospitalized,
+                                                                    'medicalStatus'=>$this->medicalStatus,
+                                                                    'sirs'=>$this->sirs,
+                                                                    'programs'=>$this->programs,
+                                                                    'goals'=>$this->goals,
+                                                                    'data'=>$this->data)); ?>
+

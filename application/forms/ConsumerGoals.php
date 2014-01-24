@@ -38,6 +38,7 @@ class Application_Form_ConsumerGoals extends Main_Forms_Builder {
 
          $fields = array("consumer_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                          "goal" => array('label'=>'Goal Info', 'required'=> true, 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size')),
+                         "summary" => array('label'=>'Summary', 'required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size')),
                          "objective" => array('label'=>'Objective', 'required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size')),
                          "effective_start_date" => array('attributes'=> array('class'=>'date_widget')),
                          "effective_complete_date" => array('attributes'=> array('class'=>'date_widget')),

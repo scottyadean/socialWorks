@@ -53,7 +53,8 @@ class Reports_IspController extends Zend_Controller_Action {
         
         $consumer = new Consumer_Model_Consumer;
         $this->view->consumer = $consumer->findById($this->id);
-        $this->view->coordinator = $consumer->getConsumerCoordinators(); 
+        $this->view->coordinator = $consumer->getConsumerCoordinators();
+        $this->view->persons = $consumer->getConsumerPersons();   
         
         $this->view->activeStep = 1;
         $this->view->percentComplete = $this->progressStep * 2;
@@ -89,7 +90,7 @@ class Reports_IspController extends Zend_Controller_Action {
         $crudModel->setDbName('consumers_medical_status');
         $this->view->medicalStatus = $crudModel->_index(array('consumer_id = ?' => $this->id));
          
-         $this->view->appointments = $consumer->getConsumerAppointments();
+        $this->view->appointments = $consumer->getConsumerAppointments();
          
         $this->view->activeStep = 2;
         $this->view->percentComplete = $this->progressStep * 3;
@@ -174,25 +175,73 @@ class Reports_IspController extends Zend_Controller_Action {
     * get any medical info needed for the client
     */
     public function finalizeAction() {
+       
+       $word = $this->getRequest()->getParam('word', false); 
         
-        if( $this->getRequest()->isPost() ) {
+       if( $this->getRequest()->isPost() ) {
             $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
+       
+       if($word){
+        $this->_helper->layout->disableLayout();
         
         
+         
+        header("Content-type: application/vnd.ms-word");
+        header("Content-Disposition: attachment;Filename=document_name.doc");
+        
+        }
+        
+        $userModel = new Default_Model_User;
+        $this->view->user = $userModel->findById($this->userId);
+        
+        $consumer = new Consumer_Model_Consumer;
+        $this->view->consumer = $consumer->findById($this->id);
+        $this->view->coordinator = $consumer->getConsumerCoordinators(); 
+        $this->view->persons = $consumer->getConsumerPersons();   
+        $this->view->insurance = $consumer->getConsumerInsurance(); 
+        $this->view->goals = $consumer->getConsumerGoals();
+        
+        $medsModel = new Consumer_Model_ConsumersPharmaceuticals;
+        $this->view->medications = $medsModel->joinOnPharmaId($this->id);
+        
+        $allergiesModel = new Consumer_Model_ConsumersAllergies;
+        $this->view->allergies = $allergiesModel->getByConsumerId($this->id);
+        
+        $hospitalized = new Consumer_Model_ConsumersHospitalized;
+        $this->view->hospitalized = $hospitalized->getByConsumerId($this->id);
+        
+        
+        $crudModel = new Default_Model_Crud; 
+        $crudModel->setDbName('consumers_medical_status');
+        $this->view->medicalStatus = $crudModel->_index(array('consumer_id = ?' => $this->id));
+         
+        $crudModel = new Default_Model_Crud; 
+        $crudModel->setDbName('consumers_sirs');
+        $this->view->sirs = $crudModel->_index(array('consumer_id = ?' => $this->id)); 
+       
+        $programs = new Consumer_Model_ConsumerPrograms;
+        $this->view->programs = $programs->mapDirectorTitle($this->id);
         
         
         $keys = array('summary', 'programs','goals','sirs', 'medical', 'info');
         $data = array();
         foreach($keys as $namespace) {
-            
-            
             $data["_{$namespace}_"] = $this->_getInSession($namespace);
-            
-            
+        }
+        
+        if(isset($data["_medical_"])
+           &&  isset($data["_medical_"]["js-drag-selected-exams"])
+           && !empty($data["_medical_"]["js-drag-selected-exams"])){
+            $exams = new Consumer_Model_ConsumersExams;
+            $ids = explode(",", $data["_medical_"]["js-drag-selected-exams"]);
+            $this->view->exams = $exams->findByIds($ids);
         }
         
         $this->view->data = $data;
+        $this->view->word = $word;
+        
+        
         $this->view->activeStep = 7;
         $this->view->percentComplete = $this->progressStep * 8;
         
@@ -200,23 +249,6 @@ class Reports_IspController extends Zend_Controller_Action {
         
     }
 
-    public function wordAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-        
-              header("Content-type: application/vnd.ms-word");
-       header("Content-Disposition: attachment;Filename=document_name.doc");
-
-echo "<html>";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=Windows-1252\">";
-echo "<body>";
-echo "<b>My first document</b>";
-echo "</body>";
-echo "</html>";
-        
-        
-    }
-    
     
     protected function _setStandardViewValues($namespace = 'default') {
         

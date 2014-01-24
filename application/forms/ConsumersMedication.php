@@ -53,6 +53,7 @@ class Application_Form_ConsumersMedication extends Main_Forms_Builder {
                      "physician_id" => array('default'=>$this->physicianId, 'label'=>'Physician', 'type'=>'select', 'multiOptions'=>$this->_physicians ),
                      "frequency" => array('label'=>'Frequency', 'required'=> false), 
                      "unit"=>array('label'=>'Unit', 'required'=> true),
+                     "reason"=>array(),
                      "strength"=>array('label'=>'Strength (Mg)', 'required'=> true ),
                      "side_effects" => array('label'=>'Side Effects', 'attributes'=>array('rows'=>'4', 'cols'=>'8', 'class'=>'textarea-standard-size'))
                       );

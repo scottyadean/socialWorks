@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2014 at 09:57 PM
+-- Generation Time: Jan 23, 2014 at 08:58 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -214,6 +214,7 @@ CREATE TABLE IF NOT EXISTS `consumers_goals` (
   `consumer_id` int(11) NOT NULL,
   `goal` text NOT NULL,
   `objective` text NOT NULL,
+  `summary` varchar(255) NOT NULL,
   `effective_start_date` date NOT NULL,
   `effective_complete_date` date NOT NULL,
   `achieved` char(1) NOT NULL DEFAULT 'N',
@@ -224,10 +225,10 @@ CREATE TABLE IF NOT EXISTS `consumers_goals` (
 -- Dumping data for table `consumers_goals`
 --
 
-INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
-(8, 1, 'goal_1', 'test', '2014-01-01', '2014-01-15', 'N'),
-(9, 1, 'messed up names', 'testing', '2014-01-08', '2013-11-27', 'N'),
-(10, 1, 'test s', 'fart', '2014-01-23', '2014-01-17', 'N');
+INSERT INTO `consumers_goals` (`id`, `consumer_id`, `goal`, `objective`, `summary`, `effective_start_date`, `effective_complete_date`, `achieved`) VALUES
+(8, 1, 'goal1', 'test', '', '2014-01-01', '2014-01-15', 'Y'),
+(9, 1, 'messed up names', 'testing', '', '2014-01-08', '2013-11-27', 'N'),
+(10, 1, 'test s', 'fart', '', '2014-01-23', '2014-01-17', 'N');
 
 -- --------------------------------------------------------
 
@@ -374,6 +375,7 @@ CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
   `frequency` varchar(50) NOT NULL,
   `unit` varchar(50) NOT NULL,
   `strength` varchar(50) NOT NULL,
+  `reason` varchar(255) NOT NULL,
   `side_effects` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
@@ -382,9 +384,9 @@ CREATE TABLE IF NOT EXISTS `consumers_pharmaceuticals` (
 -- Dumping data for table `consumers_pharmaceuticals`
 --
 
-INSERT INTO `consumers_pharmaceuticals` (`id`, `consumer_id`, `pharmaceutical_id`, `physician_id`, `frequency`, `unit`, `strength`, `side_effects`) VALUES
-(16, 1, '1', 1, '6 times', 'daily', 'test', 'testing update'),
-(17, 1, '1', 5, '6 times', 'daily', 'test', 'testing again');
+INSERT INTO `consumers_pharmaceuticals` (`id`, `consumer_id`, `pharmaceutical_id`, `physician_id`, `frequency`, `unit`, `strength`, `reason`, `side_effects`) VALUES
+(16, 1, '1', 1, '6 times', 'daily', 'test', '', 'testing update'),
+(17, 1, '1', 5, '6 times', 'daily', 'test', '', 'testing again');
 
 -- --------------------------------------------------------
 
