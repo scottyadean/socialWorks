@@ -64,8 +64,6 @@ class Consumer_Model_ConsumersExams extends Zend_Db_Table_Abstract {
             
           }
           
-          print $select->__toString();
-          exit;
           
           return $this->fetchAll($select);
     }

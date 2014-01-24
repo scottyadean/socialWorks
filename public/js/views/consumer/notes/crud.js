@@ -1,4 +1,4 @@
-
+/*
         $('body').delegate('.js-goals-suggestions', 'click', function(){
             
             var ele = $(this);
@@ -35,7 +35,7 @@
             }
         });
         
-        
+  */      
 var  Notes = {
           MapToCal:function(data) {                    
                

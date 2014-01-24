@@ -117,11 +117,14 @@ class Consumer_NoteController  extends Zend_Controller_Action {
                   $values = $form->getValues();
                   $values['id'] = $lastid;
                   $values['created'] = isset($values['created']) ? $values['created'] : 'just now';
-                  $values['goal'] =  $this->getRequest()->getParam('goal-to-notes', null);
+                  
+                  $note_ = $note->readNote($lastid);
+                  $values['goal'] = $note_->goal;
+                  
                   $this->_asJson(array('success'=>true,
                                        'msg'=>'New Note added.',
                                        'values'=>$values,
-                                       'goal'=>$values['goal'],
+                                       'goal'=>$note_->goal,
                                        'id'=>$lastid));   
                
                }else{
@@ -171,8 +174,8 @@ class Consumer_NoteController  extends Zend_Controller_Action {
         
         
         $res['values']['created'] = isset($values['created']) ? $values['created'] : 'updated';
-        $res['values']['goal'] = $this->getRequest()->getParam('goal-to-notes', null);
-        $res['goal'] =  $res['values']['goal'];
+        $_note = $note->readNote( $this->id);
+        $res['values']['goal'] = $res['goal'] = $_note->goal;
          
         $this->_asJson($res);
         return;

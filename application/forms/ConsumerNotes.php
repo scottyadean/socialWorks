@@ -42,8 +42,7 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
     public function getFields() {
 
     $fields = array("consumer_id" => array('default'=>$this->consumerId, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                    "goal_id" => array('required'=> true,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                         
+                    "goal_id" => array('required'=> false,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                     "user_id" => array('default'=>$this->userId, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                     "created" => array('default'=>date('Y-m-d'), 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
                     "note"=>array('required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));

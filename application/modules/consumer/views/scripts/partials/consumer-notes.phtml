@@ -22,27 +22,23 @@
           <%= helpers.escapeHtml(note) %></span></td>
 <td class="date-created"><%= helpers.escapeHtml(created) %></td>
 <td><%= helpers.escapeHtml(goal) %></td>
-<td><i class="note-del icon icon-remove pointer" data-id='<%= id) %>'></i></td>
+<td><i class="note-del icon icon-remove pointer" data-id='<%= id %>'></i></td>
     
 </script>
 
 <script id="js-notes-edit-template" type="text/plain">
         <form id="update-note-<%= id %>">
             
-            <div id="goal-input">
-                <label for="goal-to-notes-update-<%= id %>">Objective/Goal:</label>
-                <input type="text" name="goal-to-notes-update-<%= helpers.escapeHtml(id) %>"
-                       data-append="-update-<%= helpers.escapeHtml(id) %>"
-                       data-form="update-note-<%= helpers.escapeHtml(id) %>"
-                       data-value="<%= helpers.escapeHtml(goal) %>"
-                       id="goal-to-notes-update-<%= helpers.escapeHtml(id) %>"
-                       class="goal-to-notes" value="<%= helpers.escapeHtml(goal) %>"/><br />
+            <label for="goal-to-notes-update-<%= id %>">Objective/Goal:</label>
                 
-                <div class="dropdown">
-                    <ul id="js-goals-suggestions-select-update-<%= helpers.escapeHtml(id) %>" class="dropdown-menu" role="menu" aria-labelledby="dLabel"> </ul>
-                </div>
-                
-            </div>
+            <select name="goal" id="goal" class="toggle-goal-id">     
+            <?if($this->goals):?>
+                    <?foreach($this->goals as $g):?>
+                        <option value="<?=$g['id']?>"><?=$g['goal']?></option>            
+                    <?endforeach;?>
+                <?endif;?>
+            </select>
+                    
             
             <label for="note-update-<%= helpers.escapeHtml(id)%>">Note:</label>
             <textarea name="note-update-<%= helpers.escapeHtml(id) %>" class="textarea-standard-size"><%= helpers.escapeHtml(note) %></textarea><br />
@@ -72,31 +68,24 @@
 </script>
 
 
-
 <div class="well">
     <label id="js-add-note-info" for="note"><strong>Create a note for todays date: <?=date('m-d-Y')?></strong></label>
     <form id="js-add-new-note">
-        
-        <div id="goal-input">
-        
-            <label for="goal-to-notes">Objective/Goal:</label>
-            <input type="text" name="goal-to-notes"
-                   id="goal-to-notes"
-                   data-form="js-add-new-note"
-                   data-append="-create"
-                   class="goal-to-notes" value=""/><br />
+       
+        <label for="goal-to-notes">Objective/Goal:</label>
             
-            <div class="dropdown">
-            <ul id="js-goals-suggestions-select-create" class="dropdown-menu" role="menu" aria-labelledby="dLabel"> </ul>
-            </div>
-        
-        </div>
-        
+        <select name="goal_id" id="goal_id">     
+        <?if($this->goals):?>
+                <?foreach($this->goals as $g):?>
+                    <option value="<?=$g['id']?>"><?=$g['goal']?></option>            
+                <?endforeach;?>
+            <?endif;?>
+        </select>
+            
         <label for="note">Note:</label>
         <textarea id="note" name="note" class="textarea-standard-size"></textarea><br />
         <input id="consumer_id" name="consumer_id" type="hidden" value="<?=$this->consumer->id?>" />
         <input id="user_id" name="user_id" type="hidden" value="<?=$this->user_id?>" />
-        <input name="goal_id" id="goal_id" type="hidden" value="" />
         <input id="created" name="created" type="hidden" value="<?=date('Y-m-d')?>">
         <input id="new-note-sub" type="button" class="btn btn-primary" value="Add Note" />
     </form>

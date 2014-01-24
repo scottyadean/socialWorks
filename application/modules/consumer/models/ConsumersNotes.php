@@ -24,7 +24,15 @@ class Consumer_Model_ConsumersNotes extends Zend_Db_Table_Abstract
     }
     
     public function readNote($id) {
-        return $this->find($id)->current();
+        
+         $select = $this->select()->from('consumers_notes')
+                 ->setIntegrityCheck(false)
+                  ->joinLeft(array('g'=>'consumers_goals'),
+                             'consumers_notes.goal_id = g.id', array('goal'));
+          
+          $select->where( 'consumers_notes.id = ?', (int)$id );
+        
+        return $this->fetchRow($select);
     }
     
     public function updateNote($data) {
