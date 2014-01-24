@@ -3,15 +3,14 @@
 <div class="crud-create-update crud-load-template pointer hidden"
     id="hospital-bind-crud"
     data-id=''
-    data-path='/hospitalized'
+    data-path='.:hospitalized'
     data-form='consumerhospitalizedform'
     data-title="Edit Hospital Visits"
-    data-params='',
+    data-params=''
     data-action='create'
     data-target='js-hospital-index'
     data-template='js-crud-edit-hospital'
-    data-callback='lightBox.dateFields'
-    data-template-path='consumers/hospitalized'></div>
+    data-callback='lightBox.dateFields'></div>
 
 <?= $this->TableHead( array("Hospital",
                             "Reasion",

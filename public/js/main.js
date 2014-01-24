@@ -211,6 +211,10 @@ var Crud =  {
                    request:Math.round(new Date().getTime() / 1000),
                    params:Crud.paramsString(params)};  
 
+                   
+        if(info.path.indexOf('.:') != -1) {
+            info.path = info.path.replace(/.:/gi, '/');   
+         }            
         
         info.btn = '<input type="button" value="Submit" data-bind="'+info.element+'" class="crud-'+info.action+'" />';
         info.full_path = info.path+"/"+info.action+'/crud/'+info.request+'/';

@@ -1,7 +1,7 @@
 <h2>Notes</h2>
 <?= $this->partial('/partials/button.phtml',
                    'default',
-                   array('link'=>'/consumer/notes/new/'.$this->consumer_id, 'label'=>'Add New')) ?>
+                   array('link'=>'/consumer/notes/create/cid/'.$this->consumer_id, 'label'=>'Add New')) ?>
 <hr />
 
 <? if(isset( $this->notes )): ?>
@@ -16,17 +16,12 @@
  
         <?= $this->TableRow(array( "<img src=\"/image/db/".$this->consumer_id."/c\" class='thumb'/>", 
                                    $this->truncate($n["note"], 150),
-                                   $n["created"],
-                                   "<a href='/consumer/notes/edit/".$this->consumer_id."/id/".$n["id"]."' title='edit'><i class='icon-edit'></i></a>",
-                                   "<a href='/consumer/notes/delete/".$this->consumer_id."/id/".$n["id"]."' title='delete'><i class='icon-remove'></i></a>")); ?>
+                                   date('m/d/Y', strtotime($n["created"]) ),
+                                   "<a href='/consumer/notes/update/cid/".$this->consumer_id."/id/".$n["id"]."' title='edit'><i class='icon-edit'></i></a>",
+                                   "<a href='/consumer/notes/delete/cid/".$this->consumer_id."/id/".$n["id"]."' title='delete'><i class='icon-remove'></i></a>")); ?>
     <?endforeach;?>
     <?= $this->TableFoot() ?>
 
 <?endif;?>
 
-<hr />
-
-<?= $this->partial('/partials/button.phtml',
-                   'default',
-                   array('link'=>'/consumer/notes/new/'.$this->consumer_id, 'label'=>'Add New')) ?>
 

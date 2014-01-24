@@ -3,15 +3,14 @@
 <div class="crud-create-update crud-load-template pointer hidden"
     id="program-bind-crud"
     data-id=''
-    data-path='/consumer/programs'
+    data-path='.:consumer.:programs'
     data-form='consumersprogramsform'
     data-title="Edit Program"
-    data-params='',
+    data-params=''
     data-action='create'
     data-target='js-program-index'
     data-template='js-crud-edit-program'
-    data-callback='lightBox.dateFields'
-    data-template-path='consumers/program'></div>
+    data-callback='lightBox.dateFields'></div>
 
 <?= $this->TableHead( array("Program",
                             "Dates Attended",

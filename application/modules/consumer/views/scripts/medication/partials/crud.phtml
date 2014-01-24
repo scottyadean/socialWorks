@@ -1,14 +1,13 @@
     <div class="crud-create-update crud-load-template pointer hidden"
      id="medication-bind-crud"
      data-id=''
-     data-path='/consumers/medications'
+     data-path='.:consumers.:medications'
      data-form='consumers_pharmaceuticals_form'
      data-title="Edit Medications"
-     data-params='',
+     data-params=''
      data-action='create'
      data-target='js-medication-index'
-     data-template='js-crud-edit-medication'
-     data-template-path='consumers/insurance'></div>
+     data-template='js-crud-edit-medication'></div>
 
 <?= $this->TableHead( array("Medication/Prescription",
                             "Frequency",

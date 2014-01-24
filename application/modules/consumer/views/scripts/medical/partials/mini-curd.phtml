@@ -2,15 +2,14 @@
     <div class="crud-create-update crud-load-template hidden"
                 id="appointment-bind-crud"
                 data-id=''
-                data-path='/appointment'
+                data-path='.:appointment'
                 data-form='consumermedappontmentform'
                 data-title="Edit Goal Data"
-                data-params='',
+                data-params=''
                 data-action='create'
                 data-target='js-appointments-index'
                 data-template='js-crud-edit-appointments'
-                data-callback='lightBox.dateFields'
-                data-template-path='consumers/appointments'></div>
+                data-callback='lightBox.dateFields'></div>
 
     <?= $this->TableHead( array("Hospital",
                                 "Date",

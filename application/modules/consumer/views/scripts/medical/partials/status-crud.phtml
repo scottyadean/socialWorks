@@ -1,15 +1,14 @@
 <div class="crud-create-update crud-load-template hidden"
             id="status-bind-crud"
             data-id=''
-            data-path='/medical/status'
+            data-path='.:medical.:status'
             data-form='consumersmedicalstatus'
             data-title="Edit Health Status"
-            data-params='',
+            data-params=''
             data-action='create'
             data-target='js-status-index'
             data-template='js-crud-edit-status'
-            data-callback='lightBox.dateFields'
-            data-template-path='consumers/medical/status'></div>
+            data-callback='lightBox.dateFields'></div>
 
 <h4><?= (isset($this->title)) ? $this->title : "Health Status" ; ?></h4>
 

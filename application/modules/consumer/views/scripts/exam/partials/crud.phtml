@@ -3,16 +3,15 @@
 <div class="crud-create-update crud-load-template pointer hidden"
     id="exam-bind-crud"
     data-id=''
-    data-path='/exams'
+    data-path='.:exams'
     data-form='consumerexamform'
     data-title="Edit Hospital Exams"
-    data-params='',
+    data-params=''
     data-action='create'
     data-target='js-exams-index'
     data-template='js-crud-edit-exam'
     data-callback='lightBox.dateFields'
-	data-onCreate='DragData.addEvent'
-    data-template-path='consumers/exams'></div>
+	data-onCreate='DragData.addEvent'></div>
 <?
    $header = array( "Physician Name",
                     "Address",

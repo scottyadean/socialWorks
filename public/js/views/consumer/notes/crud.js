@@ -1,42 +1,7 @@
-/*
-        $('body').delegate('.js-goals-suggestions', 'click', function(){
-            
-            var ele = $(this);
-            var form = ele.attr('data:form');
-            var name = ele.attr('data:namespace');
-            $("#"+form +" #goal_id"+name).val(ele.attr('goal:id'));
-            $("#"+form +" #goal-to-notes"+name).val(ele.html().trim());
-            $("#"+form +" #goal-to-notes"+name).attr("data-value", ele.html().trim());
-            ele.closest("ul.dropdown-menu").html("").hide();
-            
-        });
-        
-        $('body').delegate(".goal-to-notes", "keyup",  function() {
-            var val = $(this).val().trim();
-            var cid = $("#consumer_id").val();
-            var api = $(this).attr('data-append');
-            var form = $(this).attr('data-form');
-            var appendTo = $("#js-goals-suggestions-select"+api);
-            if (val != '') {
-                    appendTo.html("").show();
-                    $.proxy(asyncAction.sendPost( '/consumer/async/search-goals', {'consumer_id': cid, 'search':val },
-                        function(data){
-                            for (var i = 0; i<data.length; i++) {
-                              var goal = data[i].goal;
-                                  appendTo.append('<li><a class="js-goals-suggestions" data:form="'
-                                                  +form+'" data:namespace="'+api+'" goal:id="'+data[i].id+'">'+goal+'</a></li>'); 
-                            }
-               
-                            if (data.length == 0) {
-                                 appendTo.hide();
-                            }}, 'json'), appendTo, form, api);
-            }else{
-                appendTo.html("").hide();
-            }
-        });
-        
-  */      
+
 var  Notes = {
+    
+    
           MapToCal:function(data) {                    
                
                $("td").removeClass('event-on-calendar');
@@ -64,39 +29,34 @@ var  Notes = {
           }
           
         }
+
+
+        //Create
+        $("#new-note-sub").click(function() {
+           Crud.Create('/consumer/notes/create/cid/'+$("#page-data-consumer-id").val(),
+                      'js-add-new-note', function(data) {
+                         var template = _.template($("#js-notes-template-crud").html());
+                         $("#js-case-note-data").prepend(template(data));
+                         Notes.MapToCalByDay(data.values.created, 'set');
+                         }, 'json' );
+        });
         
         var _cal = $("#js-calendar");
         var _year = _cal.attr('data-year');
         var _month = _cal.attr('data-month');
-   
-        Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
+        
+        //Read
+        Crud.Read('/consumer/notes/notes-by-date/cid/'+$("#page-data-consumer-id").val(),
                   {'month':_month,'year':_year},
                   false,
                   'js-case-note-data',
                   $("#js-notes-template").html(),
                   Notes.MapToCal,
                   'json');
-        
-        
-        $("#new-note-sub").click(function() {
-           Crud.Create('/consumer/notes/new/'+$("#page-data-consumer-id").val(),
-                      'js-add-new-note', function(data) {
-                         var template = _.template($("#js-notes-template").html());
-                         $("#js-case-note-data").prepend(template(data.values));
-                         Notes.MapToCalByDay(data.values.created, 'set');
-                         }, 'json' );
-        });
-        
-        $("body").delegate( "td i.note-del", "click", function() {
-          var ele = $(this);
-          var nid = ele.attr('data-id'); 
-          Crud.Delete('/consumer/notes/delete/'+$("#page-data-consumer-id").val(),
-                      {id:nid},
-                      function(data) {
-                         var res = $(".consumer-note-"+data.id).remove();
-                         }, 'json' );
-        });
-        
+ 
+           
+ 
+        //sort by date       
         $("body").delegate( ".js-notes-day", "click", function() {
                
                //get the current date
@@ -114,7 +74,7 @@ var  Notes = {
                $(this).addClass('highlight');
                
                //request the notes form the db that match the date     
-               Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
+               Crud.Read('/consumer/notes/notes-by-date/cid/'+$("#page-data-consumer-id").val(),
                   {'year':y, 'month':m, 'day':d},
                   false,
                   'js-case-note-data',
@@ -137,7 +97,8 @@ var  Notes = {
                
                
         });
-       
+        
+        //show all notes by month
         $("body").delegate(".js-show-all-notes-btn", 'click', function() {  
                //get the next prev
                var el = $(this);
@@ -156,7 +117,7 @@ var  Notes = {
                $("#js-add-note-info").html('Create a note for todays date');
                
                //request the notes form the db that match the date     
-               Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
+               Crud.Read('/consumer/notes/notes-by-date/cid/'+$("#page-data-consumer-id").val(),
                   {'month':m, 'year':y},
                   false,
                   'js-case-note-data',
@@ -165,7 +126,7 @@ var  Notes = {
                   'json');
         });
         
-        
+        //on cal next show next month
         $("body").delegate( ".js-calendar-nextprev", "click", function() {
                
                //get the next prev
@@ -176,7 +137,7 @@ var  Notes = {
                var y = el.attr('data-year');
                
                //request the notes form the db that match the date     
-               Crud.Read('/consumer/notes/notes-by-date/'+$("#page-data-consumer-id").val(),
+               Crud.Read('/consumer/notes/notes-by-date/cid/'+$("#page-data-consumer-id").val(),
                   {'month':m, 'year':y},
                   false,
                   'js-case-note-data',
@@ -198,53 +159,9 @@ var  Notes = {
                
         });
         
-        /*Edit note*/
-        $("body").delegate( ".js-edit-note-text", "click", function() {
-               var template = _.template($("#js-notes-edit-template").html());
-               $(this).parent().html(template({'id':$(this).attr('data-id'),
-                                      'note':$(this).html().trim(),
-                                      'consumer_id': $("#page-data-consumer-id").val(), 
-                                      'user_id':$("#js-add-new-note #user_id").val(),
-                                      'goal':$(this).attr('data-goal'),
-                                      'goal_id':$(this).attr('data-goal_id')
-               }));
-        });
+ 
         
-        /*cancel note edit*/
-        $("body").delegate( ".update-note-cancel", "click", function() {
-               var id = $(this).attr('data-id');
-               var note = $("#note-undo-"+id).html();
-               $(this).parent().parent().html(note);
-        });
+     
 
 
-        /*submit update note*/
-        $("body").delegate( ".update-note-sub", "click", function() {
-          
-          var id = $(this).attr('data-id');
-            //-update-<%= id %>
-           var params = {};              
-           var values = $("#update-note-"+id).serializeArray();
-           for( var i = 0; i<values.length; i++ ) {
-            
-            console.log(values[i].name+" "+values[i].value);
-            
-            var cleanName = values[i].name.replace("-update-"+id, '');
-            
-            params[cleanName] = values[i].value;
-            
-           }
-    
-          Crud.Update('/consumer/notes/edit/'+$("#page-data-consumer-id").val(),
-                      params, function(data) {
-                        
-                            if (data.success != false) {
-                                
-                              var template = _.template($("#js-note-update-template").html());
-                              var el = $(".consumer-note-"+data.id);
-                                  el.html(template(data.values));
-                              
-                             }
-  
-                         }, 'json');
-        });
+   

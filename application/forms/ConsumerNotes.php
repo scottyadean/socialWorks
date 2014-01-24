@@ -3,7 +3,9 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
 
    public $_id;
    public $consumerId;
+   public $customSubmitBtn = false;
    public $userId;
+   public $_goals;
    public $formType = 'Add';
     
     public function build( $action = "/consumer/note/new/",
@@ -19,13 +21,21 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
        $this->setName("consumer-note-form");
        $this->setMethod($method);
        $this->setAction($action);
-       //$this->getData();
+       $this->getData();
        $this->formElementsFromTable('consumers_notes', $this->getFields());
        $this->formElementsFromArray($this->getCustomFields());
        $this->createElements();
     }
 
     public function getData() {
+        $goalsModel = new  Consumer_Model_ConsumersGoals;
+        $goals = $goalsModel->findByConsumerId($this->consumerId);
+        $this->_goals = array();
+        foreach( $goals as $k=>$g ) {
+            
+         $this->_goals[$g->id] = $g->goal;   
+            
+        }
         
     }
   
@@ -42,9 +52,9 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
     public function getFields() {
 
     $fields = array("consumer_id" => array('default'=>$this->consumerId, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                    "goal_id" => array('required'=> false,  'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
+                    "goal_id" => array( 'label'=>'Goal/Objective', 'type'=>'select', 'multiOptions'=>$this->_goals ),
                     "user_id" => array('default'=>$this->userId, 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
-                    "created" => array('default'=>date('Y-m-d'), 'type'=>'hidden', 'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper')),
+                    "created" => array('label'=>'Date', 'attributes'=>array('class'=>'date_widget')),
                     "note"=>array('required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8')));
    
       if( isset( $this->_id ) ) {
@@ -59,6 +69,12 @@ class Application_Form_ConsumerNotes extends Main_Forms_Builder {
 
 
     public function getCustomFields() {
+        
+     if( $this->customSubmitBtn  ){
+        
+        return array();
+    }   
+        
     $custom = array('submit' => array(
                                  'label'=>$this->formType,
                                  'type'=>'submit',

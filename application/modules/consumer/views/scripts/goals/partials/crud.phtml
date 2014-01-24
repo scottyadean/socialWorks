@@ -3,15 +3,14 @@
     <div class="crud-create-update crud-load-template hidden"
      id="goal-bind-crud"
      data-id=''
-     data-path='/goals'
+     data-path='.:goals'
      data-form='consumergoalsform'
      data-title="Edit Goal Data"
-     data-params='',
+     data-params=''
      data-action='create'
      data-target='js-goals-index'
      data-template='js-crud-edit-goals'
-     data-callback='lightBox.dateFields'
-     data-template-path='consumers/goals'></div>
+     data-callback='lightBox.dateFields'></div>
         
     <?= $this->TableHead( array("Goal",
                                 "Objective",

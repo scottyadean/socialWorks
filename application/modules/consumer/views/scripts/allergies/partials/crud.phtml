@@ -3,14 +3,13 @@
     <div class="crud-create-update crud-load-template pointer hidden"
      id="allergy-bind-crud"
      data-id=''
-     data-path='/allergies'
+     data-path='.:allergies'
      data-form='consumerallergiesform'
      data-title="Edit Allergies Data"
-     data-params='',
+     data-params=''
      data-action='create'
      data-target='js-allergy-index'
-     data-template='js-crud-edit-allergy'
-     data-template-path='consumers/allergies'></div>
+     data-template='js-crud-edit-allergy'></div>
         
     <?= $this->TableHead( array("Allergy",
                                 "Info",
@@ -38,7 +37,7 @@
                                                         data-params='consumer_id:{$this->consumer_id}'>Add Allergy
                                                         </a></td></tr>" ) ?>
     
-    
+
 <script id="js-crud-edit-allergy" type="text/template">
     <% if( action == 'new' ){%>
         <tr class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">

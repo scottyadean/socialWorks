@@ -50,10 +50,10 @@
     </div>
     
     <div class="span8">  
-        <?= $this->partial('partials/consumer-notes.phtml',
-                           array('consumer'=>$this->consumer,
-                                 'user_id'=>$this->user_id,
-                                 'goals'=>$this->goals));?>
+        <?= $this->partial('/note/partials/crud.phtml', 'consumer',
+                            array('consumer'=>$this->consumer,
+                                  'user_id'=>$this->user_id,
+                                  'goals'=>$this->goals));?>
     </div>
     
 </div>

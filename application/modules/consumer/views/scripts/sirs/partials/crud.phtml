@@ -6,15 +6,14 @@
     <div class="crud-create-update crud-load-template hidden"
      id="sir-bind-crud"
      data-id=''
-     data-path='/sir'
+     data-path='.:sir'
      data-form='consumersirform'
      data-title="Serious Incident Report"
-     data-params='',
+     data-params=''
      data-action='create'
      data-target='js-sir-index'
      data-template='js-crud-edit-sir'
-     data-callback='lightBox.dateFields'
-     data-template-path='consumers/sir'></div>
+     data-callback='lightBox.dateFields'></div>
         
     <?= $this->TableHead( array("Date",
                                 "Description",
