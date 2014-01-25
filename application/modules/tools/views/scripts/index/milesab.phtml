@@ -2,7 +2,7 @@
 
 <script type="text/plain" id="js-distance-template">
     
-    <tr id="js-distance-row-<%=helpers.escapeHtml(id)%>">
+    <tr id="js-distance-row-<%=helpers.escapeHtml(id)%>" class="white-txt">
         <td>
             <small>
                 <strong>
@@ -73,13 +73,13 @@
         
     .js-miles-bg {
         background-color: #555;          
-        opacity:0.4;
-        filter:alpha(opacity=40); 
+        opacity:0.5;
+        filter:alpha(opacity=50); 
     }
     
     
     .js-miles-distance{
-        background:url('/img/trans30.png') 0 0;
+        background:url('/img/trans50.png') 0 0;
         max-height: 450px;
         overflow: auto;
         right: 20px;
@@ -98,7 +98,7 @@
         
         top:20px;
         right:5px;
-        background:url('/img/trans30.png') 0 0;    
+        background:url('/img/trans50.png') 0 0;    
     }
    
    #flash-message{
@@ -107,9 +107,9 @@
     right: 129px;
     top: 62px;
     width: 950px;
-   
-    
    }
+   
+   #js-distance-total , #total-reimburse{ color:orange}
         
     </style>
  
@@ -150,7 +150,12 @@
             <tfoot class="no-margin">
                 <tr>
                     <td colspan="5">
-                        <small>Totals: <strong id="js-distance-total"></strong> ~ $<strong id="total-reimburse">0.00</strong></small>
+                        <small>
+                            <strong class="white-txt">Totals:</strong>
+                            <strong id="js-distance-total"></strong>
+                            <span class="white-txt">~</span>
+                            <strong id="total-reimburse">0.00</strong>
+                        </small>
                     </td>
                     
                     
@@ -432,6 +437,7 @@
             removeDistance:function(){
                 
                 $(this).closest('tr').remove();
+                CheckIn.getTotals();
                 
             },
             
@@ -455,25 +461,7 @@
                     var html = template(params);
                     el.append(html);
                     
-                    // reimburse miles
-                    
-                    var totalMiles = 0;
-                    
-                    $("span.miles").each(function(){
-                        var m = parseFloat($(this).html());    
-                        totalMiles += m;
-                    });
-                    
-                    $("#js-distance-total").html(totalMiles.toFixed(2));
-                    
-                    
-                    var totalReimburse = 0.00;
-                    $("span.reimburse").each(function(){
-                        var r = parseFloat($(this).html());    
-                        totalReimburse += r;
-                    });
-                    
-                    $("#total-reimburse").html(totalReimburse.toFixed(2));
+                    CheckIn.getTotals();
                     
                     
                     //console.log($("#js-distance-toggle").attr('data-action'));
@@ -487,6 +475,30 @@
                     }
                 }
             
+            },
+            
+            getTotals:function(){
+                
+              // reimburse miles
+                    
+                    var totalMiles = 0;
+                    
+                    $("span.miles").each(function(){
+                        var m = parseFloat($(this).html());    
+                        totalMiles += m;
+                    });
+                    
+                    $("#js-distance-total").html(totalMiles.toFixed(2)+" mi.");
+                    
+                    
+                    var totalReimburse = 0.00;
+                    $("span.reimburse").each(function(){
+                        var r = parseFloat($(this).html());    
+                        totalReimburse += r;
+                    });
+                    
+                    $("#total-reimburse").html("$"+totalReimburse.toFixed(2));  
+                
             },
             
             

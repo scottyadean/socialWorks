@@ -76,6 +76,10 @@ button.btn {
 .small-txt {
    font-size:80%!important;
 }
+.white-txt{
+   color:#FFF;
+   
+}
 
 .pointer{
     cursor:pointer;
