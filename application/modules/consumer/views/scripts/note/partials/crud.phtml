@@ -1,0 +1,118 @@
+
+
+<div class="note-create-update crud-load-template pointer hidden"
+    id="note-bind-crud"
+    data-id=''
+    data-path='.:consumer.:notes'
+    data-form='consumernoteform'
+    data-title="Edit Note"
+    data-params=''
+    data-action='create'
+    data-target='js-case-note-data'
+    data-template='js-notes-template-crud'
+    data-callback='lightBox.dateFields'></div>
+
+<script id="js-notes-template" type="text/plain">
+        <tr  class="crud-row-<%= helpers.escapeHtml(id) %> highlight-child">    
+        <td><%= helpers.escapeHtml(note) %></td>
+        <td><%= helpers.escapeHtml(goal) %></td>
+        <td class="date-created"><%= helpers.escapeHtml(created) %></td>
+        
+        <td>
+            <center>
+                <a class='crud-create-update icon icon-edit'
+                   data-action='update'
+                   data-bind='note-bind-crud'
+                   data-params='id:<%= helpers.escapeHtml(id) %>,consumer_id:<%= helpers.escapeHtml(consumer_id) %>'></a>
+                </center>
+        </td>        
+        <td>
+            <center>
+                <a class='crud-delete icon icon-remove'
+                   data-bind='note-bind-crud'
+                   data-action='delete'
+                   data-params='id:<%= helpers.escapeHtml(id) %>,consumer_id:<%= helpers.escapeHtml(consumer_id) %>'> </a>
+            </center>
+        </td>
+        </tr>
+   
+</script>
+
+
+
+<script id="js-notes-template-crud" type="text/plain">
+
+    <% if( action == 'createNote' ){%>
+        <tr class="crud-row-<%= helpers.escapeHtml(values.id) %> highlight-child">
+    <%}%>
+   
+        <td><%= helpers.escapeHtml(values.note) %></td>
+        <td><%= helpers.escapeHtml(values.goal) %></td>
+        <td class="date-created"><%= helpers.escapeHtml(values.created) %></td>
+        
+        
+        <td>
+            <center>
+                <a class='crud-create-update icon icon-edit'
+                   data-action='update'
+                   data-bind='note-bind-crud'
+                   data-params='id:<%= helpers.escapeHtml(values.id) %>,consumer_id:<%= helpers.escapeHtml(values.consumer_id) %>'></a>
+                </center>
+        </td>
+        
+        <td>
+            <center>
+                <a class='crud-delete icon icon-remove'
+                   data-bind='note-bind-crud'
+                   data-action='delete'
+                   data-params='id:<%= helpers.escapeHtml(values.id) %>,consumer_id:<%= helpers.escapeHtml(values.consumer_id) %>'> </a>
+            </center>
+        </td>
+   
+    <% if( action == 'createNote' ){%>
+        </tr>
+    <%}%>
+   
+</script>
+
+
+<div class="well">
+    <label id="js-add-note-info" for="note"><strong>Create a note for todays date: <?=date('m-d-Y')?></strong></label>
+    <form id="js-add-new-note">
+       
+        <label for="goal-to-notes">Objective/Goal:</label>
+            
+        <select name="goal_id" id="goal_id">     
+        <?if($this->goals):?>
+                <?foreach($this->goals as $g):?>
+                    <option value="<?=$g['id']?>"><?=$g['goal']?></option>            
+                <?endforeach;?>
+            <?endif;?>
+        </select>
+            
+        <label for="note">Note:</label>
+        <textarea id="note" name="note" class="textarea-standard-size"></textarea><br />
+        <input id="consumer_id" name="consumer_id" type="hidden" value="<?=$this->consumer->id?>" />
+        <input id="user_id" name="user_id" type="hidden" value="<?=$this->user_id?>" />
+        <input id="created" name="created" type="hidden" value="<?=date('Y-m-d')?>">
+        <input id="new-note-sub" type="button" class="btn btn-primary" value="Add Note" />
+    </form>
+</div>
+
+<div id="js-show-all-notes-for-year-month"> </div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Note</th>
+            <th>Created</th>
+            <th>Goal</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    
+    <tbody id="js-case-note-data">
+                        
+    </tbody>
+    
+</table>

@@ -77,7 +77,7 @@ class Application_Form_ConsumerExams extends Main_Forms_Builder {
                                  'options' => array('class'=>'btn btn-small btn-primary'),
                                  'ignore'=>true),
                    'cancel' => array(
-                                  'label'=>'Done',
+                                  'label'=>'Cancel',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

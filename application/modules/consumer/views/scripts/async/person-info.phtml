@@ -1,8 +1,11 @@
 <? $doNotShow = array('id');?>
 
 
-
 <?if(isset($this->person) ):?>
+<div class="well">
+<a append:div="js-consumer-person-info"
+   append:url="/consumer/async/person-info/id/"
+   append:id="0" class=" pull-right js-append-info-to icon icon-remove"></a>
 
     <?foreach($this->person as $k=>$p):?>
         
@@ -11,6 +14,5 @@
         <?endif;?>
         
     <?endforeach;?>
-
-
+</div>
 <?endif;?>

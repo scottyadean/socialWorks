@@ -4,8 +4,6 @@ $(function() {
         //load the medical appointment list.
         //content.load( '/consumer/medical/list', {id:'1'}, function(html){  console.log(html) }, 'html' );
         
-     
-        
         $(".js-assign-physician").click(function(){
             
             var ele = $(this);
@@ -166,7 +164,6 @@ $(function() {
             lightBox.show('mainModal', 'Assign Person', {'remote':'/consumer/assign/person/'+id+'/type/payee'});
         });
           
-        
         $("body").delegate("#js-consumer-person-btns a.js-assign-to-consumer", "click", function(event){         
             
             var ele = $(this);
@@ -186,7 +183,37 @@ $(function() {
         
 
         });
+        //<a person:type="payee" person:id="1" class="pointer js-assign-person">Assign A Payee</a>
+        //add payee
+        $("body").delegate(".js-add-new-person", 'click',function(){
+            var cid = $(this).attr('data-cid');
+            content.load( '/consumer/async/people-create/type/payee/', {consumer_id:cid, type:'payee', get:true}, function(html){
+                $("#js-consumer-person-info").html(html).promise().done(
+               function(){  $("#peopleform").append('<input type="button" id="payee-sub-create" class="payee-create btn" value="create" />') } );
+            }, 'html' );
+               
+         });
         
+        
+        //Create
+        $("body").delegate("#payee-sub-create","click",function() {
+           Crud.Create('/consumer/async/people-create/type/payee/consumer_id/'+$("#page-data-consumer-id").val(),
+                      'peopleform', function(data) {
+                                var id = $("#page-data-consumer-id").val()
+                                content.load('/consumer/assign/person/'+id+'/type/payee', {},
+                                function(html){
+                                    
+                                    $("#mainModalBody").html(html);
+                                
+                                }, 'html' );
+                             
+                         }, 'json' );
+        });
+        
+        
+       
+        
+        //payee-create
         
 
     

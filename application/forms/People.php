@@ -31,7 +31,7 @@ class Application_Form_People extends Main_Forms_Builder {
     }
 
     public function getData() {
-
+            if( empty($this->_types) ){    
             $this->_types = array('payee'=>'Payee',
                                   'program_director'=>'Program Director',
                                   'emergy_contact'=>'Emergy contact',
@@ -45,7 +45,8 @@ class Application_Form_People extends Main_Forms_Builder {
                                   'gardian'=>'Gardian',
                                   'conservator'=>'Conservator',
                                   'significant_other'=>'Significant other',
-                                  'friend'=>'Friend');     
+                                  'friend'=>'Friend');
+            }
     }
   
   /**
@@ -74,7 +75,9 @@ class Application_Form_People extends Main_Forms_Builder {
                          "cell"=>array('label'=>'Cell', 'required'=> false),
                          "address"=>array('label'=>'Address', 'required'=> false),
                          "city"=>array('label'=>'City', 'required'=> false),
-                         "state"=>array('label'=>'State', 'required'=> false),
+                         "state" => array('required'=> true, 
+                                       'type'=>'select', 
+                                       'multiOptions' => Main_Forms_Data::AmericaStates(), 'default'=>'CA'),
                          "zip"=>array('label'=>'Zip', 'required'=> false),
                          "info"=>array('label'=>'Info','required'=> false, 'attributes'=>array('rows'=>'4', 'cols'=>'8'))
                          
@@ -99,7 +102,7 @@ class Application_Form_People extends Main_Forms_Builder {
                                  'options' => array('class'=>'btn btn-small btn-primary'),
                                  'ignore'=>true),
                    'cancel' => array(
-                                  'label'=>'Done',
+                                  'label'=>'Cancel',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

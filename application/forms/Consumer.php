@@ -34,6 +34,10 @@ class Application_Form_Consumer extends Main_Forms_Builder {
                       "state" => array('required'=> true, 
                                        'type'=>'select', 
                                        'multiOptions' => Main_Forms_Data::AmericaStates(), 'default'=>'CA'),
+                      
+                      "gender" => array('required'=> true, 
+                                       'type'=>'select', 
+                                       'multiOptions' => array('male'=>"Male", "female"=>"Female"), 'default'=>'Male'),
                       "county"  => array('required'=> true),
                       "city"  => array('required'=> true), 
                       "zip"  => array('required'=> true), 
@@ -58,7 +62,7 @@ class Application_Form_Consumer extends Main_Forms_Builder {
                                  'options' => array('class'=>'btn btn-small btn-primary'),
                                  'ignore'=>true),
                    'cancel' => array(
-                                  'label'=>'Done',
+                                  'label'=>'Cancel',
                                   'type'=>'button',
                                   'name'=>'cancel',
                                   'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

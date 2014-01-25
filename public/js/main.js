@@ -374,7 +374,13 @@ var Crud =  {
 
 
 var content = {
-        load:function(path, params, callback, format) {   
+        load:function(path, params, callback, format) {
+            
+            if (params.get !== undefined) {
+                asyncAction.sendGet(path, params, callback, format);
+                return;
+            }
+            
              asyncAction.sendPost(path, params, callback, format);
         }
     }; 
@@ -387,18 +393,18 @@ var asyncAction = {
         
         var reqf = format !== undefined ? format : 'json'; 
         $.post(path,
-				params,
-				callback,
-				reqf).error(function(e){ console.log(e); });        
+                params,
+                callback,
+                reqf).error(function(e){ console.log(e); });        
     },
     
     
     sendGet:function( path, params, callback, format) {
-     var reqf = format !== undefined ? format : 'json'; 
-     $.get(path,
-           params,
-           callback,
-           reqf).error(function(e){ console.log(e); });
+        var reqf = format !== undefined ? format : 'json'; 
+        $.get(path,
+                params,
+                callback,
+                reqf).error(function(e){ console.log(e); });  
 	},
 	
 	appendToDom:function(ele, path, params, method, format) {
@@ -686,7 +692,6 @@ var Chat = {
 
 	    //event for the close btn inside the pop-over
 	    $("body").delegate(".js-synonyms-popover-destroy", "click", function(){
-		
 		var el = $(this);
 		var id = el.attr('data-target');
 		$("#"+id).popover('destroy');
@@ -721,13 +726,23 @@ var Chat = {
 	checkForSynonyms:function(vl) {
 	    
 	    var s = this.knownSynonyms();
+            var f = false;
 	    for(var key in s) {
 	
 		if( vl.indexOf(key.toString()) != -1 ) {
-		    var regexp = new RegExp(key.toString(), "gi"); 
-		    vl = vl.replace(regexp, '<abbr class="highlight" title="'+s[key]['synonyms'].join(", ")+'">'+key.toString()+'</abbr>' );
+		    var regexp = new RegExp(key.toString(), "gi");
+                    f = true;
+                    vl = vl.replace(regexp, '<abbr class="highlight" title="'+s[key]['synonyms'].join(", ")+'">'+key.toString()+'</abbr>' );
 		}	
-	    }       
+	    }
+            
+            if (!f) {
+                vl = '<i class="icon-ok ok icon-white"></i> ' + vl;
+            }else{
+                vl = '<i class="icon-warning-sign fail icon-white"></i> ' + vl;
+                
+            }
+            
 	    return vl;	    
 	},
 	

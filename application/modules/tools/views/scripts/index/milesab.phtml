@@ -117,8 +117,8 @@
             coords: {lat:0, lng:0},
             
             init:function() {
-            
-            
+            CheckIn.buildMap();
+            /*
                         navigator.geolocation.getCurrentPosition(function(coords){
                             
                             console.log(position);
@@ -137,7 +137,7 @@
                     alert("Geolocation is not supported by this browser.");
                 }
                             
-                
+                */
                 
             },
             
@@ -147,22 +147,25 @@
             },
                            
             
-            buildMap:function(position) {
+            buildMap:function() {
                 
                 
-                console.log("posi: "+position.coords.latitude);
+                //console.log("posi: "+position.coords.latitude);
                 
-                return; 
-                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                //return; 
+                //var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-                var options = {
-                        center: latlng,
-                        zoom: 14,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
+                    
+               var options = {
+                    center: new google.maps.LatLng(38.72993436850347, -120.80449479198455),
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                    
+                var latlng = new google.maps.LatLng(38.72993436850347, -120.80449479198455);
                 
                 CheckIn.map = new google.maps.Map(document.getElementById("map-canvas"), options);
-                CheckIn.appendStartMarker(latlng);
+                CheckIn.appendStartMarker(latlng );
                 
                 $('body').delegate(".js-click-to-update", "click", CheckIn.update);
                 $('body').delegate(".js-current-value-update-btn", "click", CheckIn.updateLatLng);
@@ -239,7 +242,7 @@
             },
             
             dragMarker:function(data) {
-                CheckIn.panTo({coords:{ latitude:data.latLng.lb, longitude:data.latLng.mb  }});
+                CheckIn.panTo({coords:{ latitude:data.latLng.d, longitude:data.latLng.e  }});
             },
             
             update:function(){

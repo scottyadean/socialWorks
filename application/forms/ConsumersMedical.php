@@ -79,7 +79,7 @@ class Application_Form_ConsumersMedical extends Main_Forms_Builder {
                                     'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'), 
                                     'options' => array('class'=>'btn btn-small btn-primary'),
                                     'ignore'=>true),
-                 'cancel' => array('label'=>'Done',
+                 'cancel' => array('label'=>'Cancel',
                                    'type'=>'button',
                                    'name'=>'cancel',
                                    'disableDecorator' => array('HtmlTag', 'Label', 'DtDdWrapper'),

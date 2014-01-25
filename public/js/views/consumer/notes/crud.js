@@ -29,7 +29,11 @@ var  Notes = {
           }
           
         }
-
+        
+        
+        var _cal = $("#js-calendar");
+        var _year = _cal.attr('data-year');
+        var _month = _cal.attr('data-month');
 
         //Create
         $("#new-note-sub").click(function() {
@@ -41,9 +45,7 @@ var  Notes = {
                          }, 'json' );
         });
         
-        var _cal = $("#js-calendar");
-        var _year = _cal.attr('data-year');
-        var _month = _cal.attr('data-month');
+
         
         //Read
         Crud.Read('/consumer/notes/notes-by-date/cid/'+$("#page-data-consumer-id").val(),

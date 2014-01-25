@@ -112,7 +112,10 @@ button.btn {
 }
 
 
-
+.background-grey{
+    
+    background-color: #F5F5F5;
+}
 
 .ico{
    width:14px;
@@ -379,4 +382,9 @@ button.btn {
    border: 1px solid #DDDDDD;
    background: #fff;
    min-height: 80px;
+}
+
+.top-of-index{
+    
+    z-index: 3000;
 }
