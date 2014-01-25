@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    
-    <?= $this->headTitle();?>
-    
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
-    
-    <link rel="stylesheet" href="/css/main.css"> 
-    <?= $this->headMeta();?>        
-    
-    <script src="/js/vendor/jquery-1.10.1.min.js"></script>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <?=$this->headTitle(SITE_NAME) ?>
        
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        
+        <?= $this->headMeta();?>
+        
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+
+        <?= $this->headLink();?>
+        
+        <script src="/js/vendor/jquery-1.10.1.min.js"></script>
+        <script src="/js/vendor/underscore.js"></script>
+        <script src="/js/main.js"></script>
+        
   </head>
   <body>
- 
+  <div class="container">
     <?php echo $this->layout()->content; ?>
-    
-    <script src="/js/main.js"></script>
-    <?=$this->headScript();?>
+   </div>
   
+    <?=$this->headScript();?>
+   
   </body>
 </html>
