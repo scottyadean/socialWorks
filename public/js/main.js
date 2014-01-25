@@ -520,22 +520,31 @@ var imgUpload = {
             );
             
         },
+
 	
-	escapeHtml:function(unsafe) {
+	escapeHtml:function(str) {
 	   
-           try{if (unsafe !== undefined) {
+        try{
+		
+		if ($.isNumeric(str)) {
+			return parseFloat(str);
+		}
+			
+		if (str !== undefined) {
          
-           return unsafe
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");   
-           }}catch(e){
+			return str
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#039;");   
+		}
+		
+		}catch(e){
             
-            console.log(e);
+			console.log(e);
             
-           }
+        }
            
           return '';
 	},

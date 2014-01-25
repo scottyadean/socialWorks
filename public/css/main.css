@@ -19,6 +19,11 @@ body {
    color: red;  
 }
 
+.error{
+   background-color:#F2DEDE!important;
+   border:1px solid #F26060!important;
+}
+
 .container-push{
    display: block;
    height:  50px;
@@ -105,10 +110,34 @@ button.btn {
 }
 
 .rounded-corners {
-   -moz-border-radius: 5px;
-   -webkit-border-radius: 5px;
-   -khtml-border-radius: 5px;
-   border-radius: 5px;
+   -moz-border-radius: 7px;
+   -webkit-border-radius: 7px;
+   -khtml-border-radius: 7px;
+   border-radius: 7px;
+}
+
+.rounded-corners-bottom {
+   -moz-border-radius:0px 0px 7px 7px;
+   -webkit-border-radius:0px 0px 7px 7px;
+   -khtml-border-radius:0px 0px 7px 7px;
+   border-radius:0px 0px 7px 7px;
+}
+
+.rounded-corners-top {
+   -moz-border-radius:7px 7px 0px 0px ;
+   -webkit-border-radius:7px 7px 0px 0px ;
+   -khtml-border-radius:7px 7px 0px 0px ;
+   border-radius:7px 7px 0px 0px ;
+}
+
+.rounded-corners-rt-bt {
+   
+   -moz-border-radius:0px 7px 7px 0px ;
+   -webkit-border-radius:0px 7px 7px 0px ;
+   -khtml-border-radius:0px 7px 7px 0px ;
+   border-radius:0px 7px 7px 0px ;
+   
+   
 }
 
 
@@ -306,6 +335,18 @@ button.btn {
 }
 
 
+.pad-right-10px {
+   
+   padding-right:10px;
+}
+
+.pad-right-20px {
+   
+   padding-right:20px;
+}
+
+
+
 /* margin */
 .no-margin {
    
@@ -387,4 +428,9 @@ button.btn {
 .top-of-index{
     
     z-index: 3000;
+}
+
+.second-of-index {
+   
+    z-index: 2999;
 }

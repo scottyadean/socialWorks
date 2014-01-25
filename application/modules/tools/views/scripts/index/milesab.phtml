@@ -1,111 +1,184 @@
-    <style type="text/css">
-    
-    .rounded-corners {
-        -moz-border-radius: 10px;
-       -webkit-border-radius: 10px;
-       -khtml-border-radius: 10px;
-       border-radius: 10px;
-       }
-    
-     .light-grey{
-        
-        background-color: #ccc;
-        
-     }
-     
-     .light-blue {
-        
-        background-color:#6699FF;
-        
-     }
-     
-     .pad-10px{
-        
-        padding: 10px;
-     }
-     
-     .bold{
-        
-        font-weight:bold;
-        
-     }
-      
-      .map-canvas{
-        height: 500px;
-      }
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLH9g4xG6aB3qiAHyyJXyJXsRGhv0wBnw&sensor=true&region=us"> </script>
 
-      .info-canvas{
-        
-            background-color: #f6f6f6;
-            min-height: 30px;
-            max-height: 50px;
-            overflow: auto;
-            width: 100%;
-            padding: 5px;
-            z-index: 1001;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-        }
-        .js-miles, .js-miles-bg {
-            z-index: 1003;
-            position: absolute;
-            height: 50px;
-            top: 70px;
-            left: 85px;
-            width:85%   ;
-        }
-        
-        .js-miles-bg {
-            background-color: #555;          
-            opacity:0.3;
-            filter:alpha(opacity=30); /* For IE8 and earlier */
-        }
+<script type="text/plain" id="js-distance-template">
     
+    <tr id="js-distance-row-<%=helpers.escapeHtml(id)%>">
+        <td>
+            <small>
+                <strong>
+                    <span class='miles'><%=helpers.escapeHtml(distance)%></span> miles
+                </strong>
+                /
+                <strong>
+                <%=helpers.escapeHtml(time)%>
+                </strong>
+            </small>
+        </td>
+        <td title="<%=helpers.escapeHtml(point.a)%>">
+            <strong>
+                <small><%=helpers.escapeHtml(point.a).substring(0,25)%></small>
+            </strong>        
+        </td>
+        <td title="<%=helpers.escapeHtml(point.b)%>">
+        <strong>
+            <small><%=helpers.escapeHtml(point.b).substring(0,25)%></small>
+        </strong>
+        </td>
+        
+        <td>
+            <small>
+                <strong>
+                <acronym title="Reimbursement" >
+                    Re: $<span class='reimburse'><%=helpers.escapeHtml(reimbursement)%></span>
+                </acronym>
+                <strong>
+            </small>
+        </td>
+        
+        
+        <td><i class="pointer icon-remove js-remove-distance-row"></i></td>
+            
+    </tr>
+</script>
+
+<script type="text/plain" id="js-flash-template">
+    
+      <table id="flash-message" class="table table-stipped no-margin rounded-corners-bottom top-of-index pos-abs">
+            <tbody>
+                <%=html%>
+                
+            </tbody>
+
+        </table> 
+    
+</script>
+
+
+
+    <style type="text/css">
+    .map-canvas{
+        height: 650px;    
+    }
+    
+    .map-canvas img{
+        max-width: none;
+    }
+    
+    .js-miles, .js-miles-bg {
+        height: 52px;
+        left: 90px;
+        top: 5px;
+        width: 950px;
+    }
+        
+    .js-miles-bg {
+        background-color: #555;          
+        opacity:0.4;
+        filter:alpha(opacity=40); 
+    }
+    
+    
+    .js-miles-distance{
+        background:url('/img/trans30.png') 0 0;
+        max-height: 450px;
+        overflow: auto;
+        right: 20px;
+        top: 52px;
+        width: 950px;
+    }
+
+    
+    .js-address{
+        
+        font-size:80%;
+        width:265px;
+    }
+    
+    .js-small-toggle{
+        
+        top:20px;
+        right:5px;
+        background:url('/img/trans30.png') 0 0;    
+    }
+   
+   #flash-message{
+    background-color:#F6F6F6;
+    max-height: 450px;
+    right: 129px;
+    top: 62px;
+    width: 950px;
+   
+    
+   }
         
     </style>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLH9g4xG6aB3qiAHyyJXyJXsRGhv0wBnw&sensor=true&region=us"> </script>
+ 
+
+
+    <div id="js-map-tools" class="pos-rel">
+        
+     <div class="js-miles-bg pos-abs second-of-index rounded-corners-top"> </div> 
+     
+     <div id="js-miles" class="js-miles rounded-corners pos-abs top-of-index pad-10px">
+        
+        <div class="btn-group">
+            <a type="button" class="btn js-distance-calc">Distance</a>
+            <a type="button" class="btn js-current-position">Current Location</a>
+            <a type="button" class="btn js-center-center-pins">Center Pins</a>
+        </div>
+
+        <div id="info-canvas" class="info-canvas pull-right top-of-index margin-right-20">
+           
+           <img src="/img/red-dot.png" class="js-click-to-update" field:action="start">
+           <input type="text" id="info-canvas-start" class="btn js-address" field:action="start">
+           
+           <img src="/img/blue-dot.png" class="js-click-to-update" field:action="end">
+           <input type="text" id="info-canvas-end" class="btn js-address" field:action="end">
+            
+       </div>
+     
+     
+
+                        
+
+     <div id="js-miles-distance" class="js-miles-distance second-of-index pos-abs rounded-corners-bottom">
+        
+        <table class="table table-stipped no-margin pos-rel">
+            <tbody id="js-distance-table">
+            </tbody>
+            
+            <tfoot class="no-margin">
+                <tr>
+                    <td colspan="5">
+                        <small>Totals: <strong id="js-distance-total"></strong> ~ $<strong id="total-reimburse">0.00</strong></small>
+                    </td>
+                    
+                    
+                </tr>
+            </tfoot>
+
+        </table>
+        
     
-    <div id="info-canvas" class="info-canvas">
-        
-        <a class="pointer js-current-position bold">Current Postion</a>: 
-        
-        <span id="info-canvas-start"
-            class="pointer js-click-to-update light-grey pad-10px"
-            field:type="text"
-            field:name="js-current-value-start"
-            field:value=""
-            field:action="start"
-            field:length="255"> </span>
-        
-        <br />
-        
-        
-        <span id="info-canvas-end"
-            class="pointer js-click-to-update light-blue pad-10px" 
-            field:type="text" 
-            field:name="js-current-value-end" 
-            field:action="end" 
-            field:value="" 
-            field:length="255"> </span>
-        
-        <br />
-        <a class="pointer js-distance-calc">Get Distance Info </a>
-        
-        
         
     </div>
-    
-     <div id="js-miles-bg" class="js-miles-bg"></div>
-     <div id="js-miles" class="js-miles">
-        
-        <input type="button" value="Drop Pin" class="pointer js-current-destination bold" /> 
-        
-        
-     </div>
+      
+        <div class="pos-abs top-of-index rounded-corners-rt-bt js-small-toggle"
+           data-action='up' title="show mileage table">
+            <i class="icon-chevron-up pointer" id="js-distance-toggle"> </i></div>
+
+    </div>
+
      
-     <div id="map-canvas" class="map-canvas" > </div>
+     
+  
     
+    </div>
+
+
+     
+    <div id="map-canvas" class="map-canvas" > </div>
+  
     <script type="text/javascript">
  
         
@@ -115,6 +188,7 @@
             markers:{start:null, end:null},
             action:'start',
             coords: {lat:0, lng:0},
+            infoWin:{start:null, end:null},
             
             init:function() {
             CheckIn.buildMap();
@@ -150,32 +224,44 @@
             buildMap:function() {
                 
                 
-                //console.log("posi: "+position.coords.latitude);
-                
-                //return; 
-                //var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+               var latlng = new google.maps.LatLng(38.57549932907437,-121.50899308300018);
                     
                var options = {
-                    center: new google.maps.LatLng(38.72993436850347, -120.80449479198455),
-                    zoom: 14,
+                    center: latlng,
+                    zoom: 10,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
                     
-                var latlng = new google.maps.LatLng(38.72993436850347, -120.80449479198455);
+                
                 
                 CheckIn.map = new google.maps.Map(document.getElementById("map-canvas"), options);
-                CheckIn.appendStartMarker(latlng );
+                CheckIn.appendStartMarker( latlng );
                 
                 $('body').delegate(".js-click-to-update", "click", CheckIn.update);
-                $('body').delegate(".js-current-value-update-btn", "click", CheckIn.updateLatLng);
+                $('body').delegate('.js-current-position', 'click', CheckIn.start);
+                $('body').delegate('.js-distance-calc','click', CheckIn.distance);
+                $('body').delegate('.js-remove-distance-row','click', CheckIn.removeDistance);
+                $('body').delegate('.js-center-center-pins','click', CheckIn.centerMarkers);
                 
-                $('.js-current-position').click(CheckIn.start);
-                $('.js-current-destination').click(CheckIn.destination);
-                $('.js-distance-calc').click(CheckIn.distance);
+                $("#js-distance-toggle").click(CheckIn.slideDistanceUp);
+                $("#info-canvas-start").focus( function(){ $(this).select(); } );
+                $("#info-canvas-end").focus( function(){ $(this).select(); } );
                 
                 
+                CheckIn.destination();
+                
+                CheckIn.infoWin.start = new google.maps.InfoWindow({
+                       content: "Find the <a class='js-distance-calc'>Distance</a> between the red marker and blue maker"
+                });
+              
+                CheckIn.infoWin.end = new google.maps.InfoWindow({
+                       content: "Drag me to your <a class='js-current-position'>current location</a>"
+                });
+              
             },
+            
+            
+            
             
             appendStartMarker:function(latlng) {
                 
@@ -188,8 +274,12 @@
                 
                 CheckIn.markers.start.setMap( CheckIn.map );
                 google.maps.event.addListener(CheckIn.markers.start, 'dragend', CheckIn.dragStart);
-                
-                 var geocoder = new google.maps.Geocoder();
+               
+                google.maps.event.addListener(CheckIn.markers.start, 'click', function() {
+                  CheckIn.infoWin.start.open(CheckIn.map, CheckIn.markers.start);
+                });
+               
+                var geocoder = new google.maps.Geocoder();
                      geocoder.geocode({'latLng': latlng}, CheckIn.address);
  
             },
@@ -213,17 +303,17 @@
               if (CheckIn.markers.end !== null) {
                  return false;
               }
-                
-              var lat = '38.72993436850347';
-              var lng = '-120.80449479198455';
-              var myLatlng = new google.maps.LatLng(lat, lng);
-                
                 CheckIn.markers.end = new google.maps.Marker({
-                    position: myLatlng,
+                    position: CheckIn.map.getCenter(),
                     title:"Drag Me To Destination",
                     draggable:true,
                     icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                     animation: google.maps.Animation.DROP
+                });
+                
+                
+                google.maps.event.addListener(CheckIn.markers.end, 'click', function() {
+                  CheckIn.infoWin.end.open(CheckIn.map, CheckIn.markers.end);
                 });
                 
                 CheckIn.markers.end.setMap( CheckIn.map );
@@ -246,48 +336,23 @@
             },
             
             update:function(){
-                
-                var el = $(this);
-                
-                if ( $("#"+el.attr('id')+" .js-current-value-update-btn").size() != 0 ) {
-                    return false;
-                }
-                
-                CheckIn.action = el.attr("field:action");
-                
-                var field = { type: el.attr("field:type"),
-                              name: el.attr("field:name"),
-                              id: el.attr("field:name"),
-                              maxlength: el.attr("field:length"),
-                              value: el.attr("field:value"),
-                              class: 'js-click-to-value',
-                              width:300
-                              };
-                
-                var btn = {
-                    value:"update",
-                    type:"button",
-                    class:"js-current-value-update-btn pointer",
-                    "data:node":el.attr('id'),
-                    "data:action":el.attr('action')
-                };
-                
-                el.html( $('<input/>', field) );
-                el.append($('<input/>', btn));
-                
-                return true;         
- 
-                
+            
+                var action = $(this).attr('field:action');
+                var val = (action == 'start') ? $("#info-canvas-start").val() :  $("#info-canvas-end").val();
+                return CheckIn.updateLatLng(val, action);
+    
             },
             
-           panTo:function(position, noAddress) {
+           panTo:function(position, address) {
             
                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+               
+               console.log("lat: "+position.coords.latitude+"  long: "+position.coords.longitude);
                
                CheckIn.moveMarker(latlng);
                CheckIn.map.panTo(latlng);
                
-               if (noAddress == undefined || noAddress == false) {
+               if (address == undefined || address == false) {
                     var geocoder = new google.maps.Geocoder();
                     geocoder.geocode({'latLng': latlng}, CheckIn.address);
                }
@@ -296,40 +361,41 @@
            },
             
             moveMarker:function(latlng) {
-                
-                console.log(CheckIn.action );
-                
                 if (CheckIn.action == 'end') {
                     CheckIn.markers.end.setPosition(latlng);
                 }else{
-                    CheckIn.markers.start.setPosition(latlng)
+                    CheckIn.markers.start.setPosition(latlng);
                 }
-                
                 
             },
             
-            updateLatLng:function(){
-                var el = $(this);
-                var node = el.attr("data:node");
-                var address = $("#"+node+" .js-click-to-value").val();
+            centerMarkers:function(){
+                
+               var latlng = CheckIn.map.getCenter();
+                CheckIn.markers.start.setPosition(latlng)
+                CheckIn.markers.end.setPosition(latlng)
+            },
+            
+            updateLatLng:function(address, action){
                 
                 CheckIn.Geocoder = new google.maps.Geocoder();
                 CheckIn.Geocoder.geocode({'address': address}, CheckIn.OnLatLng);
-                CheckIn.action = el.attr("data:action");
+                CheckIn.action = action;
                 
             },
             
             OnLatLng:function(data){
-                 
+                 console.log(data);
                 if (data[0]) {
 
                     var address = data[0].formatted_address;
                     var el =  CheckIn.action == 'start' ? $("#info-canvas-start") : $("#info-canvas-end");
-                        el.attr("field:value", address);
-                        el.html(address);
-                
-                    var laglng = data[0].geometry.location;
-                    CheckIn.panTo({coords:{ latitude:laglng.lb, longitude:laglng.mb  }}, true);
+                    el.attr("field:value", address);
+                    el.val(address);
+                        
+                    var latlng = data[0].geometry.location;
+                    CheckIn.panTo({coords:{ latitude:latlng.lat(), longitude:latlng.lng()  }}, true);
+                            
                     
                 }
                 
@@ -341,7 +407,7 @@
                     if (results[1]) {
                       var ad = results[0].formatted_address;
                       var el = CheckIn.action == 'start' ? $("#info-canvas-start") : $("#info-canvas-end");
-                          el.html(ad);
+                          el.val(ad);
                           el.attr("field:value", ad);
                     }
                 }
@@ -350,38 +416,108 @@
             
             distance:function() {
                 
-                var start = $("#info-canvas-start").html();
-                var end   = $("#info-canvas-end").html();
+                var start = $("#info-canvas-start").val();
+                var end   = $("#info-canvas-end").val();
                 
-               
                  $.ajax({
                     type: "POST",
                     url: "/tools/async/distance",
-                    data: {start:$("#info-canvas-start").html(), end:$("#info-canvas-end").html()},
+                    data: {start:start, end:end },
                     success: CheckIn.onDistance,
                     dataType: 'json'
                     });
                  
             },
             
+            removeDistance:function(){
+                
+                $(this).closest('tr').remove();
+                
+            },
             
             onDistance:function(data) {
             
                 if (data.rows[0].elements[0].distance !== undefined) {
                     
                     var res = data.rows[0].elements[0];
-                    var html = "";
-                        html += res.distance.text;
-                        html += "<br />" + res.duration.text
+                    var el = $("#js-distance-table");
+                    var id = el.children().length + 1;
+                    var miles  = res.distance.text.replace(/[^0-9.]/gi, "");
+                    var template = _.template($("#js-distance-template").html());
                     
-                     var miles   = res.distance.text.replace(/[^0-9.]/gi, "");
-                     var dollars = Math.abs(parseFloat(miles) * .20);   
-                     html += " Re: $"+dollars.toFixed(2);
-                     $("#js-miles").html(html);
+                    var params = {
+                        id:id,
+                        time:res.duration.text,
+                        distance:miles,
+                        reimbursement: Math.abs(parseFloat(miles) * .20).toFixed(2),
+                        point:{a:$("#info-canvas-start").val(), b: $("#info-canvas-end").val()},
+                    };
+                    var html = template(params);
+                    el.append(html);
                     
+                    // reimburse miles
+                    
+                    var totalMiles = 0;
+                    
+                    $("span.miles").each(function(){
+                        var m = parseFloat($(this).html());    
+                        totalMiles += m;
+                    });
+                    
+                    $("#js-distance-total").html(totalMiles.toFixed(2));
+                    
+                    
+                    var totalReimburse = 0.00;
+                    $("span.reimburse").each(function(){
+                        var r = parseFloat($(this).html());    
+                        totalReimburse += r;
+                    });
+                    
+                    $("#total-reimburse").html(totalReimburse.toFixed(2));
+                    
+                    
+                    //console.log($("#js-distance-toggle").attr('data-action'));
+                    
+                    if ($("#js-distance-toggle").attr('data-action') == 'down') {
+                        var t = _.template($("#js-flash-template").html());
+                        $("#js-map-tools").append(t({html:html}));
+                            $("#flash-message tbody").fadeOut( 3000, function() {
+                                $("#flash-message").remove();
+                            });
+                    }
                 }
             
-            }
+            },
+            
+            
+            slideDistanceUp:function() {
+                
+                var el = $(this);
+               if(el.attr('data-action') == 'up'){ 
+                  el.attr('data-action', 'down');
+                
+                $( "#js-miles-distance table" ).slideUp( "slow", function() {
+                  
+                  $("#js-distance-toggle").addClass('icon-chevron-down');
+                  $("#js-distance-toggle").removeClass('icon-chevron-up');
+                  
+                 
+                 });
+                
+               }else{
+                  el.attr('data-action', 'up');
+                  
+                $( "#js-miles-distance table" ).slideDown( "slow", function() {
+                  
+                  $("#js-distance-toggle").addClass('icon-chevron-up');
+                  $("#js-distance-toggle").removeClass('icon-chevron-down');
+                 
+                 
+                 });
+                
+                
+               }
+            },
 
       };
       
