@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteRule ^\.htaccess$ - [F]
+RewriteCond %{REQUEST_URI} =""
+RewriteRule ^.*$ /public/index.php [NC,L]
+RewriteCond %{REQUEST_URI} !^/public/.*$
+RewriteRule ^(.*)$ /public/$1
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^public/.*$ /public/index.php [NC,L]
+
+#AuthName "Restricted Area" 
+#AuthType Basic 
+#AuthUserFile /home/content/49/9490449/html/.htpasswd 
+#AuthGroupFile /dev/null 
+#require valid-user

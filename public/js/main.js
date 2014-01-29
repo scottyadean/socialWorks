@@ -37,10 +37,8 @@ var lightBox = {
 	
     },
     
-    close:function(div)
-    {
-	$("#"+div).modal('hide');
-	
+    close:function(div) {
+		$("#"+div).modal('hide');
     },
     
     dateFields:function() {
@@ -60,7 +58,47 @@ var lightBox = {
             html.append(template({start:'now',field:efield, id:'date-picker'+id}));
 	    $('#date-picker'+id).datepicker({format:'yyyy-mm-dd'}).on('changeDate', function(ev){}); 
         });
+    },
+	
+	dateFieldsAndTmce:function() {
+        lightBox.dateFields();
+        lightBox.initTmce();
+    },
+    
+    initTmce:function(){
+        if($("#js-textarea-tmce").size() == 0){
+        
+		    var script = document.createElement('script');
+                script.id='js-textarea-tmce';
+                script.src='/js/vendor/tinymce/tinymce.min.js';
+                script.type='text/javascript';
+
+                $("body").append(script) .promise().done(function(){
+                    lightBox.addTmce();
+                });
+				
+        }else{
+			lightBox.addTmce(); 
+        }
+    },
+    
+    addTmce:function() {
+    
+        tinymce.init({
+        selector: "textarea",
+        plugins: [
+        "advlist autolink lists link image charmap anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste"
+        ],
+		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+        });
+		
+				
+		
     }
+	
+	
 };
 
 

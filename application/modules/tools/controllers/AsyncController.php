@@ -131,6 +131,7 @@ class Tools_AsyncController extends Zend_Controller_Action {
                        "^^^" => "&#x2655;",
                        ":-/"  =>"&#x30C5;",
                        "./)" => "&#x270D;",
+                       "i3>" => "I love Sandy D", 
                        "<3>"   => "&#x2661;");
         
     }

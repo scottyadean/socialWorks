@@ -38,7 +38,6 @@ body {
     color:#f6f6f6;
 }
 
-
 .btn-group{
    margin-bottom: 5px;
 }
@@ -71,7 +70,10 @@ button.btn {
    
 }
 
-.
+.dark-bg{
+   
+   background-color:#272525;
+}
 
 .small-txt {
    font-size:80%!important;
@@ -354,7 +356,7 @@ button.btn {
 /* margin */
 .no-margin {
    
-   margin: 0px;
+   margin: 0px!important;
 }
 
 .margin-right-10{
@@ -438,3 +440,7 @@ button.btn {
    
     z-index: 2999;
 }
+
+
+.mce-btn button, 
+.mce-btn-group .mce-last {padding:0 5px !important; font-size:9px!important;}

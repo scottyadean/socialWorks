@@ -57,7 +57,7 @@
 
     <style type="text/css">
     .map-canvas{
-        height: 650px;    
+        height: 700px;    
     }
     
     .map-canvas img{
@@ -68,7 +68,7 @@
         height: 52px;
         left: 90px;
         top: 5px;
-        width: 950px;
+        width: 34%;
     }
         
     .js-miles-bg {
@@ -79,34 +79,36 @@
     
     
     .js-miles-distance{
-        background:url('/img/trans50.png') 0 0;
         max-height: 450px;
         overflow: auto;
-        right: 20px;
-        top: 52px;
-        width: 950px;
+       
     }
 
     
     .js-address{
         
         font-size:80%;
-        width:265px;
+        width:310px;
     }
     
-    .js-small-toggle{
-        
-        top:20px;
+    .js-small-toggle{       
+        top:28px;
+        right:5px;
+        background:url('/img/trans50.png') 0 0;    
+    }
+    
+    .js-small-move {
+        top:5px;
         right:5px;
         background:url('/img/trans50.png') 0 0;    
     }
    
    #flash-message{
-    background-color:#F6F6F6;
+   background:url('/img/trans50.png') 0 0; 
     max-height: 450px;
     right: 129px;
     top: 62px;
-    width: 950px;
+    width: 100%;
    }
    
    #js-distance-total , #total-reimburse{ color:orange}
@@ -114,44 +116,34 @@
     </style>
  
 
+<div class="row-fluid dark-bg">
 
-    <div id="js-map-tools" class="pos-rel">
+<div class="span4">
         
-     <div class="js-miles-bg pos-abs second-of-index rounded-corners-top"> </div> 
-     
-     <div id="js-miles" class="js-miles rounded-corners pos-abs top-of-index pad-10px">
         
-        <div class="btn-group">
-            <a type="button" class="btn js-distance-calc">Distance</a>
-            <a type="button" class="btn js-current-position">Current Location</a>
-            <a type="button" class="btn js-center-center-pins">Center Pins</a>
-        </div>
-
-        <div id="info-canvas" class="info-canvas pull-right top-of-index margin-right-20">
-           
-           <img src="/img/red-dot.png" class="js-click-to-update" field:action="start">
-           <input type="text" id="info-canvas-start" class="btn js-address" field:action="start">
-           
-           <img src="/img/blue-dot.png" class="js-click-to-update" field:action="end">
-           <input type="text" id="info-canvas-end" class="btn js-address" field:action="end">
-            
-       </div>
-     
-     
-
-                        
-
-     <div id="js-miles-distance" class="js-miles-distance second-of-index pos-abs rounded-corners-bottom">
         
-        <table class="table table-stipped no-margin pos-rel">
+<div id="info-canvas" class="info-canvas">
+
+    <img src="/img/red-dot.png" class="js-click-to-update" field:action="start">
+    <input type="text" id="info-canvas-start" class="btn js-address" field:action="start">
+    <br />
+    <img src="/img/blue-dot.png" class="js-click-to-update" field:action="end">
+    <input type="text" id="info-canvas-end" class="btn js-address" field:action="end">
+
+</div>
+        
+
+ <div id="js-miles-distance" class="js-miles-distance">
+        
+        <table class="table table-stipped no-margin">
             <tbody id="js-distance-table">
             </tbody>
             
             <tfoot class="no-margin">
                 <tr>
                     <td colspan="5">
-                        <small>
-                            <strong class="white-txt">Totals:</strong>
+                        <small class="pull-right">
+                            <strong>Totals:</strong>
                             <strong id="js-distance-total"></strong>
                             <span class="white-txt">~</span>
                             <strong id="total-reimburse">0.00</strong>
@@ -167,11 +159,38 @@
     
         
     </div>
+
+        
+        
+</div>
+
+    <div class="span8 no-margin ">
+
+    <div id="js-map-tools" class="pos-rel">
+        
+     <div class="js-miles-bg pos-abs second-of-index rounded-corners"> </div> 
+     
+     <div id="js-miles" class="js-miles rounded-corners pos-abs top-of-index pad-10px">
+        
+        <div class="btn-group">
+            <a type="button" class="btn js-distance-calc">Distance</a>
+            <a type="button" class="btn js-current-position">Current Location</a>
+            <a type="button" class="btn js-center-center-pins">Center Pins</a>
+        </div>
+
+    
+     
       
         <div class="pos-abs top-of-index rounded-corners-rt-bt js-small-toggle"
-           data-action='up' title="show mileage table">
-            <i class="icon-chevron-up pointer" id="js-distance-toggle"> </i></div>
+           data-action='up' title="Show mileage table">
+            <i class="icon-chevron-up icon-white pointer" id="js-distance-toggle"> </i>
+        </div>
 
+        <div class="pos-abs top-of-index rounded-corners-rt-bt js-small-move"
+           data-action='up' title="Move toolbar">
+            <i class="icon-move icon-white pointer" id="js-distance-toggle"> </i>
+        </div>
+        
     </div>
 
      
@@ -183,6 +202,9 @@
 
      
     <div id="map-canvas" class="map-canvas" > </div>
+  
+  </div>
+  
   
     <script type="text/javascript">
  
@@ -508,7 +530,7 @@
                if(el.attr('data-action') == 'up'){ 
                   el.attr('data-action', 'down');
                 
-                $( "#js-miles-distance table" ).slideUp( "slow", function() {
+                $( "#js-miles-distance table" ).fadeOut( "slow", function() {
                   
                   $("#js-distance-toggle").addClass('icon-chevron-down');
                   $("#js-distance-toggle").removeClass('icon-chevron-up');
@@ -519,7 +541,7 @@
                }else{
                   el.attr('data-action', 'up');
                   
-                $( "#js-miles-distance table" ).slideDown( "slow", function() {
+                $( "#js-miles-distance table" ).fadeIn( "slow", function() {
                   
                   $("#js-distance-toggle").addClass('icon-chevron-up');
                   $("#js-distance-toggle").removeClass('icon-chevron-down');
