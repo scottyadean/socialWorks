@@ -1,43 +1,51 @@
 
 
+
 <div class="navbar">
-    <div class="navbar-inner">
+    <div class="navbar-inner pos-rel">
         
         <span class="brand">
             <?=$this->formName?>        
         </span>
         
         <ul class="nav">   
+             
             <?foreach( $this->steps as $key=>$step ):?>
                 <li class="<?=($this->activeStep == $key) ? 'active' : ''?>">
                     <a href="/isp/<?=strtolower( $step == 'Start' ? 'index' : $step )?>/id/<?=$this->id?>"><?=$step?></a>
                 </li>
             <?endforeach;?>
         </ul>       
-    </div>
-</div>
 
-
-<div class="row-fluid margin-bottom-10">
-
-    <div class="span2">
-        <?if(isset($this->back)):?>
-            <a href="<?=$this->back?>/id/<?=$this->id?>" class="btn neg-margin-top-10">&lt;&lt; Back</a>
-        <?endif;?>
-    </div>
-
-    <div class="span8">
-        <div class="progress" style="margin:-4px 0px 10px 0px;height: 16px;">
-            <div class="bar" style="width: <?=$this->percentComplete?>%;"></div>
+        <div class="pos-abs" style="right:10px; top:0px;">
+            
+            <div class="row no-pad no-margin">
+                
+            <div class="span3 no-pad no-margin">
+                <div class="progress" style="margin:10px 0px 0px 0px; width:250px;">
+                    <? if($this->activeStep == 'start'):?>
+                    <? $this->percentComplete = 0; ?>
+                    <?endif;?>
+                    <div class="bar" style="width: <?=$this->percentComplete?>%;">
+                        <?=round($this->percentComplete,0)?>%
+                    </div>
+                </div>
+            </div>
+            
+            <?if(!empty($this->next)):?>
+                <div class="span2 no-pad no-margin" >
+                        <input type="submit" class="btn btn-success pull-right" value="Next &gt;&gt;">
+                </div>   
+            <?endif;?>
+            
+            <?if(isset($this->customNext) && !empty($this->customNext)):?>
+                <?=$this->customNext?>
+            <?endif;?>
+                    
+            </div>
         </div>
-    </div>
 
-    <div class="span2 ">
-        <?if(isset($this->next)):?>
-            <input type="submit" class="btn btn-success pull-right neg-margin-top-10" value="Next &gt;&gt;">
-        <?endif;?>
-    </div>
 
+    </div>
 </div>
-
 

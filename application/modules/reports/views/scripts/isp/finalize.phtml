@@ -1,22 +1,25 @@
+<?if(!$this->showHeader):?>
 
+<form action="#" method="post" id="isp-gen-final" >
 
-<?if(!$this->word):?>
+    <?= $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
+                                                             'back'=>'/isp/summary',
+                                                             'id' => $this->consumer->id,
+                                                             'next'=>false,
+                                                             'customNext'=>"<a href='/isp/finalize/id/{$this->consumer->id}/word/true' class='btn neg-margin-top-10'>Export Word Doc &gt;&gt;</a>",
+                                                             'formName'=>$this->formName,
+                                                             'steps'=>$this->steps,
+                                                             'activeStep'=>$this->activeStep)); ?>
+</form>
 
-<? $this->partial("/isp/partials/progress.phtml", array('percentComplete'=>$this->percentComplete,
-                                                         'back'=>'/isp/summary',
-                                                         'id' => $this->consumer->id,
-                                                         'next'=>false,
-                                                         'formName'=>$this->formName,
-                                                         'steps'=>$this->steps,
-                                                         'activeStep'=>$this->activeStep));
-                                                         ?>
+<?if(!$this->showHeader):?>
+<div class="" style="margin-left:200px;">                                                         
+<?endif;?>
 
-
-<a href="/isp/finalize/id/<?=$this->consumer->id?>/word/true" class="btn"> Export as Word Doc</a>
 
 <?endif;?>
 
-<?= $this->partial("/isp/partials/isp-report-template.phtml", array('header'=>true,
+<?= $this->partial("/isp/partials/isp-report-template.phtml", array('header'=>$this->showHeader,
                                                                     'consumer'=>$this->consumer,
                                                                     'user'=>$this->user,
                                                                     'persons'=>$this->persons,
@@ -31,4 +34,8 @@
                                                                     'programs'=>$this->programs,
                                                                     'goals'=>$this->goals,
                                                                     'data'=>$this->data)); ?>
+
+<?if(!$this->showHeader):?>
+</div>
+<?endif;?>
 

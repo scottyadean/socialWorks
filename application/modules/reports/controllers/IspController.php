@@ -177,19 +177,17 @@ class Reports_IspController extends Zend_Controller_Action {
     public function finalizeAction() {
        
        $word = $this->getRequest()->getParam('word', false); 
+       $this->view->showHeader = false;
         
-       if( $this->getRequest()->isPost() ) {
+        if( $this->getRequest()->isPost() ) {
             $this->_setInSession( $this->getRequest()->getPost(), 'summary'); 
         }
        
        if($word){
-        $this->_helper->layout->disableLayout();
-        
-        
-         
-        header("Content-type: application/vnd.ms-word");
-        header("Content-Disposition: attachment;Filename=document_name.doc");
-        
+            $this->_helper->layout->disableLayout();
+            header("Content-type: application/vnd.ms-word");
+            header("Content-Disposition: attachment;Filename=document_name.doc");
+            $this->view->showHeader = true;
         }
         
         $userModel = new Default_Model_User;

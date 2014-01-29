@@ -2,19 +2,21 @@
 <?if($this->header):?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
+ 
 <HEAD>
-	<!--META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8"--->
-        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=Windows-1252">    
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=Windows-1252">    
 	<TITLE>ISP REPORT</TITLE>
-	<META NAME="GENERATOR" CONTENT="LibreOffice 3.5  (Linux)">
+	<META NAME="GENERATOR" CONTENT="CSS Website (Linux)">
 	<META NAME="AUTHOR" CONTENT="<?=$this->user['fname']?> <?=$this->user['lname']?>">
-	<META NAME="CREATED" CONTENT="20130910;21060000">
-	<META NAME="CHANGEDBY" CONTENT="<?=$this->user['fname']?> ">
-	<META NAME="CHANGED" CONTENT="20130915;21040000">
-        <META NAME="Info 1" CONTENT="">
+	<META NAME="CREATED" CONTENT="<?=date("Ymd")?>;21040000">
+	<META NAME="CHANGEDBY" CONTENT="<?=$this->user['fname']?> <?=$this->user['lname']?>">
+	<META NAME="CHANGED" CONTENT="<?=date("Ymd")?>;21040000">
+    <META NAME="Info 1" CONTENT="">
 	<META NAME="Info 2" CONTENT="">
 	<META NAME="Info 3" CONTENT="">
 	<META NAME="Info 4" CONTENT="">
+<?endif;?>
+
 	<STYLE TYPE="text/css">
 	<!--
 		@page { margin-right: 1in; margin-top: 0.5in; margin-bottom: 0.6in }
@@ -25,9 +27,11 @@
                 TD.standard{border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; border-right: 1px solid #ccc; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in;}
 	-->
 	</STYLE>
+
+<?if($this->header):?>
 </HEAD>
 <BODY LANG="en-US" TEXT="#000000" DIR="LTR">
- <?endif;?>
+<?endif;?>
     
 <DIV TYPE=HEADER>
 	<P CLASS="western" STYLE="margin-bottom: 0.21in">Consumer Name:  <?=$this->consumer->fname?> <?=$this->consumer->lname?>
@@ -231,6 +235,8 @@
 </TABLE>
  <?endif;?>
 
+ <br clear="all" style="page-break-before:always" />
+ 
 <P CLASS="western" STYLE="margin-bottom: 0in"><BR></P>
 <TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
 	<COL WIDTH=24>
@@ -721,7 +727,7 @@
 <?endif;?>
 
 
-<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Serious Incident Reports </B>(Please list all SIR’s written since last meeting)</FONT></P>
+<P CLASS="western" STYLE="margin-bottom: 0in"><FONT SIZE=3><B>Serious Incident Reports </B>(Please list all SIR's written since last meeting)</FONT></P>
 <TABLE WIDTH=639 CELLPADDING=7 CELLSPACING=0>
 	<COL WIDTH=195>
 	<COL WIDTH=204>
@@ -966,11 +972,13 @@
 </TABLE>
 
 <?if($this->header):?>
-<DIV TYPE=FOOTER>
-	<P CLASS="western" ALIGN=CENTER STYLE="margin-top: 0.16in; margin-bottom: 0in">
-	Page <SDFIELD TYPE=PAGE SUBTYPE=RANDOM FORMAT=PAGE>3</SDFIELD></P>
-</DIV>
-
+<?/*
+<!--DIV TYPE=FOOTER>
+	<P CLASS="western" STYLE="margin-top: 0.16in; margin-bottom: 0in"> Page
+	  <SDFIELD TYPE=PAGE SUBTYPE=RANDOM FORMAT=PAGE> </SDFIELD>
+	</P>
+</DIV--->
+*/?>
 
 </BODY>
 </HTML>

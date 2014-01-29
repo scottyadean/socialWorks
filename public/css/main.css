@@ -327,7 +327,7 @@ button.btn {
 
 .no-pad{
    
-   padding: 0px;
+   padding: 0px!important;
 }
 
 .pad-5px{
